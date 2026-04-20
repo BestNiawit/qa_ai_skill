@@ -1,0 +1,1545 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Automation Setup Guide — คู่มือติดตั้งเครื่องมือสำหรับน้องใหม่</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-2: #111c34;
+      --panel: #152038;
+      --panel-2: #1b2949;
+      --border: #243358;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #a78bfa;
+      --success: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --code-bg: #0b1324;
+      --mac: #8b5cf6;
+      --win: #0ea5e9;
+      --radius: 12px;
+      --shadow: 0 10px 30px rgba(2, 6, 23, .4);
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-2: #eef2f7;
+      --panel: #ffffff;
+      --panel-2: #f1f5f9;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --muted: #475569;
+      --accent: #0284c7;
+      --accent-2: #7c3aed;
+      --code-bg: #0b1324;
+      --shadow: 0 10px 24px rgba(15, 23, 42, .08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'IBM Plex Sans Thai', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(1200px 600px at 80% -10%, rgba(167, 139, 250, .12), transparent 60%),
+        radial-gradient(900px 500px at -5% 100%, rgba(56, 189, 248, .12), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      scroll-behavior: smooth;
+      min-height: 100vh;
+    }
+
+    code,
+    pre,
+    kbd {
+      font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    }
+
+    /* Layout */
+    .wrap {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      min-height: 100vh;
+    }
+
+    aside.sidebar {
+      position: sticky;
+      top: 0;
+      align-self: start;
+      height: 100vh;
+      overflow-y: auto;
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      padding: 24px 18px 40px;
+    }
+
+    aside .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 18px;
+    }
+
+    aside .brand .logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      display: grid;
+      place-items: center;
+      color: #0b1324;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+    }
+
+    aside .brand small {
+      display: block;
+      font-weight: 400;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    aside nav a {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 14.5px;
+      transition: all .15s ease;
+      border: 1px solid transparent;
+    }
+
+    aside nav a:hover {
+      background: var(--panel);
+      color: var(--text);
+    }
+
+    aside nav a.active {
+      background: var(--panel);
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    aside nav a .num {
+      width: 24px;
+      height: 24px;
+      border-radius: 7px;
+      background: var(--panel-2);
+      color: var(--muted);
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    aside nav a.done .num {
+      background: rgba(52, 211, 153, .15);
+      color: var(--success);
+      border-color: rgba(52, 211, 153, .3);
+    }
+
+    aside nav a.active .num {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0b1324;
+      border-color: transparent;
+    }
+
+    aside .section-label {
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: .12em;
+      color: var(--muted);
+      margin: 18px 12px 6px;
+    }
+
+    .progress {
+      margin: 10px 12px 14px;
+      background: var(--panel-2);
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .progress>div {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+    }
+
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 12px 4px;
+    }
+
+    main.content {
+      padding: 36px 48px 120px;
+      max-width: 980px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Header */
+    header.hero {
+      padding: 28px 32px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, .12), rgba(167, 139, 250, .12));
+      border: 1px solid var(--border);
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header.hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(closest-side, rgba(167, 139, 250, .35), transparent 70%);
+      filter: blur(10px);
+      pointer-events: none;
+    }
+
+    header.hero h1 {
+      margin: 0 0 6px;
+      font-size: 28px;
+      letter-spacing: -.01em;
+    }
+
+    header.hero p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15.5px;
+    }
+
+    header.hero .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: var(--panel);
+      border: 1px solid var(--border);
+      font-size: 12.5px;
+      color: var(--text);
+    }
+
+    .badge .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .badge.mac .dot {
+      background: var(--mac);
+    }
+
+    .badge.win .dot {
+      background: var(--win);
+    }
+
+    /* Top bar */
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+
+    .toolbar-right {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 12px;
+      border-radius: 10px;
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      transition: all .15s ease;
+    }
+
+    .btn:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #0b1324;
+      border: none;
+      font-weight: 600;
+    }
+
+    /* Section Cards */
+    section.step {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 26px 28px;
+      margin-bottom: 22px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    section.step h2 {
+      margin: 0 0 6px;
+      font-size: 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    section.step h2 .chip {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    section.step h2 .chip.mac-only {
+      background: rgba(139, 92, 246, .14);
+      color: #c4b5fd;
+      border-color: rgba(139, 92, 246, .3);
+    }
+
+    section.step .lead {
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+
+    .check-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 18px;
+      padding: 10px 14px;
+      background: var(--panel-2);
+      border-radius: 10px;
+      border: 1px dashed var(--border);
+    }
+
+    .check-row label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .check-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--success);
+      cursor: pointer;
+    }
+
+    /* OS Tabs */
+    .os-tabs {
+      display: inline-flex;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 3px;
+      margin-bottom: 12px;
+    }
+
+    .os-tabs button {
+      background: transparent;
+      border: none;
+      color: var(--muted);
+      padding: 7px 14px;
+      border-radius: 7px;
+      font-family: inherit;
+      font-size: 13.5px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+    }
+
+    .os-tabs button.active {
+      background: var(--panel);
+      color: var(--text);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .2);
+    }
+
+    .os-tabs button:not(.active):hover {
+      color: var(--text);
+    }
+
+    .os-tabs .dot-mac {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--mac);
+    }
+
+    .os-tabs .dot-win {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--win);
+    }
+
+    .os-panel {
+      display: none;
+      animation: fadeIn .2s ease;
+    }
+
+    .os-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+
+    /* Code */
+    .code {
+      position: relative;
+      background: var(--code-bg);
+      border-radius: 10px;
+      border: 1px solid #1e293b;
+      margin: 10px 0 14px;
+      overflow: hidden;
+    }
+
+    .code .code-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 14px;
+      background: #0a111f;
+      border-bottom: 1px solid #1e293b;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+
+    .code pre {
+      margin: 0;
+      padding: 14px 16px;
+      overflow-x: auto;
+      font-size: 13.5px;
+      line-height: 1.7;
+      color: #e2e8f0;
+    }
+
+    .code pre .cmt {
+      color: #64748b;
+    }
+
+    .code pre .cmd {
+      color: #a5f3fc;
+    }
+
+    .code pre .str {
+      color: #fcd34d;
+    }
+
+    .code pre .kw {
+      color: #f0abfc;
+    }
+
+    .copy-btn {
+      border: 1px solid #1e293b;
+      background: #0b1324;
+      color: #94a3b8;
+      padding: 3px 9px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s ease;
+    }
+
+    .copy-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      color: var(--success);
+      border-color: var(--success);
+    }
+
+    /* Info boxes */
+    .note,
+    .tip,
+    .warn,
+    .danger {
+      padding: 12px 14px 12px 40px;
+      border-radius: 10px;
+      margin: 14px 0;
+      font-size: 14px;
+      position: relative;
+      border-left: 4px solid;
+    }
+
+    .note {
+      background: rgba(56, 189, 248, .08);
+      border-color: var(--accent);
+      color: var(--text);
+    }
+
+    .tip {
+      background: rgba(52, 211, 153, .08);
+      border-color: var(--success);
+      color: var(--text);
+    }
+
+    .warn {
+      background: rgba(251, 191, 36, .1);
+      border-color: var(--warn);
+      color: var(--text);
+    }
+
+    .danger {
+      background: rgba(248, 113, 113, .1);
+      border-color: var(--danger);
+      color: var(--text);
+    }
+
+    .note::before,
+    .tip::before,
+    .warn::before,
+    .danger::before {
+      position: absolute;
+      left: 12px;
+      top: 10px;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+    }
+
+    .note::before {
+      content: "i";
+      background: var(--accent);
+      color: #0b1324;
+    }
+
+    .tip::before {
+      content: "\2713";
+      background: var(--success);
+      color: #064e3b;
+    }
+
+    .warn::before {
+      content: "!";
+      background: var(--warn);
+      color: #422006;
+    }
+
+    .danger::before {
+      content: "\00d7";
+      background: var(--danger);
+      color: #450a0a;
+    }
+
+    /* Misc */
+    h3 {
+      margin: 18px 0 8px;
+      font-size: 17px;
+    }
+
+    p {
+      margin: 8px 0;
+    }
+
+    ul.clean {
+      margin: 6px 0 14px;
+      padding-left: 22px;
+    }
+
+    ul.clean li {
+      margin: 4px 0;
+    }
+
+    a {
+      color: var(--accent);
+    }
+
+    kbd {
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-bottom-width: 2px;
+      padding: 1px 6px;
+      border-radius: 5px;
+      font-size: 12px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .mini-card {
+      padding: 12px 14px;
+      background: var(--panel-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 13.5px;
+    }
+
+    .mini-card strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text);
+    }
+
+    .mini-card small {
+      color: var(--muted);
+    }
+
+    footer.foot {
+      color: var(--muted);
+      font-size: 13px;
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    /* Mobile */
+    @media (max-width: 960px) {
+      .wrap {
+        grid-template-columns: 1fr;
+      }
+
+      aside.sidebar {
+        position: static;
+        height: auto;
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+      }
+
+      main.content {
+        padding: 24px 18px 80px;
+      }
+
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">⚙</div>
+        <div>
+          Automation Setup<br>
+          <small>คู่มือสำหรับน้องใหม่</small>
+        </div>
+      </div>
+
+      <div class="progress-label"><span>ความคืบหน้า</span><span id="progressTxt">0 / 10</span></div>
+      <div class="progress">
+        <div id="progressBar"></div>
+      </div>
+
+      <div class="section-label">เครื่องมือพื้นฐาน</div>
+      <nav>
+        <a href="#intro" data-step="intro"><span class="num">0</span> เริ่มต้นที่นี่</a>
+        <a href="#nodejs" data-step="1"><span class="num">1</span> Node.js + npm</a>
+        <a href="#git" data-step="2"><span class="num">2</span> Git</a>
+        <a href="#vscode" data-step="3"><span class="num">3</span> VS Code</a>
+        <a href="#python" data-step="4"><span class="num">4</span> Python</a>
+      </nav>
+
+      <div class="section-label">สำหรับ Mobile Automation</div>
+      <nav>
+        <a href="#java" data-step="5"><span class="num">5</span> Java JDK</a>
+        <a href="#android" data-step="6"><span class="num">6</span> Android Studio + SDK</a>
+        <a href="#xcode" data-step="7"><span class="num">7</span> Xcode (Mac only)</a>
+        <a href="#appium" data-step="8"><span class="num">8</span> Appium</a>
+      </nav>
+
+      <div class="section-label">สำหรับ Web Automation</div>
+      <nav>
+        <a href="#playwright" data-step="9"><span class="num">9</span> Playwright</a>
+      </nav>
+
+      <div class="section-label">ปิดท้าย</div>
+      <nav>
+        <a href="#verify" data-step="10"><span class="num">10</span> ตรวจสอบทุกอย่าง</a>
+        <a href="#troubleshoot" data-step="tb"><span class="num">?</span> แก้ปัญหาที่พบบ่อย</a>
+      </nav>
+    </aside>
+
+    <main class="content">
+
+      <div class="topbar">
+        <div>
+          <div style="color: var(--muted); font-size: 13px;">คู่มือฉบับน้องใหม่ • อัปเดตปี 2026</div>
+        </div>
+        <div class="toolbar-right">
+          <button class="btn" id="resetBtn" title="ล้างทุก checkbox">รีเซ็ตความคืบหน้า</button>
+          <button class="btn primary" id="themeBtn">🌙 Dark</button>
+        </div>
+      </div>
+
+      <header class="hero" id="intro">
+        <h1>🚀 ยินดีต้อนรับสู่โลก Automation Testing</h1>
+        <p>คู่มือฉบับน้องใหม่สำหรับติดตั้งเครื่องมือ Automation Testing ตั้งแต่ศูนย์ ครอบคลุมทั้ง Mac และ Windows พร้อม
+          Appium (Mobile) และ Playwright (Web)</p>
+        <div class="badges">
+          <span class="badge mac"><span class="dot"></span>macOS 13+</span>
+          <span class="badge win"><span class="dot"></span>Windows 10/11</span>
+          <span class="badge"><span class="dot"></span>Node.js 20+</span>
+          <span class="badge"><span class="dot"></span>Appium 2.x</span>
+          <span class="badge"><span class="dot"></span>Playwright 1.4x</span>
+        </div>
+      </header>
+
+      <section class="step" id="how-to-use">
+        <h2>📖 วิธีใช้คู่มือนี้</h2>
+        <p class="lead">อ่านไปทีละข้อแล้วติ๊ก ✅ เมื่อทำเสร็จ ระบบจะจำไว้ในเบราว์เซอร์ของน้อง
+          แม้ปิดหน้าไปก็กลับมาทำต่อได้</p>
+        <div class="grid-2">
+          <div class="mini-card"><strong>🍎 เลือก Tab Mac</strong><small>ถ้าใช้ MacBook หรือ iMac</small></div>
+          <div class="mini-card"><strong>🪟 เลือก Tab Windows</strong><small>ถ้าใช้ PC Windows 10/11</small></div>
+          <div class="mini-card"><strong>📋 คลิก Copy</strong><small>เพื่อคัดลอกคำสั่งไปวางใน Terminal</small></div>
+          <div class="mini-card"><strong>✅ ติ๊ก Checkbox</strong><small>เพื่อ mark ว่าทำสเต็ปนั้นเสร็จแล้ว</small></div>
+        </div>
+        <div class="note">ถ้าติดปัญหา ให้เลื่อนลงไปดูส่วน <a href="#troubleshoot">แก้ปัญหาที่พบบ่อย</a> ด้านล่างสุด
+        </div>
+      </section>
+
+      <!-- ============== STEP 1: Node.js ============== -->
+      <section class="step" id="nodejs">
+        <h2><span class="chip">Step 1</span> ติดตั้ง Node.js + npm</h2>
+        <p class="lead">เครื่องมือพื้นฐานสำหรับรัน JavaScript/TypeScript — จำเป็นสำหรับ Playwright และ Appium</p>
+
+        <div class="check-row">
+          <label><input type="checkbox" data-step="1"> ฉันติดตั้ง Node.js เสร็จแล้ว</label>
+        </div>
+
+        <div class="os-tabs" data-tabgroup="t1">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <!-- MAC -->
+        <div class="os-panel active" data-tabgroup="t1" data-os="mac">
+          <h3>ติดตั้งผ่าน Homebrew (แนะนำ)</h3>
+          <p>Homebrew คือ package manager สำหรับ Mac ถ้ายังไม่มี ให้รันคำสั่งนี้ก่อน:</p>
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="cmt"># 1) ติดตั้ง Homebrew (ข้ามได้ถ้ามีแล้ว)</span>
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"</pre>
+          </div>
+
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="cmt"># 2) ติดตั้ง Node.js (LTS)</span>
+brew install node
+
+<span class="cmt"># 3) ตรวจสอบเวอร์ชัน</span>
+node -v
+npm -v</pre>
+          </div>
+
+          <div class="tip">แนะนำให้ใช้ <b>nvm</b> (Node Version Manager) เพื่อสลับเวอร์ชัน Node ได้สะดวก —
+            ทีมหลายที่นิยมแบบนี้มากกว่า</div>
+          <div class="code">
+            <div class="code-head"><span>ติดตั้ง nvm (ทางเลือก)</span><button class="copy-btn">Copy</button></div>
+            <pre>curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+
+<span class="cmt"># reload shell แล้วรัน</span>
+nvm install --lts
+nvm use --lts</pre>
+          </div>
+        </div>
+
+        <!-- WIN -->
+        <div class="os-panel" data-tabgroup="t1" data-os="win">
+          <h3>ติดตั้งผ่าน winget (แนะนำ)</h3>
+          <p>เปิด PowerShell ด้วยสิทธิ์ Administrator แล้วรัน:</p>
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install OpenJS.NodeJS.LTS
+
+<span class="cmt"># ปิด-เปิด PowerShell ใหม่แล้วตรวจสอบ</span>
+node -v
+npm -v</pre>
+          </div>
+
+          <div class="tip">หรือดาวน์โหลด installer จาก <a href="https://nodejs.org" target="_blank">nodejs.org</a> →
+            เลือก LTS version (.msi)</div>
+
+          <h3>ทางเลือก: nvm-windows</h3>
+          <div class="code">
+            <div class="code-head"><span>PowerShell</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install CoreyButler.NVMforWindows
+
+<span class="cmt"># ปิด-เปิด PowerShell แล้วรัน</span>
+nvm install lts
+nvm use lts</pre>
+          </div>
+        </div>
+
+        <div class="warn"><b>ตรวจสอบเวอร์ชัน:</b> ควรได้ Node.js 20.x ขึ้นไป และ npm 10.x ขึ้นไป</div>
+      </section>
+
+      <!-- ============== STEP 2: Git ============== -->
+      <section class="step" id="git">
+        <h2><span class="chip">Step 2</span> ติดตั้ง Git</h2>
+        <p class="lead">ใช้สำหรับดึงโค้ดจาก GitHub และส่ง pull request</p>
+        <div class="check-row"><label><input type="checkbox" data-step="2"> ฉันติดตั้ง Git และตั้งค่า name/email
+            เสร็จแล้ว</label></div>
+
+        <div class="os-tabs" data-tabgroup="t2">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <div class="os-panel active" data-tabgroup="t2" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install git
+git --version</pre>
+          </div>
+        </div>
+        <div class="os-panel" data-tabgroup="t2" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install --id Git.Git -e --source winget
+git --version</pre>
+          </div>
+          <p>หลังติดตั้งจะได้โปรแกรม <b>Git Bash</b> มาด้วย — แนะนำให้ใช้ Git Bash รันคำสั่งแบบ unix-like</p>
+        </div>
+
+        <h3>ตั้งค่าเบื้องต้น (ทำทั้ง Mac และ Windows)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / Git Bash</span><button class="copy-btn">Copy</button></div>
+          <pre>git config --global user.name "ชื่อของน้อง"
+git config --global user.email "your-email@example.com"
+git config --global init.defaultBranch main
+git config --global core.autocrlf input   <span class="cmt"># Mac/Linux</span>
+<span class="cmt"># ถ้า Windows ใช้: git config --global core.autocrlf true</span></pre>
+        </div>
+
+        <h3>สร้าง SSH Key เพื่อเชื่อมกับ GitHub</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / Git Bash</span><button class="copy-btn">Copy</button></div>
+          <pre>ssh-keygen -t ed25519 -C "your-email@example.com"
+<span class="cmt"># กด Enter ผ่าน passphrase ได้ (หรือใส่เพื่อความปลอดภัย)</span>
+
+<span class="cmt"># แสดง public key เพื่อ copy ไปใส่บน GitHub</span>
+cat ~/.ssh/id_ed25519.pub</pre>
+        </div>
+        <div class="note">ไปที่ <a href="https://github.com/settings/keys" target="_blank">GitHub → Settings → SSH and
+            GPG keys</a> แล้วกด <b>New SSH key</b> วาง public key ลงไป</div>
+      </section>
+
+      <!-- ============== STEP 3: VS Code ============== -->
+      <section class="step" id="vscode">
+        <h2><span class="chip">Step 3</span> ติดตั้ง Visual Studio Code</h2>
+        <p class="lead">Editor ยอดนิยม พร้อม extension ครบสำหรับ automation testing</p>
+        <div class="check-row"><label><input type="checkbox" data-step="3"> ฉันติดตั้ง VS Code + extensions
+            เสร็จแล้ว</label></div>
+
+        <div class="os-tabs" data-tabgroup="t3">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <div class="os-panel active" data-tabgroup="t3" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install --cask visual-studio-code</pre>
+          </div>
+        </div>
+        <div class="os-panel" data-tabgroup="t3" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install Microsoft.VisualStudioCode</pre>
+          </div>
+        </div>
+
+        <h3>Extensions ที่แนะนำ (รันใน Terminal หลังติดตั้ง VS Code)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># Playwright + JS/TS</span>
+code --install-extension ms-playwright.playwright
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension esbenp.prettier-vscode
+
+<span class="cmt"># Python</span>
+code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
+
+<span class="cmt"># Git / GitHub</span>
+code --install-extension eamodio.gitlens
+code --install-extension github.vscode-pull-request-github
+
+<span class="cmt"># คุณภาพชีวิต</span>
+code --install-extension streetsidesoftware.code-spell-checker
+code --install-extension pkief.material-icon-theme</pre>
+        </div>
+
+        <div class="tip">ถ้าคำสั่ง <code>code</code> ยังใช้ไม่ได้บน Mac → เปิด VS Code → กด
+          <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>P</kbd> → พิมพ์ "Shell Command: Install 'code' command in PATH"</div>
+      </section>
+
+      <!-- ============== STEP 4: Python ============== -->
+      <section class="step" id="python">
+        <h2><span class="chip">Step 4</span> ติดตั้ง Python</h2>
+        <p class="lead">จำเป็นสำหรับบาง test framework และ utility scripts</p>
+        <div class="check-row"><label><input type="checkbox" data-step="4"> ฉันติดตั้ง Python 3.11+ เสร็จแล้ว</label>
+        </div>
+
+        <div class="os-tabs" data-tabgroup="t4">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <div class="os-panel active" data-tabgroup="t4" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install python@3.12
+
+<span class="cmt"># ตรวจสอบ</span>
+python3 --version
+pip3 --version</pre>
+          </div>
+
+          <h3>สร้าง virtual environment (แนะนำต่อโปรเจกต์)</h3>
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="cmt"># เข้าไปที่โฟลเดอร์โปรเจกต์ของน้อง</span>
+cd /path/to/your-project
+python3 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip</pre>
+          </div>
+        </div>
+
+        <div class="os-panel" data-tabgroup="t4" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install Python.Python.3.12
+
+<span class="cmt"># ปิด-เปิด PowerShell ใหม่</span>
+python --version
+pip --version</pre>
+          </div>
+
+          <h3>สร้าง virtual environment</h3>
+          <div class="code">
+            <div class="code-head"><span>PowerShell</span><button class="copy-btn">Copy</button></div>
+            <pre><span class="cmt"># เข้าไปที่โฟลเดอร์โปรเจกต์ของน้อง</span>
+cd C:\path\to\your-project
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install --upgrade pip</pre>
+          </div>
+
+          <div class="warn">ถ้า PowerShell ไม่ยอมให้รัน script ให้เปิด Admin แล้วรัน:
+            <code>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</code>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== STEP 5: Java JDK ============== -->
+      <section class="step" id="java">
+        <h2><span class="chip">Step 5</span> ติดตั้ง Java JDK</h2>
+        <p class="lead">จำเป็นสำหรับ Appium ฝั่ง Android (และเครื่องมือ Android SDK หลายตัว)</p>
+        <div class="check-row"><label><input type="checkbox" data-step="5"> ฉันติดตั้ง JDK 17 และตั้ง JAVA_HOME
+            เสร็จแล้ว</label></div>
+
+        <div class="os-tabs" data-tabgroup="t5">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <div class="os-panel active" data-tabgroup="t5" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install --cask temurin@17
+
+<span class="cmt"># ตรวจสอบ</span>
+java -version
+javac -version</pre>
+          </div>
+
+          <h3>ตั้งค่า JAVA_HOME</h3>
+          <p>เพิ่มบรรทัดนี้ใน <code>~/.zshrc</code> (หรือ <code>~/.bash_profile</code>):</p>
+          <div class="code">
+            <div class="code-head"><span>~/.zshrc</span><button class="copy-btn">Copy</button></div>
+            <pre>export JAVA_HOME=$(/usr/libexec/java_home -v 17)
+export PATH="$JAVA_HOME/bin:$PATH"</pre>
+          </div>
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>source ~/.zshrc
+echo $JAVA_HOME</pre>
+          </div>
+        </div>
+
+        <div class="os-panel" data-tabgroup="t5" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install EclipseAdoptium.Temurin.17.JDK
+
+<span class="cmt"># ตรวจสอบ (ปิด-เปิด PowerShell ใหม่)</span>
+java -version
+javac -version</pre>
+          </div>
+
+          <h3>ตั้งค่า JAVA_HOME (System Environment Variables)</h3>
+          <ul class="clean">
+            <li>กด <kbd>Win</kbd> → พิมพ์ "Environment Variables" → เปิด <b>Edit the system environment variables</b>
+            </li>
+            <li>กด <b>Environment Variables…</b> → ใต้ <b>System variables</b> กด <b>New</b></li>
+            <li>Variable name: <code>JAVA_HOME</code></li>
+            <li>Variable value: <code>C:\Program Files\Eclipse Adoptium\jdk-17.x.x-hotspot</code> (path ของ JDK)</li>
+            <li>แก้ไข <code>Path</code> → Add: <code>%JAVA_HOME%\bin</code></li>
+          </ul>
+          <div class="code">
+            <div class="code-head"><span>PowerShell (ยืนยัน)</span><button class="copy-btn">Copy</button></div>
+            <pre>echo $env:JAVA_HOME
+java -version</pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============== STEP 6: Android SDK ============== -->
+      <section class="step" id="android">
+        <h2><span class="chip">Step 6</span> ติดตั้ง Android Studio + SDK</h2>
+        <p class="lead">จำเป็นสำหรับ Appium ทดสอบแอป Android บน emulator หรือเครื่องจริง</p>
+        <div class="check-row"><label><input type="checkbox" data-step="6"> ฉันติดตั้ง Android Studio, SDK และตั้ง
+            ANDROID_HOME เสร็จแล้ว</label></div>
+
+        <div class="os-tabs" data-tabgroup="t6">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+
+        <div class="os-panel active" data-tabgroup="t6" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install --cask android-studio</pre>
+          </div>
+          <p>หลังติดตั้งเปิด Android Studio → <b>More Actions</b> → <b>SDK Manager</b> แล้วติดตั้ง:</p>
+          <ul class="clean">
+            <li>Android SDK Platform (แนะนำ API 34, 33)</li>
+            <li>Android SDK Build-Tools</li>
+            <li>Android SDK Command-line Tools (latest)</li>
+            <li>Android Emulator</li>
+            <li>Android SDK Platform-Tools (จะได้ <code>adb</code>)</li>
+          </ul>
+
+          <h3>ตั้งค่า ANDROID_HOME</h3>
+          <div class="code">
+            <div class="code-head"><span>~/.zshrc</span><button class="copy-btn">Copy</button></div>
+            <pre>export ANDROID_HOME=$HOME/Library/Android/sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin
+export PATH=$PATH:$ANDROID_HOME/build-tools/34.0.0</pre>
+          </div>
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>source ~/.zshrc
+adb --version
+sdkmanager --list | head</pre>
+          </div>
+        </div>
+
+        <div class="os-panel" data-tabgroup="t6" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install Google.AndroidStudio</pre>
+          </div>
+          <p>เปิด Android Studio แล้วติดตั้ง SDK components เหมือนใน Mac</p>
+
+          <h3>ตั้งค่า ANDROID_HOME</h3>
+          <p>System Environment Variables → New:</p>
+          <ul class="clean">
+            <li>Variable name: <code>ANDROID_HOME</code></li>
+            <li>Variable value: <code>C:\Users\%USERNAME%\AppData\Local\Android\Sdk</code></li>
+            <li>เพิ่มใน <code>Path</code> ทีละบรรทัด:<br>
+              <code>%ANDROID_HOME%\emulator</code><br>
+              <code>%ANDROID_HOME%\platform-tools</code><br>
+              <code>%ANDROID_HOME%\cmdline-tools\latest\bin</code><br>
+              <code>%ANDROID_HOME%\build-tools\34.0.0</code>
+            </li>
+          </ul>
+          <div class="code">
+            <div class="code-head"><span>PowerShell (ยืนยัน)</span><button class="copy-btn">Copy</button></div>
+            <pre>adb --version
+sdkmanager --list | Select-Object -First 20</pre>
+          </div>
+        </div>
+
+        <h3>ยอมรับ license ทั้งหมด (สำคัญ)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre>yes | sdkmanager --licenses</pre>
+        </div>
+
+        <h3>สร้าง Emulator (AVD) ไว้ทดสอบ</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>sdkmanager "system-images;android-34;google_apis;arm64-v8a"
+avdmanager create avd -n Pixel_7_API_34 -k "system-images;android-34;google_apis;arm64-v8a"
+emulator -list-avds
+emulator -avd Pixel_7_API_34</pre>
+        </div>
+
+        <div class="tip">บน Apple Silicon (M1/M2/M3) ใช้ <b>arm64-v8a</b>; บน Windows/Intel ใช้ <b>x86_64</b></div>
+      </section>
+
+      <!-- ============== STEP 7: Xcode (Mac only) ============== -->
+      <section class="step" id="xcode">
+        <h2><span class="chip mac-only">Mac only</span> Step 7: ติดตั้ง Xcode + iOS Tools</h2>
+        <p class="lead">จำเป็นสำหรับทดสอบแอป iOS ด้วย Appium (ข้ามได้ถ้าไม่ได้ทำ iOS)</p>
+        <div class="check-row"><label><input type="checkbox" data-step="7"> ฉันติดตั้ง Xcode + CLI tools
+            เสร็จแล้ว</label></div>
+
+        <div class="danger"><b>สำคัญ:</b> Xcode ใช้พื้นที่ดิสก์เกือบ <b>40 GB</b> และต้องการ macOS เวอร์ชันล่าสุด —
+          ติดตั้งเฉพาะคนที่ทำ iOS automation เท่านั้น</div>
+
+        <h3>1) Xcode จาก App Store</h3>
+        <p>เปิด App Store → ค้น "Xcode" → กด Install (ใช้เวลานาน ดาวน์โหลด ~15 GB)</p>
+
+        <h3>2) ยอมรับ license + ติดตั้ง Command Line Tools</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre>sudo xcode-select --install
+sudo xcodebuild -license accept
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer</pre>
+        </div>
+
+        <h3>3) ติดตั้ง iOS tools ที่ Appium ต้องใช้</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># สำหรับสื่อสารกับ iPhone จริง</span>
+brew install libimobiledevice
+brew install ios-deploy
+
+<span class="cmt"># Carthage (ใช้ build WebDriverAgent บางเคส)</span>
+brew install carthage
+
+<span class="cmt"># ตรวจสอบ</span>
+xcodebuild -version
+idevice_id -l
+ios-deploy --version</pre>
+        </div>
+
+        <div class="note">ถ้าจะทดสอบบน iPhone เครื่องจริง: ต้องมี Apple Developer account (ฟรีหรือ paid) และ trust
+          device ใน Settings → General → Device Management</div>
+
+        <h3>4) เปิด Simulator</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre>open -a Simulator
+xcrun simctl list devices available | head -20</pre>
+        </div>
+      </section>
+
+      <!-- ============== STEP 8: Appium ============== -->
+      <section class="step" id="appium">
+        <h2><span class="chip">Step 8</span> ติดตั้ง Appium 2.x</h2>
+        <p class="lead">Mobile automation server ที่ทดสอบได้ทั้ง Android และ iOS</p>
+        <div class="check-row"><label><input type="checkbox" data-step="8"> ฉันติดตั้ง Appium, drivers, และ Appium
+            Doctor เสร็จแล้ว</label></div>
+
+        <h3>1) ติดตั้ง Appium server (ใช้ npm — เหมือนกันทั้ง Mac/Windows)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>npm install -g appium
+appium --version    <span class="cmt"># ควรเป็น 2.x ขึ้นไป</span></pre>
+        </div>
+
+        <h3>2) ติดตั้ง Drivers</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># Android driver</span>
+appium driver install uiautomator2
+
+<span class="cmt"># iOS driver (Mac only)</span>
+appium driver install xcuitest
+
+<span class="cmt"># ดู drivers ทั้งหมด</span>
+appium driver list --installed</pre>
+        </div>
+
+        <h3>3) ติดตั้ง Appium Doctor เพื่อ validate environment</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>npm install -g appium-doctor
+
+<span class="cmt"># ตรวจ Android side</span>
+appium-doctor --android
+
+<span class="cmt"># ตรวจ iOS side (Mac only)</span>
+appium-doctor --ios</pre>
+        </div>
+
+        <div class="tip">ให้รัน appium-doctor จนกว่าจะ ✅ ผ่านทุก check ก่อนไปขั้นต่อไป</div>
+
+        <h3>4) ติดตั้ง Appium Inspector (UI tool สำหรับเลือก element)</h3>
+        <div class="os-tabs" data-tabgroup="t8">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+        <div class="os-panel active" data-tabgroup="t8" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install --cask appium-inspector</pre>
+          </div>
+        </div>
+        <div class="os-panel" data-tabgroup="t8" data-os="win">
+          <p>ดาวน์โหลดจาก <a href="https://github.com/appium/appium-inspector/releases"
+              target="_blank">github.com/appium/appium-inspector/releases</a> → เลือกไฟล์ <code>.exe</code> สำหรับ
+            Windows</p>
+        </div>
+
+        <h3>5) ทดสอบรัน Appium server</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>appium
+
+<span class="cmt"># ถ้าสำเร็จจะเห็น:
+# [Appium] Welcome to Appium v2.x.x
+# [Appium] Appium REST http interface listener started on http://0.0.0.0:4723
+</span></pre>
+        </div>
+      </section>
+
+      <!-- ============== STEP 9: Playwright ============== -->
+      <section class="step" id="playwright">
+        <h2><span class="chip">Step 9</span> ติดตั้ง Playwright</h2>
+        <p class="lead">End-to-end web testing framework ที่รองรับ Chromium, Firefox, WebKit ในคำสั่งเดียว</p>
+        <div class="check-row"><label><input type="checkbox" data-step="9"> ฉันติดตั้ง Playwright + browsers
+            เสร็จแล้ว</label></div>
+
+        <h3>1) สร้างโปรเจกต์ใหม่ / ติดตั้งในโปรเจกต์ที่มีอยู่</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># เข้าไปที่โฟลเดอร์โปรเจกต์ของน้อง (หรือสร้างโฟลเดอร์ใหม่)</span>
+cd /path/to/your-project          <span class="cmt"># Mac/Linux</span>
+<span class="cmt"># cd C:\path\to\your-project      # Windows</span>
+
+<span class="cmt"># สร้างโปรเจกต์ใหม่ (จะถามให้เลือก TS/JS, ภาษา ฯลฯ)</span>
+npm init playwright@latest</pre>
+        </div>
+
+        <div class="note">Playwright installer จะติดตั้ง browsers (Chromium, Firefox, WebKit) อัตโนมัติประมาณ 1 GB</div>
+
+        <h3>2) ถ้ามีโปรเจกต์อยู่แล้ว ใช้คำสั่งนี้</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>npm install -D @playwright/test
+npx playwright install            <span class="cmt"># ดาวน์โหลดทุก browser</span>
+npx playwright install --with-deps <span class="cmt"># Linux: ติดตั้ง deps ด้วย</span></pre>
+        </div>
+
+        <h3>3) รัน test ตัวอย่าง</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>npx playwright test                <span class="cmt"># รันทุก test</span>
+npx playwright test --ui           <span class="cmt"># เปิด UI mode (แนะนำสำหรับ dev)</span>
+npx playwright show-report         <span class="cmt"># ดู HTML report</span></pre>
+        </div>
+
+        <h3>4) ติดตั้ง Playwright VS Code Extension</h3>
+        <p>ถ้ายังไม่ได้ติดตั้งตอนขั้น VS Code:</p>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>code --install-extension ms-playwright.playwright</pre>
+        </div>
+        <p>เปิด VS Code → Testing panel (ด้านซ้าย) → กด Record / Run test ได้เลย</p>
+
+        <h3>5) Codegen — สร้าง test แบบ interactive</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>npx playwright codegen https://example.com</pre>
+        </div>
+        <div class="tip">Codegen จะเปิดเบราว์เซอร์ให้น้อง record actions แล้ว generate code เป็น TypeScript/Python/Java
+          ให้เอาไปปรับต่อได้</div>
+      </section>
+
+      <!-- ============== STEP 10: Verify ============== -->
+      <section class="step" id="verify">
+        <h2><span class="chip">Step 10</span> ตรวจสอบทุกอย่างด้วยกัน</h2>
+        <p class="lead">รันคำสั่งทั้งหมดนี้ — ทุกบรรทัดควรคืน version number ออกมา ไม่ใช่ "command not found"</p>
+        <div class="check-row"><label><input type="checkbox" data-step="10"> ทุกคำสั่งรันผ่านและคืน version
+            ถูกต้อง</label></div>
+
+        <div class="code">
+          <div class="code-head"><span>Smoke Test</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># Core</span>
+node -v
+npm -v
+git --version
+python3 --version       <span class="cmt"># (Windows: python --version)</span>
+code --version
+
+<span class="cmt"># Java + Android</span>
+java -version
+javac -version
+echo $JAVA_HOME         <span class="cmt"># (Windows: echo $env:JAVA_HOME)</span>
+adb --version
+echo $ANDROID_HOME
+
+<span class="cmt"># iOS (Mac only)</span>
+xcodebuild -version
+ios-deploy --version
+
+<span class="cmt"># Appium</span>
+appium --version
+appium driver list --installed
+appium-doctor --android   <span class="cmt"># ควรไม่มี error สีแดง</span>
+
+<span class="cmt"># Playwright</span>
+npx playwright --version</pre>
+        </div>
+
+        <div class="tip"><b>เสร็จแล้ว! 🎉</b> น้องพร้อมเริ่มเขียน automation test แล้ว — ถาม mentor ในทีมได้ถ้าติดอะไร
+        </div>
+      </section>
+
+      <!-- ============== Troubleshoot ============== -->
+      <section class="step" id="troubleshoot">
+        <h2>🛠 แก้ปัญหาที่พบบ่อย</h2>
+
+        <h3>1) <code>command not found</code> หลังติดตั้งเสร็จ</h3>
+        <p><b>สาเหตุ:</b> Terminal ยังจำ PATH เวอร์ชันเก่าอยู่</p>
+        <p><b>แก้:</b> ปิด Terminal / PowerShell แล้วเปิดใหม่ — หรือรัน <code>source ~/.zshrc</code> (Mac) / เปิด
+          PowerShell ใหม่ (Windows)</p>
+
+        <h3>2) <code>appium-doctor</code> ฟ้อง ANDROID_HOME ไม่พบ</h3>
+        <p>ตรวจว่า environment variable ตั้งถูกต้อง และ Terminal โหลดค่าใหม่แล้ว:</p>
+        <div class="code">
+          <div class="code-head"><span>Debug</span><button class="copy-btn">Copy</button></div>
+          <pre>echo $ANDROID_HOME      <span class="cmt"># ควรมี path ไม่ใช่ว่าง</span>
+ls $ANDROID_HOME        <span class="cmt"># ควรเห็นโฟลเดอร์ platform-tools, emulator, ...</span></pre>
+        </div>
+
+        <h3>3) Homebrew ติดตั้งไม่ได้บน Apple Silicon</h3>
+        <p>หลังติดตั้ง brew บน M1/M2/M3 ต้องเพิ่ม path ใน <code>~/.zshrc</code>:</p>
+        <div class="code">
+          <div class="code-head"><span>~/.zshrc</span><button class="copy-btn">Copy</button></div>
+          <pre>eval "$(/opt/homebrew/bin/brew shellenv)"</pre>
+        </div>
+
+        <h3>4) Windows: <code>winget</code> ไม่รู้จัก</h3>
+        <p>อัปเดต Windows 10 เป็น version 1809+ หรือติดตั้ง <b>App Installer</b> จาก Microsoft Store</p>
+
+        <h3>5) Appium ฟ้อง <code>xcrun: error</code> บน Mac</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+          <pre>sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+sudo xcodebuild -license accept</pre>
+        </div>
+
+        <h3>6) Playwright download browsers ช้า / ติดไฟร์วอลล์</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># ใช้ mirror จีน/SEA ถ้าเครือข่ายช้า</span>
+<span class="cmt"># Mac/Linux</span>
+PLAYWRIGHT_DOWNLOAD_HOST=https://playwright.azureedge.net npx playwright install
+
+<span class="cmt"># Windows PowerShell</span>
+$env:PLAYWRIGHT_DOWNLOAD_HOST="https://playwright.azureedge.net"; npx playwright install</pre>
+        </div>
+
+        <h3>7) Android Emulator ช้า / ไม่เปิด</h3>
+        <ul class="clean">
+          <li>Mac (Apple Silicon): ใช้ system image <code>arm64-v8a</code> เท่านั้น</li>
+          <li>Windows: เปิด <b>Hyper-V</b> หรือ <b>WHPX</b> ใน Windows Features</li>
+          <li>ปิด VirtualBox / อย่ารัน emulator หลายตัวพร้อมกัน</li>
+        </ul>
+
+        <h3>8) ต้องการ reset ทุก checkbox ในหน้านี้</h3>
+        <p>กดปุ่ม <b>รีเซ็ตความคืบหน้า</b> มุมขวาบนของหน้า</p>
+      </section>
+
+      <footer class="foot">
+        Automation Setup Guide • คู่มือน้องใหม่ • อัปเดตปี 2026 • ถ้ามี feedback บอก mentor ได้เลย 💙
+      </footer>
+
+    </main>
+  </div>
+
+  <script>
+    // ---------- Tab switcher ----------
+    document.querySelectorAll('.os-tabs').forEach(group => {
+      const key = group.dataset.tabgroup;
+      group.querySelectorAll('button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const os = btn.dataset.os;
+          group.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.os === os));
+          document.querySelectorAll(`.os-panel[data-tabgroup="${key}"]`).forEach(p => {
+            p.classList.toggle('active', p.dataset.os === os);
+          });
+          localStorage.setItem('automation-setup-os-preference', os);
+        });
+      });
+    });
+
+    // Restore OS preference
+    const savedOS = localStorage.getItem('automation-setup-os-preference');
+    if (savedOS) {
+      document.querySelectorAll('.os-tabs').forEach(group => {
+        const key = group.dataset.tabgroup;
+        group.querySelectorAll('button').forEach(b => b.classList.toggle('active', b.dataset.os === savedOS));
+        document.querySelectorAll(`.os-panel[data-tabgroup="${key}"]`).forEach(p => {
+          p.classList.toggle('active', p.dataset.os === savedOS);
+        });
+      });
+    }
+
+    // ---------- Copy buttons ----------
+    document.querySelectorAll('.copy-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const pre = btn.closest('.code').querySelector('pre');
+        const text = pre.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          btn.textContent = 'Copied ✓';
+          btn.classList.add('copied');
+          setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1400);
+        });
+      });
+    });
+
+    // ---------- Progress + checkbox persistence ----------
+    const totalSteps = 10;
+    const saved = JSON.parse(localStorage.getItem('automation-setup-progress') || '{}');
+
+    document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => {
+      const step = cb.dataset.step;
+      if (saved[step]) cb.checked = true;
+      cb.addEventListener('change', () => {
+        saved[step] = cb.checked;
+        localStorage.setItem('automation-setup-progress', JSON.stringify(saved));
+        renderProgress();
+      });
+    });
+
+    function renderProgress() {
+      const done = Object.values(saved).filter(v => v === true).length;
+      document.getElementById('progressTxt').textContent = `${done} / ${totalSteps}`;
+      document.getElementById('progressBar').style.width = (done / totalSteps * 100) + '%';
+      // sidebar active-done
+      document.querySelectorAll('aside nav a').forEach(a => {
+        const s = a.dataset.step;
+        a.classList.toggle('done', !!saved[s]);
+      });
+    }
+    renderProgress();
+
+    // Reset
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      if (!confirm('ล้างความคืบหน้าทั้งหมด?')) return;
+      localStorage.removeItem('automation-setup-progress');
+      document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => cb.checked = false);
+      Object.keys(saved).forEach(k => delete saved[k]);
+      renderProgress();
+    });
+
+    // ---------- Theme toggle ----------
+    const themeBtn = document.getElementById('themeBtn');
+    const savedTheme = localStorage.getItem('automation-setup-theme');
+    if (savedTheme === 'light') { document.documentElement.dataset.theme = 'light'; themeBtn.textContent = '☀️ Light'; }
+    themeBtn.addEventListener('click', () => {
+      const isLight = document.documentElement.dataset.theme === 'light';
+      if (isLight) {
+        document.documentElement.removeAttribute('data-theme');
+        themeBtn.textContent = '🌙 Dark';
+        localStorage.setItem('automation-setup-theme', 'dark');
+      } else {
+        document.documentElement.dataset.theme = 'light';
+        themeBtn.textContent = '☀️ Light';
+        localStorage.setItem('automation-setup-theme', 'light');
+      }
+    });
+
+    // ---------- Sidebar active link on scroll ----------
+    const sections = Array.from(document.querySelectorAll('section.step, header.hero'));
+    const navLinks = Array.from(document.querySelectorAll('aside nav a'));
+    function highlightNav() {
+      const scrollPos = window.scrollY + 120;
+      let currentId = null;
+      for (const s of sections) {
+        if (s.offsetTop <= scrollPos) currentId = s.id;
+      }
+      navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + currentId));
+    }
+    window.addEventListener('scroll', highlightNav, { passive: true });
+    highlightNav();
+  </script>
+</body>
+
+</html>
