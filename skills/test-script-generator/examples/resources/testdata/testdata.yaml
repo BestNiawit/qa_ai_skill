@@ -1,0 +1,12 @@
+TC_EXAMPLE_SC_001:
+  username: "exampleuser"
+  password: "[REDACTED]"
+  password_invalid: "wrong_password_123"
+  search_term_valid: "สวัสดี"
+  search_term_special: "@@++**"
+  success_popup_text: "บันทึกสำเร็จ"
+
+TC_EXAMPLE_SC_002:
+  username: "exampleadmin"
+  password: "[REDACTED]"
+  record_name: "Test Record 001"

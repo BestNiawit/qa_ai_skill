@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Local Claude config (ถ้ามีคน clone แล้ว config เฉพาะเครื่อง)
+.claude/settings.local.json
+
+# Logs / temp
+*.log
+tmp/

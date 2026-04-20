@@ -1,0 +1,9 @@
+Feature,Chrome/Win11,Chrome/macOS,Safari/macOS,Safari/iOS17,Firefox/Win11,Edge/Win11,Chrome/Android14,Notes
+Login,P1,P1,P1,P1,P2,P2,P1,Core flow - test all major platforms
+Sign up,P1,P1,P1,P1,P2,P2,P1,-
+Password reset,P1,P2,P2,P2,P3,P3,P2,-
+Checkout,P1,P1,P1,P1,P2,P2,P1,Critical revenue path
+Product search,P1,P2,P2,P2,P3,P3,P2,-
+Profile edit,P2,P2,P2,P2,P3,P3,P2,-
+File upload,P1,P1,P1,P1,P2,P2,P2,iOS has Safari-specific file picker
+Push notification,-,-,-,P1,-,-,P1,Mobile only

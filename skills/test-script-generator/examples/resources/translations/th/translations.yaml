@@ -1,0 +1,6 @@
+example_page:
+  submit_label: "บันทึก"
+  success_popup_text: "บันทึกสำเร็จ"
+  column_name: "ชื่อ"
+  column_action: "การจัดการ"
+  dropdown_no_results: "ไม่พบข้อมูล"

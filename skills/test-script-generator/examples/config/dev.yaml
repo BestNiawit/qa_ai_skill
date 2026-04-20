@@ -1,0 +1,16 @@
+app:
+  base_url: "https://dev-example.internal"
+api:
+  identity:
+    authenticate_path: "/api/Identity/authenticate"
+browser:
+  name: "chrome"
+  headless: true
+  implicit_wait: 5
+  timeout: 15
+database:
+  host: "localhost"
+  port: 5432
+  name: "app_dev"
+  user: "dev_user"
+  password: "[REDACTED]"

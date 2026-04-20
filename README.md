@@ -1,92 +1,213 @@
-# qa_ai_skill
+# QA AI Skills
 
+รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยเขียน test case, bug report และ test script ตามมาตรฐานทีม
 
+## Skills
 
-## Getting started
+| Skill | คำอธิบาย | สถานะ |
+|-------|----------|-------|
+| [test-case-writer](skills/test-case-writer/) | เขียน test case จาก requirement (PRD/spec/user story) ใช้ testing techniques (ECP, BVA, Decision Table, ฯลฯ) รองรับ TH/EN | ✅ พร้อมใช้ |
+| [test-matrix-generator](skills/test-matrix-generator/) | สร้าง test matrix แบบ compact (CSV) — Coverage / Pairwise / Platform — ใช้ตอนเขียน full TC ไม่ทัน | ✅ พร้อมใช้ |
+| [bug-report-writer](skills/bug-report-writer/) | สร้าง bug report มาตรฐาน (steps, expected vs actual, severity, priority) | ✅ พร้อมใช้ |
+| [test-script-generator](skills/test-script-generator/) | สร้าง Robot Framework test + Page Object + locator ตาม pattern athm_automation (3-tier POM, robocop-clean, i18n YAML) | ✅ พร้อมใช้ |
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## วิธี Install
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### แบบที่ 1: User-level (ใช้กับทุก project)
+```bash
+# Symlink (แนะนำ — pull repo แล้ว skill อัปเดตอัตโนมัติ)
+ln -s "$(pwd)/skills/test-case-writer"       ~/.claude/skills/test-case-writer
+ln -s "$(pwd)/skills/test-matrix-generator"  ~/.claude/skills/test-matrix-generator
+ln -s "$(pwd)/skills/bug-report-writer"      ~/.claude/skills/bug-report-writer
+ln -s "$(pwd)/skills/test-script-generator"  ~/.claude/skills/test-script-generator
+```
 
-## Add your files
+### แบบที่ 2: Project-level (เฉพาะ project)
+```bash
+mkdir -p /path/to/your/project/.claude/skills
+cp -r skills/* /path/to/your/project/.claude/skills/
+```
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### ตรวจสอบ
+เปิด Claude Code แล้วพิมพ์ `/help` หรือลองสั่งงาน เช่น "ช่วยเขียน test case จากไฟล์ requirement.md" — Claude ควร trigger skill อัตโนมัติ
+
+---
+
+## วิธีใช้
+
+Skill จะ **trigger อัตโนมัติ** เมื่อคำสั่งของคุณตรงกับ description ใน `SKILL.md` — ไม่ต้องเรียกชื่อ skill ตรงๆ
+
+### 1. test-case-writer
+
+**เตรียม:** วาง requirement file (PRD, spec, user story) ไว้ใน project แล้วบอก Claude path ของไฟล์
+
+**ตัวอย่างคำสั่ง:**
+```
+ช่วยเขียน test case จากไฟล์ docs/requirement-login.md ให้หน่อย
+ใช้ภาษาไทย และเน้น negative case
+```
+```
+Read requirement.pdf and create test cases in English
+using ECP and BVA, output as markdown table
+```
+
+**สิ่งที่ Claude จะทำ:**
+1. อ่าน requirement ทั้งไฟล์
+2. ถามภาษา (ถ้ายังไม่บอก) + format (md/csv)
+3. แตก scenario: positive / negative / boundary / edge
+4. เขียน test case ตาม template + ระบุ technique ที่ใช้
+5. ทำ coverage matrix ท้ายไฟล์
+6. บันทึกเป็น `testcases_<feature>_<YYYYMMDD>.md`
+
+**Tip:**
+- บอก scope ชัดๆ เช่น "เฉพาะ flow login ไม่รวม register"
+- ระบุ priority scheme ถ้ามีของบริษัท ("ใช้ P0/P1/P2 แทน High/Med/Low")
+- ส่งตัวอย่าง TC เก่าให้ Claude ดูเพื่อให้ style ตรงทีม
+
+---
+
+### 2. test-matrix-generator
+
+**ใช้เมื่อ:** เขียน full test case ไม่ทัน ต้องการ coverage ก่อน — ได้ CSV ไป paste ใน Excel/Sheets/Jira ทันที
+
+**ตัวอย่างคำสั่ง:**
+```
+ช่วยทำ coverage matrix จาก docs/login-requirement.md
+จะได้เช็คว่า scenario ที่วางไว้ครอบคลุม req ครบมั้ย
+```
+```
+ขอ pairwise matrix สำหรับ form สมัครสมาชิก:
+- Age: under-18, 18-60, over-60
+- Country: TH, US, JP
+- Plan: free, pro, enterprise
+```
+```
+ทำ platform matrix ของ feature login + checkout
+browser: Chrome, Safari, Firefox / OS: Win, macOS, iOS, Android
+```
+
+**3 matrix ที่ generate ได้:**
+- **Coverage** — Requirement × Scenario (หา gap)
+- **Combination** — Pairwise inputs (ลด combination ระเบิด)
+- **Platform** — Feature × Browser/OS/Device (cross-platform)
+
+**Tip:**
+- ใช้เสริมกับ `test-case-writer` — ได้ matrix ก่อน, ค่อยขยายเป็น TC เต็มทีหลัง
+- ประหยัด token มาก: output เป็น CSV ตารางเดียว ไม่มี steps/expected ยาวๆ
+- ถ้า combinations > 50 แถว → skill จะแนะนำใช้ tool เฉพาะ (PICT/ACTS) แทน
+
+---
+
+### 3. bug-report-writer
+
+**เตรียม:** มีอาการ + steps + screenshot/log อยู่กับตัว
+
+**ตัวอย่างคำสั่ง:**
+```
+ช่วยเขียน bug report ให้หน่อย:
+- กดปุ่ม Submit ในหน้า checkout แล้วหน้าค้าง
+- เกิดเฉพาะตอนใส่ coupon ซ้อน 2 ใบ
+- Chrome 130 บน macOS, staging
+- Severity: Major
+```
+```
+Write a bug report in English for: login button unresponsive
+on iOS 17 Safari when keyboard is open. Steps: open /login,
+focus password field, tap Login. Expected: navigate to /home.
+Actual: nothing happens.
+```
+
+**สิ่งที่ Claude จะทำ:**
+1. เช็คว่าข้อมูลครบมั้ย (env, steps, expected, actual, severity) — ถ้าขาดจะถาม
+2. แต่ง title ตาม pattern `[Module] Action ทำให้เกิด Symptom เมื่อ Condition`
+3. แยก Severity (impact) vs Priority (urgency)
+4. เขียนตาม template พร้อม checklist `[REDACTED]` ข้อมูล sensitive
+
+**Tip:**
+- แนบ screenshot/log path → Claude จะใส่ใน section Attachments ให้
+- ถ้าจะ paste ลง Jira/Linear โดยตรง บอก "format สำหรับ Jira" → จะปรับ markdown ให้เข้ากัน
+
+---
+
+### 4. test-script-generator
+
+**ใช้เมื่อ:** สร้าง Robot Framework test ตาม pattern ของ `athm_automation` (3-tier POM + robocop)
+
+**Framework:** Robot Framework 6.x + SeleniumLibrary 6.1.2 + robocop 3.2.1 + robotidy + pabot
+
+**ตัวอย่างคำสั่ง:**
+```
+สร้าง Robot test จาก testcases_login_20260420.md
+feature: login, prefix: AUTH, TC_IDs: AUTH_SC_001_TC_001..003
+```
+```
+เพิ่ม page object + locator สำหรับหน้า "Employee Management"
+element: search box (data-test-id=emp-search), add button, table
+ภาษา: TH + EN
+```
+```
+convert TC-045 (checkout flow) เป็น Robot test + feature keyword
+```
+
+**สิ่งที่ Claude จะทำ:**
+1. เช็คก่อนว่า page/locator/feature/translation key มีอยู่แล้วมั้ย (ไม่สร้างซ้ำ)
+2. สร้างไฟล์ตาม 3-tier:
+   - `resources/locators/<feature>_locator.robot` — locator UPPER_SNAKE_CASE + translation interpolation
+   - `keywords/ui/page/<feature>_page.robot` — page object (interact + wait, no assertion)
+   - `keywords/ui/feature/<feature>_keywords.robot` — business workflow (ถ้าจำเป็น)
+   - `testcases/ui/<feature>/TC_<PREFIX>_SC_<NUM>.robot` — test case
+3. เพิ่ม translation key ทั้ง `en/` และ `th/`
+4. เพิ่ม test data ใน `testdata.yaml`
+5. รัน `robocop --threshold W` ให้ผ่าน
+
+**Tip:**
+- ถ้าทำงานใน `athm_automation` โดยตรง → Claude จะอ่านไฟล์ใกล้เคียง (เช่น `login_page.robot`) เพื่อ match style เป๊ะ
+- ถ้าใช้ใน repo อื่นที่ใช้ pattern เดียวกัน → อ้างอิง [`examples/`](skills/test-script-generator/examples/) แทน
+- ห้าม hardcode UI text — ใช้ translation YAML เสมอ (ทีมนี้บังคับ bilingual)
+
+---
+
+## Workflow แนะนำสำหรับทีม
 
 ```
-cd existing_repo
-git remote add origin https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
-git branch -M master
-git push -uf origin master
+1. PM ส่ง PRD     →  /test-matrix-generator → coverage matrix (เช็ค scope + gap เร็วๆ)
+                  →  /test-case-writer      → test cases (review ในทีม)
+2. ทดสอบเจอ bug  →  /bug-report-writer      → paste ลง Jira
+3. TC approved    →  /test-script-generator  → automation script → push เข้า repo automation
 ```
 
-## Integrate with your tools
+**เวลาเขียน TC ไม่ทัน:** ใช้ `/test-matrix-generator` อย่างเดียวก่อน ได้ CSV coverage/pairwise/platform ส่ง review ในทีม — ค่อยขยายเป็น full TC ใน sprint ถัดไป
 
-- [ ] [Set up project integrations](https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill/-/settings/integrations)
+---
 
-## Collaborate with your team
+## โครงสร้าง Repo
+```
+qa_ai_skill/
+├── README.md
+├── skills/
+│   ├── test-case-writer/
+│   │   ├── SKILL.md              # คำสั่งหลัก
+│   │   ├── templates/            # Template TH/EN
+│   │   └── references/           # Testing techniques reference
+│   ├── test-matrix-generator/
+│   │   ├── SKILL.md              # 3 matrix types (Coverage/Combination/Platform)
+│   │   └── templates/            # CSV templates
+│   ├── bug-report-writer/
+│   │   ├── SKILL.md
+│   │   └── templates/
+│   └── test-script-generator/
+│       ├── SKILL.md              # Robot Framework + POM (athm_automation pattern)
+│       └── examples/             # Reference ไฟล์ตัวอย่าง (page/feature/test/locator/i18n/config)
+```
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+## Contribute เพิ่ม Skill
+1. สร้าง folder ใหม่ใน `skills/<skill-name>/`
+2. เขียน `SKILL.md` พร้อม frontmatter:
+   ```yaml
+   ---
+   name: skill-name
+   description: ทำอะไร + เมื่อไหร่ควร trigger (ทั้ง TH/EN)
+   ---
+   ```
+3. เพิ่มแถวใน table ด้านบน
+4. เปิด PR

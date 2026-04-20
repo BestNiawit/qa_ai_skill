@@ -1,0 +1,6 @@
+Req ID,Requirement Summary,Priority,TC-001,TC-002,TC-003,TC-004,TC-005,Coverage Status
+REQ-01,User สามารถ login ด้วย email + password,High,✓,-,-,-,-,Covered
+REQ-02,ระบบ lock account หลัง fail 5 ครั้ง,High,-,✓,✓,-,-,Covered
+REQ-03,Password reset ผ่าน email link,Medium,-,-,-,✓,-,Covered
+REQ-04,Remember me (30 วัน),Low,-,-,-,-,✓,Covered
+REQ-05,Login ด้วย Google SSO,Medium,-,-,-,-,-,GAP

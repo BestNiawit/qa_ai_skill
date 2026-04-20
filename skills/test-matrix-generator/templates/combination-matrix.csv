@@ -1,0 +1,10 @@
+Combo ID,Age Group,Country,Plan,Payment,Expected Result,Priority,Notes
+C-01,under-18,TH,free,credit card,Reject - underage,High,Edge: age validation
+C-02,18-60,US,pro,bank transfer,Success,High,Happy path
+C-03,over-60,JP,enterprise,wallet,Success,Medium,Senior + enterprise
+C-04,18-60,TH,enterprise,credit card,Success,High,-
+C-05,over-60,US,free,bank transfer,Success,Low,-
+C-06,under-18,JP,pro,wallet,Reject - underage,High,Negative
+C-07,18-60,JP,free,credit card,Success,Medium,-
+C-08,over-60,TH,pro,bank transfer,Success,Medium,-
+C-09,18-60,US,enterprise,wallet,Success,High,-

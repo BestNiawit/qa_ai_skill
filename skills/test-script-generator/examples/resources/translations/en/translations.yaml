@@ -1,0 +1,6 @@
+example_page:
+  submit_label: "Submit"
+  success_popup_text: "Saved successfully"
+  column_name: "Name"
+  column_action: "Action"
+  dropdown_no_results: "No results"
