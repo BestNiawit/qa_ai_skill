@@ -1,0 +1,10 @@
+Module ID,<MODULE_ID>,,,,,,,,,,,,,,,,,,,,,
+Module Title,<Module Title>,,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,,,
+TC ID*,Test Case Description*,Role*,Positive/Negative*,Priority*,Severity,Test Sizing,Technique,Pre-Requisite,Test Step*,Test Data,Expected Result*,Ref FR ID,Automation,Labels,Environment,Sprint,Actual Result*,Test Result,Tested By,Test Date,Defect ID (Jira),Remark
+SC_001: User login with username + password,,,,,,,,,,,,,,,,,,,,,,
+TC_PMS_LOG_001,Successful login with valid credentials,End User,Positive,P1,S2,S,Use Case,Active account exists,"1. Navigate to /login; 2. Enter username; 3. Enter password; 4. Click Sign in",username=superayodia; password=[REDACTED],"1. Redirect to /home; 2. Welcome message shown; 3. Token saved",FR_PMS_LOG_01,Yes,"smoke, regression",dev,2026-S08,,,,,,
+TC_PMS_LOG_002,Login fails with wrong password,End User,Negative,P1,S2,S,Error Guessing,Active account exists,"1. Navigate to /login; 2. Enter username; 3. Enter wrong password; 4. Click Sign in",username=superayodia; password=wrong-pw,"1. Error Invalid username or password; 2. Stays on login page",FR_PMS_LOG_02,Yes,regression,dev,2026-S08,,,,,,
+TC_PMS_LOG_003,Account locked after 5 failed attempts,End User,Negative,P0,S1,M,Decision Table,Account not locked,"1. Fail login 5x; 2. Try correct password",username=locked_test; password=Wrong!@#,"1. 6th attempt: Account locked; 2. is_locked=true",FR_PMS_LOG_03,Candidate,"regression, security",dev,2026-S08,,,,,,
+SC_002: Input validation,,,,,,,,,,,,,,,,,,,,,,
+TC_PMS_LOG_004,Empty username disables login button,End User,Negative,P2,S3,S,BVA,On login page,"1. Open /login; 2. Leave username empty; 3. Enter password",password=any,Sign in button is disabled,FR_PMS_LOG_04,Yes,regression,dev,2026-S08,,,,,,
