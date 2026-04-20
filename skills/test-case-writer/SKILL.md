@@ -1,195 +1,287 @@
 ---
 name: test-case-writer
-description: เขียน test case จาก requirement document (PRD, spec, user story) ให้ครอบคลุมและอ่านง่าย — ใช้ testing techniques มาตรฐาน (ECP, BVA, Decision Table, State Transition, Use Case, Error Guessing) + horizontal table 23 columns (Module ID, TC ID, Role, Pos/Neg, Priority, Severity, Test Sizing S/M/L/XL, Technique, Pre-Req, Test Step, Test Data, Expected, Ref FR, Automation, Labels, Environment, Sprint, Actual, Test Result, Tested By, Test Date, Defect ID, Remark). รองรับ TH/EN + Markdown/CSV. Trigger เมื่อ user ส่ง requirement file/PRD/spec/user story และขอให้เขียน test case, test scenario, test plan, "write test cases", "create test scenarios".
+description: เขียน test case จาก requirement document (SRS/PRD/spec/user story) ให้ครอบคลุมและอ่านง่าย — รองรับทั้ง SIT mode (technical view) และ UAT mode (business view) + horizontal table 23 columns + testing techniques (ECP, BVA, Decision Table, State Transition, Use Case, Error Guessing) + Traceability Matrix. รองรับ TH/EN + Markdown/CSV. Trigger เมื่อ user ส่ง requirement file/SRS/PRD/spec/user story และขอให้เขียน test case, test scenario, SIT test case, UAT test case, "write test cases", "create test scenarios", "generate UAT test case". Maps to SDP §5.3.1 (Process 2, 6).
 ---
 
 # Test Case Writer
 
-## เป้าหมาย
+## 1. Purpose — เป้าหมาย
+
 แปลง requirement → test case ที่:
 - **ครอบคลุม** — ทุก requirement, ทุก scenario (positive/negative/boundary/edge)
 - **อ่านง่าย** — tester คนไหนก็ทำตามได้, expected ไม่กำกวม
-- **มี traceability** — รู้ว่า test case ไหนคุม requirement ข้อไหน (Ref FR ID)
-- **พร้อม execute** — มีช่อง Actual / Test Result / Tested By / Date / Defect ID สำหรับ tester กรอกตอนรัน
+- **Traceability ครบ** — ทุก TC มี `Ref FR ID` link ไป SRS
+- **พร้อม execute** — มีช่อง Actual/Result/Tested By/Date/Defect ID สำหรับ tester
 - **ใช้ technique เหมาะกับปัญหา** — ไม่ใช่เขียนเดามั่ว
+
+**Effort savings:** ~50-60% (SDP §5.3.4) — จาก 3 วัน/module → 1.5 วัน
+
+**Mode รองรับ:**
+- **SIT mode** (default) — Technical view, testing จาก SRS/DS perspective
+- **UAT mode** — Business view, End-to-end business scenario, ภาษาที่ User เข้าใจ
 
 ---
 
-## Template Format — Horizontal (23 columns)
+## 2. When to Use — เมื่อไหร่ใช้
 
-> ใช้ `templates/test-case-th.md` หรือ `templates/test-case-en.md` (Markdown table)
-> หรือ `templates/test-case.csv` (import เข้า Excel/Sheets/Jira ได้)
+**SDP Process:** §5.3.1 Process 2 (SIT Test Case) + Process 6 (UAT Test Case)
 
-### โครงสร้างไฟล์
+| สถานการณ์ | ใช้ skill ไหน |
+|-----------|-------------|
+| มีเวลา, ต้องการ TC พร้อมรัน | **`test-case-writer`** (skill นี้) |
+| รีบ, ต้องการ coverage ก่อน | `test-matrix-generator` (ก่อน skill นี้) |
+| มี SIT TC แล้ว อยากแปลงเป็น UAT | **`test-case-writer` mode=uat** |
+| อยากตรวจ TC ที่เขียนแล้ว | `test-case-reviewer` (หลัง skill นี้) |
+| TC approved แล้ว อยาก automate | `robot-test-generator` / `e2e-test-generator` |
 
+---
+
+## 3. Inputs — สิ่งที่ต้องเตรียม
+
+| Input | Required | หมายเหตุ |
+|-------|:--------:|----------|
+| Requirement file (SRS/PRD/spec/user story) | ✅ | path ของไฟล์ |
+| Mode: SIT หรือ UAT | ✅ | default = SIT ถ้าไม่ระบุ |
+| Module ID + Module Title | ✅ | เช่น `PMS_LOG` + "Login" |
+| ภาษา output: TH / EN | ✅ | ถ้าไม่ระบุ → ถาม |
+| Format: Markdown / CSV | ✅ | CSV import Excel/Sheets/Jira ง่ายกว่า |
+| Priority scheme | ⚠️ | `P0/P1/P2/P3` หรือ `High/Med/Low` |
+| `project-context.md` | ⚠️ | env, glossary, severity scale, business rules |
+| SIT Test Cases (สำหรับ UAT mode) | ⚠️ | path ไฟล์ SIT TC ถ้าต้องการแปลง → UAT |
+
+**`project-context.md` format:**
+```markdown
+## Environment
+- SIT URL: https://sit.example.com
+- UAT URL: https://uat.example.com
+## Glossary
+- "AT" = Assessment Tax
+## Severity Scale
+- S1=Critical, S2=Major, S3=Minor, S4=Cosmetic
+## Business Rules
+- Leave balance = 10 days/year, reset 1 Jan
+```
+
+---
+
+## 4. Outputs — สิ่งที่ได้
+
+**Format:** Markdown table หรือ CSV (ตาม input)
+
+**Templates:**
+- TH SIT: [`templates/test-case-th.md`](templates/test-case-th.md)
+- EN SIT: [`templates/test-case-en.md`](templates/test-case-en.md)
+- CSV: `templates/test-case.csv`
+
+**File naming:**
+- SIT: `testcases_sit_<module_id>_<YYYYMMDD>.md` / `.csv`
+- UAT: `testcases_uat_<module_id>_<YYYYMMDD>.md` / `.csv`
+
+**โครงสร้างไฟล์:**
 ```
 ┌─────────────────────────────────────┐
 │ Module ID + Module Title (header)   │
+│ Mode: SIT / UAT                     │
 ├─────────────────────────────────────┤
 │ Scope / Assumptions                 │
 ├─────────────────────────────────────┤
-│ Test Cases table (horizontal)       │
-│   - row: SC_xxx: scenario group     │  ← section header
-│   - row: TC_xxx individual cases    │  ← test cases
+│ Test Cases table (horizontal 23 col)│
+│   SC_xxx: scenario group (header)   │
+│   TC_xxx: individual cases          │
 ├─────────────────────────────────────┤
-│ Coverage Matrix (Req ↔ TC)          │
+│ Traceability Matrix (Req ↔ TC)      │
 ├─────────────────────────────────────┤
 │ Field Reference (scale legend)      │
-├─────────────────────────────────────┤
-│ Test Data Reference (shared)        │
 └─────────────────────────────────────┘
 ```
 
-### Columns (ลำดับเดียวกันทุก template)
+**23 Columns (ลำดับเดียวกันทุก mode):**
 
 | # | Column | Req | กรอกตอน | คำอธิบาย |
 |---|--------|-----|---------|----------|
-| 1  | TC ID | ✱ | Design | `TC_<MODULE_ID>_<NUM>` running — `TC_PMS_LOG_001` |
-| 2  | Test Case Description | ✱ | Design | ประโยคสั้น บอกสิ่งที่ทดสอบ |
+| 1  | TC ID | ✱ | Design | `TC_<MODULE>_<NUM>` — `TC_PMS_LOG_001` |
+| 2  | Description | ✱ | Design | ประโยคสั้น บอกสิ่งที่ทดสอบ |
 | 3  | Role | ✱ | Design | End User / Admin / Super Admin / Guest |
 | 4  | Positive/Negative | ✱ | Design | Positive / Negative / Boundary / Edge |
-| 5  | Priority | ✱ | Design | `P0`/`P1`/`P2`/`P3` หรือ High/Med/Low (ให้ user เลือก) |
-| 6  | Severity | | Design | `S1` Critical / `S2` Major / `S3` Minor / `S4` Cosmetic |
-| 7  | **Test Sizing** | | Design | `S` / `M` / `L` / `XL` (ดู scale ด้านล่าง) |
-| 8  | **Technique** | | Design | ECP / BVA / Decision Table / State Transition / Use Case / Error Guessing |
-| 9  | Pre-Requisite | | Design | state ก่อนเริ่ม test |
-| 10 | Test Step | ✱ | Design | ขั้นตอนเป็นข้อๆ — `1. ... 2. ...` (ใช้ `<br>` ใน Markdown ให้ขึ้นบรรทัดใน cell) |
-| 11 | Test Data | | Design | ข้อมูล input (redact password: `[REDACTED]`) |
-| 12 | Expected Result | ✱ | Design | ต้องเฉพาะเจาะจง: ข้อความอะไร, redirect ไหน, DB status อะไร |
-| 13 | Ref FR ID | | Design | Requirement ID ที่ link ไป coverage matrix |
-| 14 | **Automation** | | Design | `Yes` / `No` / `Candidate` / `N/A` |
-| 15 | Labels | | Design | comma-separated: `smoke, regression, security, @mobile` |
-| 16 | Environment | | Design→Exec | `dev` / `sit` / `uat` / `staging` / `prod` |
-| 17 | Sprint | | Design | `<year>-S<num>` เช่น `2026-S08` |
-| 18 | Actual Result | ✱ | Execution | tester กรอกจริงตอนรัน |
-| 19 | Test Result | | Execution | Pass / Fail / Blocked / Skipped / Not Run |
-| 20 | Tested By | | Execution | ชื่อ/initials tester |
+| 5  | Priority | ✱ | Design | ตาม scheme ที่เลือก |
+| 6  | Severity | | Design | S1/S2/S3/S4 |
+| 7  | Test Sizing | | Design | S / M / L / XL |
+| 8  | Technique | | Design | ECP / BVA / Decision Table / State Transition / Use Case / Error Guessing |
+| 9  | Pre-Requisite | | Design | state ก่อนเริ่ม |
+| 10 | Test Step | ✱ | Design | ขั้นตอนเป็นข้อๆ `1. ... 2. ...` |
+| 11 | Test Data | | Design | redact password: `[REDACTED]` |
+| 12 | Expected Result | ✱ | Design | ต้องวัดได้ ไม่กำกวม |
+| 13 | Ref FR ID | ✱ | Design | SRS ID link ไป Traceability |
+| 14 | Automation | | Design | Yes / No / Candidate / N/A |
+| 15 | Labels | | Design | `smoke, regression, security` |
+| 16 | Environment | | Design→Exec | dev/sit/uat/staging/prod |
+| 17 | Sprint | | Design | `2026-S08` |
+| 18 | Actual Result | | Execution | tester กรอกตอนรัน |
+| 19 | Test Result | | Execution | Pass/Fail/Blocked/Skipped/Not Run |
+| 20 | Tested By | | Execution | ชื่อ/initials |
 | 21 | Test Date | | Execution | YYYY-MM-DD |
-| 22 | Defect ID (Jira) | | Execution | `PMS-1234` ถ้า fail |
+| 22 | Defect ID | | Execution | `PMS-1234` ถ้า fail |
 | 23 | Remark | | both | note เพิ่มเติม |
 
-✱ = mandatory ตอนออกแบบ test
+✱ = mandatory ตอน design
 
 ---
 
-## Test Sizing Scale (S/M/L/XL)
+## 5. Process — ขั้นตอน
 
-| Size | เวลาโดยประมาณ | Steps | ลักษณะ |
-|------|---------------|-------|--------|
-| **S** | < 15 นาที | 1–3 | action เดียว / field validation / smoke check |
-| **M** | 15–30 นาที | 4–8 | กรอก form + ตรวจผล / เปิด modal + save |
-| **L** | 30–60 นาที | 9–15 | multi-step flow / มี data fixture / cross-page |
-| **XL** | > 1 ชั่วโมง | 15+ | E2E ข้าม role / setup + teardown / external system |
+### Step 1: Read Input + Check Mode
+1. อ่าน requirement file ให้จบทั้งไฟล์
+2. อ่าน `project-context.md` ถ้ามี
+3. ระบุ mode: SIT หรือ UAT
 
-**ใช้ทำอะไร:**
-- ประเมิน test effort ต่อ sprint (sum ของ sizing = man-hours)
-- วางแผน priority: XL ควรมี P0/P1 เท่านั้น — ถ้า P3 แล้ว XL = pain
-- เลือก automation candidate: L/XL ที่รันบ่อยควร automate
+### Step 2: Ask User (ถ้ายังไม่ครบ)
+- Module ID + Title
+- Language (TH/EN)
+- Format (MD/CSV)
+- Priority scheme
 
----
+### Step 3: เลือก Testing Techniques
 
-## ขั้นตอน
-
-### 1. เตรียมข้อมูล
-1. อ่าน requirement file ให้จบทั้งไฟล์ก่อน (อย่าเขียนทันที)
-2. สรุป feature/business rule ที่จะทดสอบ
-3. ระบุ scope: ทำอะไร / ไม่ทำอะไร
-4. **ถาม user** ถ้ายังไม่รู้:
-   - Module ID + Module Title (เช่น `PMS_LOG` + "Login")
-   - ภาษา output: ไทย หรือ English?
-   - Format: Markdown table หรือ CSV? (CSV import Excel/Sheets ง่ายกว่า)
-   - Priority scheme: `P0/P1/P2/P3` หรือ `High/Med/Low`?
-
-### 2. เลือก Testing Techniques
-อ่าน `references/testing-techniques.md` แล้วเลือกตามประเภทของ logic:
-
-| ลักษณะ Requirement | Technique ที่ควรใช้ |
-|---------------------|---------------------|
+| ลักษณะ Requirement | Technique |
+|---------------------|-----------|
 | Input field (เลข, ข้อความ, วันที่) | **ECP + BVA** |
-| มีหลายเงื่อนไขรวมกัน (if A และ B แล้ว...) | **Decision Table** |
-| มี state เปลี่ยน (draft → submitted → approved) | **State Transition** |
-| End-to-end flow ของ user | **Use Case Testing** |
-| Logic ซับซ้อน เสี่ยง edge case | **Error Guessing** เพิ่ม |
+| หลายเงื่อนไขรวมกัน | **Decision Table** |
+| State เปลี่ยน (draft→submitted→approved) | **State Transition** |
+| End-to-end user flow | **Use Case Testing** |
+| Logic ซับซ้อน, เสี่ยง edge case | **Error Guessing** (เสริม) |
 
-ใส่ technique ที่ใช้ในคอลัมน์ **Technique** ของแต่ละ TC
+ดูรายละเอียด: [`references/testing-techniques.md`](references/testing-techniques.md)
 
-### 3. แตก Scenario
-- จัดกลุ่มใต้ `SC_xxx: <scenario group name>` (section header row)
-- แต่ละ group ต้องมีอย่างน้อย:
-  - ✅ **Positive** — happy path
-  - ❌ **Negative** — input ผิด, ไม่มีสิทธิ์, validation error
-  - 📏 **Boundary** — ค่าขอบเขต (min, min-1, min+1, max-1, max, max+1)
-  - 🎯 **Edge** — null, empty, special char, concurrent, network fail
+### Step 4: แตก Scenario
+จัดกลุ่มใต้ `SC_xxx: <scenario group>` — แต่ละ group ต้องมี:
+- ✅ **Positive** — happy path
+- ❌ **Negative** — input ผิด, ไม่มีสิทธิ์, validation error
+- 📏 **Boundary** — min, min-1, min+1, max-1, max, max+1
+- 🎯 **Edge** — null, empty, special char, concurrent, network fail
 
-### 4. เขียนตาม Template
-- TH: `templates/test-case-th.md`
-- EN: `templates/test-case-en.md`
-- CSV (Excel/Sheets/Jira import): `templates/test-case.csv`
+### Step 5: เขียนตาม Mode
 
-**Markdown table tips:**
-- Multi-line ใน cell → ใช้ `<br>` (ไม่ใช่ `\n`)
-- ถ้า field ว่าง ให้เว้น — อย่าใส่ "-" หรือ "N/A" (ดูสะอาดกว่า)
-- mandatory column (มี `*`) ต้องกรอกก่อน review
+**SIT Mode (Technical):**
+- Expected Result เป็น technical detail (API response, DB state, error message)
+- Steps เป็นภาษา technical ("POST /api/leave", "tbl_leave.status='PENDING'")
 
-**CSV tips:**
-- field ที่มี comma → ครอบด้วย `"..."`
-- steps หลายข้อใน cell เดียว → ใช้ `; ` คั่น (CSV ไม่มี newline ใน cell ถ้า export ไป Sheets)
-- password → `[REDACTED]` เสมอ
+**UAT Mode (Business):**
+- รวม SIT TC ที่เกี่ยวข้องเป็น End-to-End Business Scenario
+- Expected Result เป็นสิ่งที่ User เห็นบนหน้าจอ
+- ภาษา User เข้าใจ (ไม่ใช่ศัพท์ technical)
+- Precondition เป็นสิ่งที่ User ต้องเตรียม
 
-### 5. สร้าง Coverage Matrix
-ท้ายไฟล์: ตาราง Requirement ID ↔ Test Case IDs
+ตัวอย่างแปลง:
+| SIT (Technical) | → | UAT (Business) |
+|----------------|---|----------------|
+| Verify POST /api/leave returns 201 | → | กด "ส่งใบลา" → ระบบแสดง "ส่งใบลาสำเร็จ" |
+| Verify tbl_leave.status = 'APPROVED' | → | หัวหน้ากด "อนุมัติ" → สถานะเปลี่ยนเป็น "อนุมัติแล้ว" |
+
+### Step 6: สร้าง Traceability Matrix
+ท้ายไฟล์: Requirement ID ↔ Test Case IDs
 
 ```
-| FR_PMS_LOG_01 | Login ด้วย email+password | TC_PMS_LOG_001 |
-| FR_PMS_LOG_02 | Show error invalid cred    | TC_PMS_LOG_002 |
+| FR_PMS_LOG_01 | Login ด้วย email+password | TC_PMS_LOG_001, TC_PMS_LOG_002 |
+| FR_PMS_LOG_02 | Show error invalid cred    | TC_PMS_LOG_003                 |
 ```
 
-### 6. บันทึกไฟล์
-File name: `testcases_<module_id>_<YYYYMMDD>.md` (หรือ `.csv`)
-
-ตัวอย่าง: `testcases_PMS_LOG_20260420.md`
-
----
-
-## Quality Checklist (เช็คก่อนส่ง user)
-
-### Content
-- [ ] Module ID + Module Title ครบ
-- [ ] ครอบคลุมทุก requirement (ดู coverage matrix — ไม่มี FR ที่ว่าง)
-- [ ] มี Positive + Negative + Boundary ครบทุก feature สำคัญ
-- [ ] Steps ชัดเจน — tester คนใหม่อ่านแล้วทำตามได้
-- [ ] Expected Result เฉพาะเจาะจง (กี่วินาที, ข้อความอะไร, status code อะไร)
-
-### Columns (mandatory fields ครบ)
-- [ ] ทุก TC มี: TC ID, Description, Role, Pos/Neg, Priority, Test Step, Expected Result
-- [ ] Technique ระบุทุก TC (ไม่ใช่เขียนเดามั่ว)
-- [ ] Test Sizing ระบุทุก TC (ใช้วาง plan effort)
-- [ ] Automation ระบุทุก TC (Yes/No/Candidate/N/A — ไม่ว่าง)
-- [ ] Ref FR ID → link กับ coverage matrix
-
-### Style
-- [ ] ภาษาตรงตามที่ user เลือก ไม่ปนกัน
-- [ ] Password / PII ถูก redact → `[REDACTED]` หรือ env var reference
-- [ ] Execution columns (Actual/Result/Tested By/Date/Defect) ปล่อยว่าง — ให้ tester กรอกตอนรัน
+### Step 7: บันทึก + สรุป
+แจ้ง user:
+- จำนวน TC total + แยกตาม Positive/Negative/Boundary/Edge
+- Coverage: SRS coverage %
+- Gap (ถ้ามี): "SRS-REQ-05 ยังไม่มี TC — ต้องเพิ่ม"
 
 ---
 
-## ข้อห้าม
+## 6. Quality Gate — Checklist ก่อนส่ง
 
-- ❌ อย่าเขียน test case โดยไม่อ่าน requirement ทั้งหมดก่อน
-- ❌ อย่าใช้ expected กำกวม เช่น "ทำงานปกติ", "แสดงผลถูกต้อง"
-- ❌ อย่าทำ steps รวบ — แยกเป็นขั้นๆ เบอร์กำกับ
-- ❌ อย่าลืม negative case (มือใหม่มักลืม)
-- ❌ อย่ากรอก Actual Result / Test Result / Tested By ตั้งแต่ design phase — ปล่อยว่าง
-- ❌ อย่าใส่ password จริงใน Test Data column
-- ❌ อย่าสร้าง TC ที่ sizing = XL โดยที่ Priority = P3 (over-invest)
+Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
+
+### Must Have
+- [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, Priority, Test Step, Expected Result
+- [ ] Expected Result **วัดได้** — ไม่มี "ทำงานถูกต้อง" / "แสดงผลปกติ"
+- [ ] ครอบคลุม Positive + Negative ครบทุก Requirement
+- [ ] มี Boundary Test สำหรับ input field
+- [ ] Traceability Matrix ครบ — ทุก FR ID มี TC รองรับ
+- [ ] Technique ระบุทุก TC (ไม่เดามั่ว)
+- [ ] Password / PII redact เป็น `[REDACTED]`
+
+### Nice to Have
+- [ ] Test Sizing + Automation ระบุทุก TC
+- [ ] Labels + Sprint + Severity ครบ
+- [ ] Regression TC ถ้าเกี่ยวกับ feature ที่แก้ impact
+
+### UAT-specific (เฉพาะ mode=uat)
+- [ ] ภาษา Business (ไม่มี API/SQL/log term)
+- [ ] ครอบคลุม End-to-End Flow (ไม่ใช่ Copy SIT มาตรงๆ)
+- [ ] Precondition เป็นสิ่งที่ User ทำได้เอง
+- [ ] Expected Result = สิ่งที่เห็นบนหน้าจอ/ใบปริ้นท์
+
+### Red Flags (Reject ทันที)
+- ❌ มี Requirement ไม่ครอบคลุม (gap ใน Traceability Matrix)
+- ❌ Expected Result กำกวม ("ระบบทำงานปกติ")
+- ❌ ไม่มี Negative Case
+- ❌ UAT Copy SIT มาโดยไม่ปรับภาษา
 
 ---
 
-## Integration กับ skills อื่น
+## 7. AI Guardrails — ข้อควรระวัง
 
-- **ก่อน**: ใช้ `test-matrix-generator` ทำ coverage/pairwise matrix → ได้ scenario list → เอามาขยายเป็น full TC ด้วย skill นี้
-- **หลัง**: TC ที่ Automation=Yes/Candidate → ส่งต่อให้
-  - `test-script-generator` (ถ้าเป็น Robot Framework / athm_automation)
-  - `test-script-generator-web` (ถ้าเป็น Playwright / Cypress / WDIO / Selenium-Java)
-- **ระหว่างรัน**: ถ้า Test Result = Fail → feed Actual + screenshot + step → `bug-report-writer` เพื่อเขียน defect
+อ้างอิง: [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
+
+**Skill-specific:**
+- ❌ AI อาจสร้าง TC จาก Requirement ที่ **ไม่มีใน SRS** → Cross-check ทุก TC กับ SRS
+- ❌ AI ไม่รู้ **Business Rule เฉพาะ** (เช่น ส่วนลด VIP, promotion rule) → QC/BA เพิ่มเอง
+- ❌ AI อาจ **ลืม negative case** บางตัวที่ซับซ้อน (concurrent, race condition) → QC เติม
+
+**ข้อห้าม:**
+- ❌ เขียน TC โดยไม่อ่าน requirement ทั้งหมดก่อน
+- ❌ Expected result กำกวม
+- ❌ Steps รวบ — ต้องแยกเป็นข้อๆ มีเบอร์
+- ❌ ใส่ password จริงใน Test Data
+- ❌ กรอก Actual/Result/Tested By ตั้งแต่ design phase (ปล่อยว่างให้ tester)
+- ❌ TC sizing = XL แต่ Priority = P3 (over-invest)
+
+---
+
+## 8. Chain — เชื่อมกับ skills อื่น
+
+**Upstream (feed เข้า):**
+- `test-matrix-generator` — coverage matrix → ขยายเป็น full TC ด้วย skill นี้
+- `test-plan-writer` — SIT/UAT Plan → กำหนด scope + Exit Criteria → ใช้เป็น context เขียน TC
+
+**Downstream (รับต่อ):**
+- `test-case-reviewer` — TC ที่เขียนเสร็จ → peer review → ปรับแก้
+- `robot-test-generator` / `e2e-test-generator` — TC.Automation=Yes/Candidate → automate
+- `bug-report-writer` — TC ที่ fail ตอน execute → bug report
+- `test-report-writer` — ผล execute TC → SIT/UAT Report
+
+**Workflow ตัวอย่าง:**
+```
+SRS → test-case-writer (mode=sit) → test-case-reviewer → [approved]
+                                                              ├→ robot-test-generator
+                                                              └→ test-case-writer (mode=uat) → test-case-reviewer → [user sign-off]
+```
+
+---
+
+## Test Sizing Scale
+
+| Size | เวลา | Steps | ลักษณะ |
+|------|------|-------|--------|
+| S | < 15 นาที | 1–3 | smoke check, field validation |
+| M | 15–30 นาที | 4–8 | form + ตรวจผล |
+| L | 30–60 นาที | 9–15 | multi-step flow, data fixture |
+| XL | > 1 ชั่วโมง | 15+ | E2E ข้าม role, external system |
+
+**ใช้ประเมิน:** sum sizing = man-hours / sprint; XL ควร P0/P1 เท่านั้น; L/XL ที่รันบ่อย = automation candidate
+
+---
+
+## References
+- [`references/ai-guardrails.md`](../../references/ai-guardrails.md) — guardrails universal
+- [`references/sdp-mapping.md`](../../references/sdp-mapping.md) — process mapping
+- [`references/testing-techniques.md`](references/testing-techniques.md) — ECP/BVA/Decision Table/etc.
+- [`templates/test-case-th.md`](templates/test-case-th.md) / [`test-case-en.md`](templates/test-case-en.md) — MD templates
+- `templates/test-case.csv` — CSV template
+- External: IEEE 829, ISTQB Foundation Level Syllabus

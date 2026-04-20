@@ -1,96 +1,201 @@
 ---
 name: perf-test-generator
-description: สร้าง k6 performance test (smoke / load / stress / soak / spike) + HTTP client wrapper + per-endpoint thresholds + RPS หรือ VUs load model + report (JSON/HTML) ตาม pattern ของ k6-perf-test-ayodia (config-driven, tag-based thresholds, Grafana/Prometheus-ready). Trigger เมื่อ user ขอเขียน performance test, load test, stress test, k6 script, "write k6 test", "generate load test", "เขียน k6", "สร้าง performance test", "perf test", "soak test", "spike test".
+description: สร้าง k6 performance test (smoke / load / stress / soak / spike) + HTTP client wrapper + per-endpoint thresholds + RPS หรือ VUs load model + report (JSON/HTML) ตาม pattern ของ k6-perf-test-ayodia (config-driven, tag-based thresholds, Grafana/Prometheus-ready). Trigger เมื่อ user ขอเขียน performance test, load test, stress test, k6 script, "write k6 test", "generate load test", "เขียน k6", "สร้าง performance test", "perf test", "soak test", "spike test". Maps to SDP §5.3.1 (Process 10 — เตรียม Perf Script).
 ---
 
 # Performance Test Generator (k6)
 
-สร้าง k6 performance test script ตาม pattern ของ [`k6-perf-test-ayodia`](https://github.com/ayodia/k6-perf-test-ayodia) — **config-driven + tag-based thresholds + load-model-agnostic**
+## 1. Purpose — เป้าหมาย
+
+สร้าง k6 performance test ตาม pattern **k6-perf-test-ayodia** — config-driven + tag-based thresholds + load-model-agnostic
+
+**Framework:** k6 ≥ 0.45 + Node.js (สำหรับ npm scripts) + Prometheus/Grafana (optional) + k6 Cloud (optional)
+
+**Effort savings:** ~50% (SDP §5.3.4) — จาก 2 วัน → 1 วัน
 
 ---
 
-## Canonical Reference Repo
-`/Users/nirawit/Documents/GitHub/k6-perf-test-ayodia`
+## 2. When to Use — เมื่อไหร่ใช้
 
-**ก่อนเขียนโค้ดใหม่:** ถ้า user ทำงานใน repo นั้น อ่านไฟล์ที่ใกล้เคียงที่สุดก่อน (เช่น generate `orders.test.js` → อ่าน `load.test.js` + `smoke.test.js` ก่อน) เพื่อ match style ให้เป๊ะ
+**SDP Process:** §5.3.1 Process 10 — เตรียม Perf Script
 
-ถ้าไม่ได้อยู่ใน repo นั้น → ใช้ไฟล์ใน [`examples/`](examples/) ของ skill นี้เป็น reference
-
----
-
-## Framework
-- **k6** ≥ 0.45
-- **Node.js** (สำหรับ `npm run` scripts เท่านั้น; k6 ไม่ต้องใช้ Node runtime)
-- ES modules (`import`, `export`)
-- Prometheus/Grafana output ผ่าน `experimental-prometheus-rw`
-- k6 Cloud ผ่าน `K6_CLOUD_TOKEN`
+| สถานการณ์ | ใช้ skill ไหน |
+|-----------|-------------|
+| k6 performance test | **`perf-test-generator`** (skill นี้) |
+| JMeter/Gatling | (ยังไม่รองรับ — manual) |
+| Perf Test Plan (ก่อนเขียน script) | `test-plan-writer` (mode=perf) |
+| วิเคราะห์ผลหลังรัน | `perf-result-analyzer` |
+| เขียน Perf Report | `test-report-writer` (mode=perf) |
+| Functional E2E | `e2e-test-generator` / `robot-test-generator` |
 
 ---
 
-## Project Layout
+## 3. Inputs — สิ่งที่ต้องเตรียม
 
+| Input | Required | หมายเหตุ |
+|-------|:--------:|----------|
+| Target service + base URL | ✅ | dev/staging/prod |
+| Test type | ✅ | smoke / load / stress / soak / spike |
+| Endpoints | ✅ | method + path + expected status + SLO |
+| Load model | ✅ | RPS หรือ VUs (ดู §Load Model ด้านล่าง) |
+| Auth flow | ⚠️ | token/credential ถ้ามี |
+| Test data | ⚠️ | users, products, IDs (fixture) |
+| `project-context.md` | ⚠️ | NFR, SLO, Workload Model |
+
+**Canonical Reference Repo:** `/Users/nirawit/Documents/GitHub/k6-perf-test-ayodia`
+
+---
+
+## 4. Outputs — สิ่งที่ได้
+
+**Project Layout:**
 ```
 <project>/
-├── package.json                  ← npm scripts (test:smoke, test:load, test:stress, test:<env>, test:<model>)
-├── scripts/
-│   └── run.sh                    ← CLI runner รับ args: <test> <env> <load_model> + ENV overrides
+├── package.json                  ← npm scripts
+├── scripts/run.sh                ← CLI runner
 ├── config/
-│   ├── default.js                ← defaults (load model, RPS/VUs, thresholds, tags, prometheus/cloud)
-│   ├── dev.js / staging.js / prod.js   ← override per env
+│   ├── default.js                ← load model, RPS/VUs, thresholds, tags
+│   └── dev.js / staging.js / prod.js
 ├── scenarios/
-│   ├── rps.js                    ← rpsScenario() + rampingRpsScenario()
-│   └── vus.js                    ← rampingVusScenario() + constantVusScenario()
+│   ├── rps.js                    ← rpsScenario() / rampingRpsScenario()
+│   └── vus.js                    ← rampingVusScenario() / constantVusScenario()
 ├── tests/
-│   ├── smoke.test.js             ← 1 VU × 30s, sanity check
-│   ├── load.test.js              ← normal traffic (RPS หรือ VUs)
-│   ├── stress.test.js            ← breaking-point discovery
-│   └── <feature>.test.js         ← per-service test
+│   ├── smoke.test.js             ← 1 VU × 30s
+│   ├── load.test.js
+│   ├── stress.test.js
+│   └── <feature>.test.js
 ├── utils/
-│   ├── httpClient.js             ← HttpClient class — wrap k6/http, auto baseUrl + headers + tags
-│   ├── check.js                  ← checkResponse() + checkJsonResponse() + custom metrics
-│   └── thresholds.js             ← buildThresholds() + thresholdPresets (strict/standard/relaxed)
-├── data/
-│   └── testData.json             ← users + endpoints (ห้าม commit password จริง)
+│   ├── httpClient.js             ← wrapper (baseUrl + headers + tags)
+│   ├── check.js                  ← checkResponse / checkJsonResponse
+│   └── thresholds.js             ← buildThresholds + presets
+├── data/testData.json
 └── reports/
     ├── summary.js                ← handleSummary → JSON + HTML
-    └── report-template.md        ← formal report template
+    └── report-template.md
+```
+
+### Load Model
+
+| Model | Executor | ใช้เมื่อ | คุม |
+|-------|----------|--------|-----|
+| **VUs** (default) | `ramping-vus` / `constant-vus` | simulate concurrent users | จำนวน user พร้อมกัน |
+| **RPS** | `constant-arrival-rate` / `ramping-arrival-rate` | SLO-based ("ต้องทน X req/s") | throughput |
+
+Switch ผ่าน `LOAD_MODEL=rps|vus` env var
+
+### Test Types
+
+| Type | Config | เป้าหมาย |
+|------|--------|----------|
+| **smoke** | 1 VU × 30s | Sanity — รันก่อน load/stress |
+| **load** | stages ค่าปกติ / RPS ปกติ | Simulate production traffic |
+| **stress** | 3x normal + sustained peak | หา breaking point |
+| **soak** | target ปกติ + duration > 1 hr | Memory leak, resource exhaustion |
+| **spike** | ramping พุ่งเร็ว แล้วตกไว | sudden burst response |
+
+⚠️ **stress/soak/spike** → non-prod only ยกเว้นมี approval
+
+---
+
+## 5. Process — ขั้นตอน
+
+### Step 1: ระบุ scope
+- Target service + base URL + env
+- Test type
+- Endpoints + SLO
+- Load model (RPS vs VUs — ดูกฎ §Load Model)
+- Auth
+- Test data
+
+### Step 2: เช็ค asset (ห้ามสร้างซ้ำ)
+- [ ] `utils/httpClient.js`, `utils/check.js`, `utils/thresholds.js` มีแล้ว? → reuse
+- [ ] `scenarios/{rps,vus}.js` มีแล้ว? → reuse
+- [ ] `config/<env>.js` มี base URL + thresholds? → append endpoint ใหม่
+- [ ] `data/testData.json` มี user/endpoint? → append
+
+### Step 3: สร้าง/แก้ไฟล์ตาม order
+1. อัปเดต `config/<env>.js` → base URL + `endpointThresholds`
+2. อัปเดต `data/testData.json` → users + endpoints (password: `[REDACTED]`)
+3. สร้าง `tests/<feature>.test.js`
+4. อัปเดต `package.json` → เพิ่ม npm script
+
+### Step 4: Verify
+```bash
+k6 run -e ENV=dev tests/<feature>.test.js    # smoke first
+npm run test:load
+npm run test:stress
+```
+
+### Step 5: ดู report
+- Console real-time
+- `reports/results-<timestamp>.json` / `.html`
+- Grafana (ถ้ามี): `K6_PROMETHEUS_RW_SERVER_URL=...`
+
+---
+
+## 6. Quality Gate — Checklist ก่อนส่ง
+
+### Must Have (7 กฎเหล็ก)
+- [ ] ใช้ `HttpClient` wrapper (ไม่ใช้ `k6/http` ตรง)
+- [ ] ทุก request มี `{ name: '...' }` tag
+- [ ] Threshold อยู่ใน `config/<env>.js` (ไม่ hardcode ใน test)
+- [ ] ใช้ `checkResponse` / `checkJsonResponse` (ไม่ใช้ raw `check()`)
+- [ ] `cfg.tags.testType` = `smoke` / `load` / `stress` ตรงกับไฟล์
+- [ ] มี `sleep()` ระหว่าง request (ยกเว้น constant-arrival-rate)
+- [ ] Test data อยู่ใน `data/*.json` (ไม่ hardcode credential)
+- [ ] Export `handleSummary` → JSON + HTML report
+- [ ] Smoke test ผ่านก่อน load/stress
+- [ ] Per-endpoint threshold ครบทุก endpoint ใหม่
+
+### Red Flags (Reject)
+- ❌ `http.get(url)` ตรง — ต้อง `client.get(path, { name })`
+- ❌ request ไม่มี `name` tag — per-endpoint threshold ใช้ไม่ได้
+- ❌ Threshold hardcode ใน test
+- ❌ รัน stress/soak/spike บน prod โดยไม่มี approval
+- ❌ Password/token จริงใน `data/testData.json`
+
+---
+
+## 7. AI Guardrails — ข้อควรระวัง
+
+อ้างอิง: [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
+
+**Skill-specific:**
+- ❌ AI อาจใช้ **k6 feature version เก่า** (deprecated API) → ตรวจกับ k6 ≥ 0.45
+- ❌ AI อาจ **ตั้ง threshold เกินจริง** ถ้าไม่รู้ baseline → ให้ Production Log / existing baseline
+- ❌ AI อาจ **hardcode credential** ถ้าไม่ระมัดระวัง → ใช้ `[REDACTED]`
+
+**ข้อห้าม:**
+- ❌ รัน stress/soak/spike บน prod โดยไม่มี approval
+- ❌ ไม่มี `sleep` — CPU ของ agent โดน waste
+- ❌ แยก threshold ตาม env ไม่ได้ → ใช้ `config/<env>.js` override
+
+---
+
+## 8. Chain — เชื่อมกับ skills อื่น
+
+**Upstream:**
+- `test-plan-writer` (mode=perf) — Perf Test Plan (Workload Model, NFR) → feed เข้า skill นี้
+- `test-case-writer` — endpoint + SLO จาก TC → feed เข้า skill นี้
+- API Spec (Swagger/OpenAPI)
+
+**Downstream:**
+- `perf-result-analyzer` — raw result (JSON/CSV) → bottleneck analysis
+- `test-report-writer` (mode=perf) — Perf Test Report
+- `bug-report-writer` — threshold fail → defect
+
+**Workflow ตัวอย่าง:**
+```
+NFR + API Spec → test-plan-writer → perf-test-generator → [run k6]
+                                                            └→ perf-result-analyzer → test-report-writer
+                                                                                     └→ bug-report-writer (ถ้า fail)
 ```
 
 ---
 
-## เลือก Load Model
+## 7 กฎเหล็ก — Detail
 
-| Load Model | Executor | ใช้ตอน | คุม |
-|------------|----------|--------|-----|
-| **VUs** (default) | `ramping-vus` / `constant-vus` | simulate concurrent users, realistic user journey | จำนวน user พร้อมกัน |
-| **RPS** | `constant-arrival-rate` / `ramping-arrival-rate` | SLO-based test (เช่น "ต้องทน 200 req/s") | throughput (req/s) ไม่ว่าต้องใช้กี่ VUs |
-
-**กฎ:**
-- ถ้า SLO เขียนว่า "ต้องรับ X req/s" → ใช้ **RPS**
-- ถ้า SLO เขียนว่า "ต้องรองรับ X concurrent users" → ใช้ **VUs**
-- Smoke test → ใช้ **constant-vus** (1 VU × สั้น ๆ)
-
-Switch ได้จาก `LOAD_MODEL=rps|vus` env var
-
----
-
-## Test Types
-
-| Type | Config override | เป้าหมาย |
-|------|-----------------|----------|
-| **smoke** | 1 VU × 30s | Sanity check endpoint ยังมีชีวิต — รันก่อน load/stress เสมอ |
-| **load** | stages ค่าปกติ / RPS ปกติ | Simulate production traffic |
-| **stress** | stages 3x normal + sustained peak | หา breaking point |
-| **soak** | `ramping-vus` target ปกติ + duration > 1 hr | Memory leak / resource exhaustion |
-| **spike** | `ramping-arrival-rate` พุ่งเร็ว แล้วตกไว | ดู system ตอบสนอง sudden burst |
-
-⚠️ **stress/soak/spike** → รัน non-prod เท่านั้น ยกเว้นมี approval
-
----
-
-## 7 กฎเหล็ก (ทุก test file)
-
-### 1. ใช้ `HttpClient` wrapper ไม่ใช้ `k6/http` ตรง
+### 1. HttpClient wrapper
 ```js
 // ❌ ผิด
 import http from 'k6/http';
@@ -101,30 +206,23 @@ import { HttpClient } from '../utils/httpClient.js';
 const client = new HttpClient(cfg);
 const res = client.get('/health', { name: 'health' });
 ```
-เหตุผล: wrapper auto baseUrl + headers + tags + timeout
 
-### 2. Tag endpoint ด้วย `{ name: '...' }` เสมอ
+### 2. Tag endpoint
 ```js
-client.get('/api/v1/products', { name: 'products' });   // ← tag = products
-client.post('/login', body, { name: 'login' });          // ← tag = login
+client.get('/api/v1/products', { name: 'products' });
+client.post('/login', body, { name: 'login' });
 ```
-เหตุผล: per-endpoint threshold ทำงานบน tag นี้
 
-### 3. Threshold ตั้งใน `config/<env>.js` ไม่ hardcode ใน test
+### 3. Threshold ใน config
 ```js
 // config/prod.js
 endpointThresholds: {
   health: { http_req_duration: ['p(95)<100', 'p(99)<200'] },
   login:  { http_req_duration: ['p(95)<600', 'p(99)<1500'] },
-},
-```
-ใน test:
-```js
-import { buildThresholds } from '../utils/thresholds.js';
-export const options = { scenarios, thresholds: buildThresholds(cfg) };
+}
 ```
 
-### 4. ใช้ `checkResponse` / `checkJsonResponse` — ไม่ใช้ raw `check()`
+### 4. checkResponse wrapper
 ```js
 // ❌ ผิด
 check(res, { 'status 200': (r) => r.status === 200 });
@@ -132,75 +230,24 @@ check(res, { 'status 200': (r) => r.status === 200 });
 // ✅ ถูก
 checkResponse(res, { status: 200, maxDuration: 500, name: 'GET /health' });
 ```
-เหตุผล: wrapper push custom metric (`custom_error_rate`, `custom_response_time`)
 
-### 5. Sleep ระหว่าง request
-- **smoke**: `sleep(1)` — กึ่ง idle user
-- **load**: `sleep(0.5)` — realistic pace
-- **stress**: `sleep(0.3)` — hammer
-- **ห้าม** no-sleep ยกเว้น test constant-arrival-rate (k6 จัดการเอง)
+### 5. Sleep
+- smoke: `sleep(1)`
+- load: `sleep(0.5)`
+- stress: `sleep(0.3)`
+- constant-arrival-rate: ไม่ต้อง (k6 จัดการเอง)
 
-### 6. Test data ใน `data/*.json` — ห้าม hardcode credential
+### 6. Test data
 ```js
 let testData = {};
-try {
-  testData = JSON.parse(open('../data/testData.json'));
-} catch (_) { /* optional */ }
-
-const user = testData.users
-  ? testData.users[Math.floor(Math.random() * testData.users.length)]
-  : { username: 'testuser', password: 'testpass' };
+try { testData = JSON.parse(open('../data/testData.json')); } catch (_) {}
 ```
-**ห้าม commit password จริง** ใน `testData.json` — ใช้ placeholder
 
-### 7. Export `handleSummary` → JSON + HTML report
+### 7. handleSummary
 ```js
 import { handleSummary as summary } from '../reports/summary.js';
 export { summary as handleSummary };
 ```
-
----
-
-## ขั้นตอนเมื่อ user ขอ generate
-
-### Step 1: ระบุ scope
-ถาม user ถ้ายังไม่ชัด:
-- **Target service** + base URL + environments (dev/staging/prod)
-- **Test type**: smoke / load / stress / soak / spike
-- **Endpoints**: method + path + expected status + SLO
-- **Load model**: RPS หรือ VUs?
-  - ถ้า SLO เป็น "X req/s" → RPS
-  - ถ้า SLO เป็น "X concurrent users" → VUs
-- **Auth required?** → token/credential flow
-- **Test data**: มี fixture ยัง? (users, products, IDs)
-
-### Step 2: เช็ค asset ที่มีอยู่ (**ห้ามสร้างซ้ำ**)
-- [ ] `utils/httpClient.js`, `utils/check.js`, `utils/thresholds.js` มีอยู่แล้ว? → reuse
-- [ ] `scenarios/{rps,vus}.js` มีอยู่แล้ว? → reuse
-- [ ] `config/<env>.js` มี base URL + thresholds แล้ว? → append endpoint ใหม่
-- [ ] `data/testData.json` มี user/endpoint อยู่แล้ว? → append
-
-### Step 3: สร้าง/แก้ไฟล์ตาม order
-1. อัปเดต `config/<env>.js` → base URL + `endpointThresholds` สำหรับ endpoint ใหม่
-2. อัปเดต `data/testData.json` → users + endpoints (password: `[REDACTED]`)
-3. สร้าง `tests/<feature>.test.js` (ดู example ใน `examples/tests/`)
-4. อัปเดต `package.json` → เพิ่ม npm script ถ้าจำเป็น
-
-### Step 4: Verify
-```bash
-# Smoke first (มักจะเร็วสุด)
-k6 run -e ENV=dev tests/<feature>.test.js
-
-# จากนั้น load/stress
-npm run test:load
-npm run test:stress
-```
-
-### Step 5: ดู report
-- Console: real-time
-- `reports/results-<timestamp>.json` — ข้อมูล raw
-- `reports/results-<timestamp>.html` — dashboard
-- Grafana (ถ้ามี): `K6_PROMETHEUS_RW_SERVER_URL=...`
 
 ---
 
@@ -213,127 +260,42 @@ npm run test:stress
 | `http_req_failed` rate | < 0.5% | < 1% | < 5% |
 | `custom_error_rate` | < 0.5% | < 1% | < 5% |
 
-ใช้จาก `utils/thresholds.js`:
 ```js
 import { thresholdPresets } from '../utils/thresholds.js';
-cfg.thresholds = thresholdPresets.strict;   // หรือ .standard / .relaxed
+cfg.thresholds = thresholdPresets.strict;
 ```
 
 ---
 
-## Per-Endpoint Threshold Pattern
+## Grafana/Prometheus + k6 Cloud
 
-```js
-// config/prod.js
-endpointThresholds: {
-  health:    { http_req_duration: ['p(95)<100', 'p(99)<200'] },
-  login:     { http_req_duration: ['p(95)<800', 'p(99)<2000'] },
-  products:  { http_req_duration: ['p(95)<300', 'p(99)<800'] },
-  checkout:  { http_req_duration: ['p(95)<1000', 'p(99)<3000'] },
-},
-```
-
-`buildThresholds(cfg)` จะแปลงเป็น tag-based k6 threshold:
-```js
-{
-  'http_req_duration{name:health}':   ['p(95)<100', 'p(99)<200'],
-  'http_req_duration{name:login}':    ['p(95)<800', 'p(99)<2000'],
-  // ...
-}
-```
-
-Request ต้อง tag ด้วย `name` ตรงกับ key:
-```js
-client.get('/health',    { name: 'health' });
-client.post('/login',    body, { name: 'login' });
-client.get('/api/v1/products',  { name: 'products' });
-```
-
----
-
-## Integration — Grafana/Prometheus + k6 Cloud
-
-### Prometheus remote-write
 ```bash
 K6_PROMETHEUS_RW_SERVER_URL=http://localhost:9090/api/v1/write \
 K6_PROMETHEUS_RW_TREND_AS_NATIVE_HISTOGRAM=true \
 npm run test:load
 ```
-Import [k6 Grafana dashboard ID 19665](https://grafana.com/grafana/dashboards/19665-k6-prometheus/) — filter ได้ตาม `project`, `env`, `testType`, `name` (endpoint)
 
-### k6 Cloud
+Grafana dashboard ID [19665](https://grafana.com/grafana/dashboards/19665-k6-prometheus/) — filter `project`, `env`, `testType`, `name`
+
 ```bash
-K6_CLOUD_TOKEN=your-token npm run test:load
-# หรือรันทั้งหมดบน cloud:
-k6 cloud tests/load.test.js
+K6_CLOUD_TOKEN=... npm run test:load
 ```
 
 ---
 
-## GitLab CI (reference)
+## GitLab CI
 
-Pipeline 3 stages: `validate` → `performance_test` → `collect_report`
+3 stages: `validate` → `performance_test` → `collect_report`
 
-รับ variables จาก UI ตอน Run Pipeline:
-- `TEST_TYPE` = smoke / load / stress (default `load`)
-- `ENV` = dev / staging / prod (default `dev`)
-- `LOAD_MODEL` = vus / rps (default `vus`)
-- `BASE_URL`, `RPS`, `VUS`, `DURATION` — override
+Variables: `TEST_TYPE`, `ENV`, `LOAD_MODEL`, `BASE_URL`, `RPS`, `VUS`, `DURATION`
 
-**Rule:**
-- **threshold fail = warning** (ไม่ block pipeline) เพื่อให้เก็บ artifact ได้เสมอ
-- artifact: JSON + HTML report
+**Rule:** threshold fail = warning (ไม่ block) เพื่อเก็บ artifact
 
 ---
 
-## Quality Checklist (ก่อนจบงาน)
-
-- [ ] ใช้ `HttpClient` wrapper (ไม่ใช้ `k6/http` ตรง)
-- [ ] ทุก request มี `{ name: '...' }` tag
-- [ ] Threshold อยู่ใน `config/<env>.js` (ไม่ hardcode ใน test)
-- [ ] ใช้ `checkResponse` / `checkJsonResponse` (ไม่ใช้ raw `check()`)
-- [ ] `cfg.tags.testType` = `smoke` / `load` / `stress` ตรงกับไฟล์
-- [ ] มี `sleep()` ระหว่าง request (ยกเว้น constant-arrival-rate)
-- [ ] Test data อยู่ใน `data/*.json` (ไม่ hardcode credential)
-- [ ] Export `handleSummary` → JSON + HTML report
-- [ ] Smoke test ผ่านก่อน load/stress
-- [ ] Per-endpoint threshold ตั้งครบทุก endpoint ใหม่
-
----
-
-## ข้อห้าม
-
-- ❌ `http.get(url)` ตรง — ต้อง `client.get(path, { name })`
-- ❌ request ที่ไม่มี `name` tag — threshold per-endpoint จะ match ไม่ได้
-- ❌ Threshold hardcode ใน test — ต้องอยู่ใน `config/<env>.js`
-- ❌ `check()` ตรงจาก k6 — ใช้ wrapper ที่ update `custom_error_rate`
-- ❌ Password/token จริงใน `data/testData.json` — ใช้ placeholder
-- ❌ รัน stress/soak/spike บน prod โดยไม่มี approval
-- ❌ ไม่มี `sleep` — จะกิน CPU ของ k6 agent ทิ้ง
-- ❌ แยก threshold ตาม env ไม่ได้ — ใช้ `config/<env>.js` override
-
----
-
-## Integration กับ skills อื่น
-
-- **Input**: ถ้ามี `test-case-writer` output ที่มี endpoint + SLO → feed เข้า skill นี้
-- **Output**: ถ้า test ล้มเหลว (threshold fail / timeout) → ใช้ `bug-report-writer` เขียน defect พร้อม JSON/HTML report
-- **ต่อจาก E2E**: `e2e-test-generator` สำหรับ functional; `perf-test-generator` สำหรับ performance — คนละ dimension
-
----
-
-## ไฟล์อ้างอิง
-
-- [`examples/config/default.js`](examples/config/default.js) — base config
-- [`examples/config/dev.js`](examples/config/dev.js) — env override
-- [`examples/scenarios/rps.js`](examples/scenarios/rps.js) — RPS executors
-- [`examples/scenarios/vus.js`](examples/scenarios/vus.js) — VUs executors
-- [`examples/utils/httpClient.js`](examples/utils/httpClient.js) — HTTP wrapper
-- [`examples/utils/check.js`](examples/utils/check.js) — response verification
-- [`examples/utils/thresholds.js`](examples/utils/thresholds.js) — threshold builder + presets
-- [`examples/data/testData.json`](examples/data/testData.json) — test data
-- [`examples/tests/smoke.test.js`](examples/tests/smoke.test.js) — smoke example
-- [`examples/tests/load.test.js`](examples/tests/load.test.js) — load example
-- [`examples/tests/stress.test.js`](examples/tests/stress.test.js) — stress example
-- [`references/load-model-decision.md`](references/load-model-decision.md) — เลือก RPS vs VUs
-- [`references/threshold-design.md`](references/threshold-design.md) — ออกแบบ SLO/threshold ที่ดี
+## References
+- [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
+- [`references/sdp-mapping.md`](../../references/sdp-mapping.md)
+- [`references/load-model-decision.md`](references/load-model-decision.md)
+- [`references/threshold-design.md`](references/threshold-design.md)
+- [`examples/`](examples/) — config, scenarios, utils, tests, data
