@@ -1,6 +1,6 @@
 ---
-name: test-script-generator
-description: สร้าง Robot Framework automation test + Page Object + Locator + translation ตาม pattern ของทีม athm_automation (3-tier POM, ui_keywords wrapper, translation YAML interpolation, robocop-clean). Trigger เมื่อ user ขอเขียน automation, e2e test, Robot Framework test, page object, locator, "convert test case to Robot", "generate Robot script", "เขียน robot test", "สร้าง page object".
+name: robot-test-generator
+description: สร้าง Robot Framework automation test + Page Object + Locator + translation ตาม pattern ของทีม athm_automation (3-tier POM, ui_keywords wrapper, translation YAML interpolation, robocop-clean). Trigger เมื่อ user ขอเขียน Robot Framework automation, e2e test, page object, locator, "convert test case to Robot", "generate Robot script", "เขียน robot test", "สร้าง page object robot".
 ---
 
 # Test Script Generator (Robot Framework — athm_automation pattern)

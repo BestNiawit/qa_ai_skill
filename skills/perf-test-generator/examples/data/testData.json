@@ -1,0 +1,13 @@
+{
+  "users": [
+    { "username": "user1@example.com", "password": "[REDACTED]" },
+    { "username": "user2@example.com", "password": "[REDACTED]" },
+    { "username": "user3@example.com", "password": "[REDACTED]" }
+  ],
+  "endpoints": {
+    "health":   "/health",
+    "login":    "/login",
+    "profile":  "/api/v1/profile",
+    "products": "/api/v1/products"
+  }
+}

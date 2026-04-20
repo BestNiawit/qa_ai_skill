@@ -1,5 +1,5 @@
 ---
-name: test-script-generator-web
+name: e2e-test-generator
 description: สร้าง E2E web automation test ตาม Page Object Model + advanced XPath (ไม่ใช้ index) + unique/shared locators + text-as-constants — เลือก framework ได้ (Playwright+TS, Cypress+TS, WebdriverIO+TS, Selenium+Java). Trigger เมื่อ user ขอเขียน E2E/web automation, Playwright test, Cypress test, WebdriverIO test, Selenium test, page object, "convert test case to Playwright/Cypress/WDIO/Selenium", "generate web automation", "เขียน playwright test", "สร้าง page object playwright", "e2e automation".
 ---
 
@@ -23,7 +23,9 @@ description: สร้าง E2E web automation test ตาม Page Object Model
 | **WebdriverIO** | TypeScript | ✅ Pattern defined | [`frameworks/webdriverio-ts.md`](frameworks/webdriverio-ts.md) |
 | **Selenium** | Java + TestNG | ✅ Pattern defined | [`frameworks/selenium-java.md`](frameworks/selenium-java.md) |
 
-> ต้องการ Robot Framework? → ใช้ skill [`test-script-generator`](../test-script-generator/) (3-tier POM, ui_keywords, i18n YAML)
+> ต้องการ Robot Framework? → ใช้ skill [`robot-test-generator`](../robot-test-generator/) (3-tier POM, ui_keywords, i18n YAML)
+>
+> ต้องการ performance test (k6)? → ใช้ skill [`perf-test-generator`](../perf-test-generator/) (smoke/load/stress, RPS/VUs models, per-endpoint thresholds)
 
 ---
 
