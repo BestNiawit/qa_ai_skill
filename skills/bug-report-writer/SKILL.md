@@ -12,6 +12,7 @@ description: สร้าง bug report ที่มีโครงสร้า�
 **Key rules:**
 - Title = `[Module] Action → Symptom เมื่อ Condition`
 - แยก Severity (impact) vs Priority (urgency) — ห้ามรวมกัน
+- ใช้ Severity/Priority ตาม [qa-standards.md §1-§2](../../references/qa-standards.md) — **4 ระดับ S1-S4 / P0-P3 เท่านั้น**
 - Steps reproduce เป็นข้อๆ มีเบอร์ + precondition ชัด
 - Expected ≠ Actual ต้องเห็นต่างชัดเจน
 - Attach: screenshot / log / HAR file
@@ -70,8 +71,8 @@ description: สร้าง bug report ที่มีโครงสร้า�
 Title: [Module] Action → Symptom เมื่อ Condition
 ---
 Environment: OS, Browser, Version, URL
-Severity: Blocker/Critical/Major/Minor/Trivial
-Priority: P0/P1/P2/P3
+Severity: S1 Critical / S2 Major / S3 Minor / S4 Cosmetic  (ตาม qa-standards.md)
+Priority: P0 / P1 / P2 / P3  (ตาม qa-standards.md)
 Frequency: Always/Sometimes/Once
 Related: TC-ID / Epic / Related ticket
 ---
@@ -115,17 +116,20 @@ TH หรือ EN
 
 ### Step 4: แยก Severity vs Priority
 
-**ห้ามรวมกัน** — สองอันนี้คนละเรื่อง:
+**ห้ามรวมกัน** — สองอันนี้คนละเรื่อง (ดู [qa-standards.md §1-§2](../../references/qa-standards.md)):
 
 | Severity (impact ทางเทคนิค) | Priority (ความเร่งด่วน) |
 |---------------------------|-------------------------|
-| **Blocker** — ระบบพังใช้ไม่ได้เลย | **P0** — แก้ทันทีวันนี้ |
-| **Critical** — feature หลักพัง ไม่มี workaround | **P1** — แก้ใน sprint นี้ |
-| **Major** — feature พัง มี workaround | **P2** — แก้ sprint หน้า |
-| **Minor** — UI/UX/text ผิด | **P3** — แก้เมื่อมีเวลา |
-| **Trivial** — typo, สีเพี้ยน | — |
+| **S1 Critical** — ระบบพัง / feature หลักใช้ไม่ได้ / data corruption / security breach | **P0** — แก้ทันทีวันนี้ block release |
+| **S2 Major** — feature สำคัญพัง มี workaround / integration fail | **P1** — แก้ใน sprint นี้ |
+| **S3 Minor** — UI ผิดเล็กน้อย / validation ไม่ครบ / edge case | **P2** — แก้ sprint หน้า |
+| **S4 Cosmetic** — typo / alignment / สีไม่ตรง / icon หาย | **P3** — แก้เมื่อมีเวลา |
 
-ตัวอย่าง: typo บนหน้า login (Trivial severity) แต่ลูกค้าใหญ่บ่น → P0 priority
+**Mapping คำอื่น → S-scale:**
+- "Blocker" → **S1 Critical**
+- "Trivial" → **S4 Cosmetic**
+
+ตัวอย่าง: typo บนหน้า login (S4 Cosmetic) แต่ลูกค้าใหญ่บ่น → P0 Priority
 
 ### Step 5: Steps to Reproduce ต้องชัด
 - เป็นข้อๆ เรียงเลข

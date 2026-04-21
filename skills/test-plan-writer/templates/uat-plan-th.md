@@ -25,7 +25,7 @@
 - Performance / Load testing
 
 ## 3. Entry Criteria
-1. SIT ผ่านแล้ว — Pass Rate ≥ 95%, Critical/Major Bug (Open) = 0
+1. SIT ผ่านแล้ว — Pass Rate ≥ 95%, S1 Critical/S2 Major Bug (Open) = 0
 2. UAT Environment พร้อม (URL: <https://uat.example.com>)
 3. UAT Test Case ได้รับการ confirm จาก User
 4. User Tester มีบัญชี + training แล้ว
@@ -34,7 +34,7 @@
 ## 4. Exit Criteria
 1. ทุก UAT Test Case ถูก execute
 2. User Pass Rate ≥ 95%
-3. Critical Bug (Open) = 0
+3. S1 Critical Bug (Open) = 0
 4. User Sign-off (approval / conditional with defined conditions)
 
 ## 5. Test Approach
@@ -62,6 +62,24 @@
 
 ## 8. Schedule
 
+> คำนวณจาก UAT TC Sizing Summary + Buffer Policy (`references/qa-standards.md §4`)
+> ใช้ `sprint-tracking-th.csv` track Est vs Actual hours ระดับ task
+
+### 8.1 Effort Breakdown (hrs)
+
+| Phase | Formula | Hours |
+|-------|---------|------:|
+| User Training | fixed | 4 |
+| UAT Execution | Σ UAT TC Sizing | <hr> |
+| Defect Fix + Retest | Execution × 0.25 | <hr> |
+| UAT Re-test | Execution × 0.15 | <hr> |
+| Report + Sign-off | fixed | 4 |
+| **SubTotal** | | **<hr>** |
+| Buffer | SubTotal × 0.20 | <hr> |
+| **Total Planned Hours** | | **<hr>** |
+
+### 8.2 Calendar Schedule
+
 | Phase | Start | End | Duration |
 |-------|-------|-----|----------|
 | User Training | YYYY-MM-DD | YYYY-MM-DD | <days> |
@@ -80,7 +98,7 @@
 | User requirement เปลี่ยน | Low | High | Change Request process; re-baseline |
 
 ## 10. Defect Management
-- เหมือน SIT Plan (Jira, Severity/Priority, SLA)
+- เหมือน SIT Plan — ใช้ S1-S4 / P0-P3 ตาม `references/qa-standards.md §1-§2`
 - **เพิ่ม:** User Champion เป็นผู้ยืนยัน defect (ไม่ใช่ QC)
 
 ## 11. Traceability

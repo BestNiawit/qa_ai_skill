@@ -114,14 +114,47 @@
 
 ---
 
-## 8. Conclusion + Recommendation
+## 8. Estimate vs Actual (Hours)
 
-### 8.1 Conclusion
+> qa-standards §4
+
+| Phase | Estimated | Actual | Variance | Note |
+|-------|----------:|-------:|---------:|------|
+| Script Prep | 16 hr | 14 hr | -12% | AI generate k6 ได้ช่วย |
+| Load Test | 2 hr | 2 hr | 0% | |
+| Stress Test | 3 hr | 3 hr | 0% | |
+| Soak Test | 5 hr | 5 hr | 0% | |
+| Analysis + Report | 8 hr | 4 hr | -50% | AI-assisted |
+| Tuning + Re-test | 8 hr | — | — | pending |
+| **Total (so far)** | **42 hr** | **28 hr** | **-33%** | AI ช่วยเยอะ |
+
+---
+
+## 9. AI Effort Savings (KPI)
+
+> qa-standards §6
+
+| Artifact | AI Draft | Human Review | Total | Baseline | Savings |
+|----------|---------:|-------------:|------:|---------:|--------:|
+| Perf Test Plan | 30 min | 3.5 hr | 4 hr | 8 hr | **50%** ✅ |
+| k6 Scripts (8 endpoints) | 1 hr | 13 hr | 14 hr | 16 hr | **13%** ⚠️ |
+| Bottleneck Analysis | 20 min | 2 hr | 2.3 hr | 4 hr | **42%** ✅ |
+| Perf Report (this doc) | 20 min | 1.7 hr | 2 hr | 8 hr | **75%** ✅ |
+| **Total** | | | **22.3 hr** | **36 hr** | **38%** |
+
+**Note:** k6 script savings ต่ำเพราะ customize parameterization เยอะ — target revise ถ้า pattern reuse ได้
+
+---
+
+## 10. Conclusion + Recommendation
+
+### 10.1 Conclusion
 - ❌ **Not Ready for Go-Live** — 2 endpoints fail NFR
 - ⚠️ Breaking point 1200 VUs — เพียงพอสำหรับ current user (peak ~800) แต่ margin น้อย
 - ⚠️ Soak: suspected memory leak (ยัง observe ต่อ)
+- ✅ Variance -33% (ดีกว่าแผน), AI savings 38% (ต่ำกว่าเป้า 50% — k6 script ต้อง customize)
 
-### 8.2 Recommendation
+### 10.2 Recommendation
 1. **Immediate:** implement Must Fix (DB index + Redis cache) — estimate 2-3 วัน
 2. **Re-test:** run Load + Stress ใหม่หลัง tuning
 3. **If re-test pass:** Go-Live — Defer Should Fix to Maintenance Phase
@@ -129,7 +162,7 @@
 
 ---
 
-## 9. Sign-off
+## 11. Sign-off
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|

@@ -45,7 +45,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | Module ID + Module Title | ✅ | เช่น `PMS_LOG` + "Login" |
 | ภาษา output: TH / EN | ✅ | ถ้าไม่ระบุ → ถาม |
 | Format: Markdown / CSV | ✅ | CSV import Excel/Sheets/Jira ง่ายกว่า |
-| Priority scheme | ⚠️ | `P0/P1/P2/P3` หรือ `High/Med/Low` |
+| Priority scheme | — | **บังคับ P0/P1/P2/P3** ตาม [qa-standards.md §2](../../references/qa-standards.md) |
 | `project-context.md` | ⚠️ | env, glossary, severity scale, business rules |
 | SIT Test Cases (สำหรับ UAT mode) | ⚠️ | path ไฟล์ SIT TC ถ้าต้องการแปลง → UAT |
 
@@ -103,9 +103,9 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | 2  | Description | ✱ | Design | ประโยคสั้น บอกสิ่งที่ทดสอบ |
 | 3  | Role | ✱ | Design | End User / Admin / Super Admin / Guest |
 | 4  | Positive/Negative | ✱ | Design | Positive / Negative / Boundary / Edge |
-| 5  | Priority | ✱ | Design | ตาม scheme ที่เลือก |
-| 6  | Severity | | Design | S1/S2/S3/S4 |
-| 7  | Test Sizing | | Design | S / M / L / XL |
+| 5  | Priority | ✱ | Design | **P0/P1/P2/P3** (qa-standards §2) |
+| 6  | Severity | ✱ | Design | **S1/S2/S3/S4** (qa-standards §1) |
+| 7  | Test Sizing | ✱ | Design | **S/M/L/XL** (qa-standards §3) — ป้อน test-plan-writer |
 | 8  | Technique | | Design | ECP / BVA / Decision Table / State Transition / Use Case / Error Guessing |
 | 9  | Pre-Requisite | | Design | state ก่อนเริ่ม |
 | 10 | Test Step | ✱ | Design | ขั้นตอนเป็นข้อๆ `1. ... 2. ...` |
@@ -185,9 +185,31 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | FR_PMS_LOG_02 | Show error invalid cred    | TC_PMS_LOG_003                 |
 ```
 
-### Step 7: บันทึก + สรุป
+### Step 7: บันทึก + สรุป + Sizing Summary (บังคับ)
+
+ท้ายไฟล์ TC ต้องมี **Sizing Summary Block** ให้ `test-plan-writer` consume:
+
+```markdown
+## Sizing Summary (for Test Plan)
+
+| Size | Count | Midpoint (hr) | Total (hr) |
+|:----:|:-----:|:-------------:|:----------:|
+| S    | 10    | 0.17          | 1.70       |
+| M    | 8     | 0.42          | 3.36       |
+| L    | 5     | 0.75          | 3.75       |
+| XL   | 2     | 1.25          | 2.50       |
+| **Total** | **25** | — | **11.31 hr** |
+
+Priority distribution: P0=3, P1=12, P2=8, P3=2
+Severity distribution: S1=2, S2=10, S3=11, S4=2
+Automation candidates: 7 TC (L+XL with repeating frequency)
+```
+
+> **ทำไมต้องมี:** test-plan-writer อ่าน block นี้คำนวณ Schedule ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule)
+
 แจ้ง user:
 - จำนวน TC total + แยกตาม Positive/Negative/Boundary/Edge
+- **Sizing Summary ตารางด้านบน (feed ให้ test-plan-writer)**
 - Coverage: SRS coverage %
 - Gap (ถ้ามี): "SRS-REQ-05 ยังไม่มี TC — ต้องเพิ่ม"
 
@@ -198,17 +220,19 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 
 ### Must Have
-- [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, Priority, Test Step, Expected Result
+- [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, **Priority (P0-P3), Severity (S1-S4), Test Sizing (S/M/L/XL)**, Test Step, Expected Result
+- [ ] Priority/Severity/Sizing ใช้ scale เดียวตาม `references/qa-standards.md` (ไม่มี High/Med/Low, ไม่มี Blocker/Trivial)
 - [ ] Expected Result **วัดได้** — ไม่มี "ทำงานถูกต้อง" / "แสดงผลปกติ"
 - [ ] ครอบคลุม Positive + Negative ครบทุก Requirement
 - [ ] มี Boundary Test สำหรับ input field
 - [ ] Traceability Matrix ครบ — ทุก FR ID มี TC รองรับ
 - [ ] Technique ระบุทุก TC (ไม่เดามั่ว)
 - [ ] Password / PII redact เป็น `[REDACTED]`
+- [ ] **Sizing Summary Block ท้ายไฟล์** (Count/Midpoint/Total hr) — ให้ test-plan-writer consume
 
 ### Nice to Have
-- [ ] Test Sizing + Automation ระบุทุก TC
-- [ ] Labels + Sprint + Severity ครบ
+- [ ] Automation flag ระบุทุก TC
+- [ ] Labels + Sprint ครบ
 - [ ] Regression TC ถ้าเกี่ยวกับ feature ที่แก้ impact
 
 ### UAT-specific (เฉพาะ mode=uat)
@@ -267,14 +291,17 @@ SRS → test-case-writer (mode=sit) → test-case-reviewer → [approved]
 
 ## Test Sizing Scale
 
-| Size | เวลา | Steps | ลักษณะ |
-|------|------|-------|--------|
-| S | < 15 นาที | 1–3 | smoke check, field validation |
-| M | 15–30 นาที | 4–8 | form + ตรวจผล |
-| L | 30–60 นาที | 9–15 | multi-step flow, data fixture |
-| XL | > 1 ชั่วโมง | 15+ | E2E ข้าม role, external system |
+> **Source of truth:** [qa-standards.md §3](../../references/qa-standards.md#3-test-sizing-scale-บังคับทุก-tc) — ห้าม override scale, override ได้แค่ midpoint ใน `project-context.md` ถ้ามี data จริง
 
-**ใช้ประเมิน:** sum sizing = man-hours / sprint; XL ควร P0/P1 เท่านั้น; L/XL ที่รันบ่อย = automation candidate
+| Size | เวลา | Midpoint (hr) | Steps | ลักษณะ |
+|:----:|------|:-------------:|:-----:|--------|
+| S  | < 15 นาที | **0.17** | 1–3 | smoke check, field validation |
+| M  | 15–30 นาที | **0.42** | 4–8 | form + ตรวจผล |
+| L  | 30–60 นาที | **0.75** | 9–15 | multi-step flow, data fixture |
+| XL | > 1 ชั่วโมง | **1.25** | 15+ | E2E ข้าม role, external system |
+
+**Pipeline:** sizing totals → Sizing Summary Block → test-plan-writer Schedule (ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule))
+**Rules:** XL ควร P0/P1 เท่านั้น; L/XL ที่รันบ่อย = automation candidate
 
 ---
 

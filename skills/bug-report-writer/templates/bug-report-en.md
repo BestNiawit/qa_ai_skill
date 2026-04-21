@@ -16,7 +16,8 @@
 | **Tested At** | YYYY-MM-DD HH:mm (timezone) |
 
 ## Severity / Priority
-- **Severity:** Blocker / Critical / Major / Minor / Trivial
+> Follow qa-standards.md — **do NOT use Blocker/Trivial** (map → S1/S4)
+- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic
 - **Priority:** P0 / P1 / P2 / P3
 - **Frequency:** Always (100%) / Sometimes (X/10) / Once
 

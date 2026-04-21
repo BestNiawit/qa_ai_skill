@@ -55,9 +55,9 @@
 | **TC ID** | `TC_<MODULE_ID>_<NUM>` (เรียง running) เช่น `TC_PMS_LOG_001` |
 | **Role** | User role ที่ใช้ทดสอบ (End User / Admin / Super Admin / Guest) |
 | **Pos/Neg** | Positive / Negative / Boundary / Edge |
-| **Priority** | `P0` (Critical blocker) / `P1` (High) / `P2` (Medium) / `P3` (Low) — หรือ High/Med/Low |
-| **Severity** | `S1` Critical / `S2` Major / `S3` Minor / `S4` Cosmetic |
-| **Test Sizing** | `S` (< 15 min, 1–3 steps) / `M` (15–30 min, 4–8 steps) / `L` (30–60 min, 9–15 steps) / `XL` (> 1 hr, E2E + setup) |
+| **Priority** | `P0` Critical / `P1` High / `P2` Medium / `P3` Low (qa-standards §2 — ห้าม High/Med/Low) |
+| **Severity** | `S1` Critical / `S2` Major / `S3` Minor / `S4` Cosmetic (qa-standards §1) |
+| **Test Sizing** | `S` < 15 min (midpoint 0.17 hr) / `M` 15–30 min (0.42) / `L` 30–60 min (0.75) / `XL` > 1 hr (1.25) (qa-standards §3) |
 | **Technique** | `ECP` / `BVA` / `Decision Table` / `State Transition` / `Use Case` / `Error Guessing` (ดู `references/testing-techniques.md`) |
 | **Automation** | `Yes` (automated แล้ว) / `No` (manual only) / `Candidate` (ควร automate ยังไม่ทำ) / `N/A` (ไม่เหมาะ automate เช่น visual/UX) |
 | **Labels** | tag คั่นด้วย comma เช่น `smoke, regression, security, @mobile` |
@@ -74,3 +74,22 @@
 |---------|-------------|---------|
 | valid_user | username + password ที่ผ่าน validation | TC_PMS_LOG_001, TC_PMS_LOG_004 |
 | locked_user | account ที่ถูก lock | TC_PMS_LOG_003 |
+
+---
+
+## Sizing Summary (for Test Plan)
+
+> ให้ `test-plan-writer` consume block นี้คำนวณ Schedule (qa-standards §4)
+
+| Size | Count | Midpoint (hr) | Total (hr) |
+|:----:|:-----:|:-------------:|:----------:|
+| S    | <n>   | 0.17          | <S×0.17>   |
+| M    | <n>   | 0.42          | <M×0.42>   |
+| L    | <n>   | 0.75          | <L×0.75>   |
+| XL   | <n>   | 1.25          | <XL×1.25>  |
+| **Total** | **<sum>** | — | **<hours>** |
+
+**Distribution:**
+- Priority: P0=<n>, P1=<n>, P2=<n>, P3=<n>
+- Severity: S1=<n>, S2=<n>, S3=<n>, S4=<n>
+- Automation candidates: <n> TC (L+XL, repeating frequency)

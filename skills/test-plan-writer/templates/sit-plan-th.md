@@ -68,13 +68,61 @@
 
 ## 8. Schedule
 
-| Phase | Start | End | Duration |
-|-------|-------|-----|----------|
+> คำนวณตาม `references/qa-standards.md §4 Buffer Policy` — consume Sizing Summary จาก Test Case file
+
+### 8.1 Input จาก Test Case Sizing Summary
+
+| Source | Value |
+|--------|-------|
+| Test Case file | `<path>` |
+| Total TC | <n> |
+| Σ Execution Effort (sum of midpoints) | **<total_hr> hr** |
+| Testers (parallel) | <n> (default 1) |
+| Productive hr/tester/day | 6 (qa-standards §5) |
+
+### 8.2 Effort Breakdown (hrs)
+
+| Phase | Formula | Hours |
+|-------|---------|------:|
+| Test Prep | Total TC × 0.1 | <hr> |
+| Peer Review | Total TC × 0.05 | <hr> |
+| Execution Cycle 1 | Σ Sizing | <hr> |
+| Defect Fix + Retest | Execution × 0.30 | <hr> |
+| Execution Cycle 2 (Regression) | Execution × 0.20 | <hr> |
+| Report + Sign-off | fixed | 4 |
+| **SubTotal** | | **<hr>** |
+| Buffer | SubTotal × 0.20 | <hr> |
+| **Total Planned Hours** | | **<hr>** |
+| **Calendar Days** | Total / (testers × 6) | **<days>** |
+
+### 8.3 Calendar Schedule (Phase-level)
+
+| Phase | Start | End | Duration (days) |
+|-------|-------|-----|:---------------:|
 | Test Prep | YYYY-MM-DD | YYYY-MM-DD | <days> |
+| Peer Review TC | YYYY-MM-DD | YYYY-MM-DD | <days> |
 | Test Execution (Cycle 1) | YYYY-MM-DD | YYYY-MM-DD | <days> |
 | Defect Fix + Retest | YYYY-MM-DD | YYYY-MM-DD | <days> |
 | Test Execution (Cycle 2) | YYYY-MM-DD | YYYY-MM-DD | <days> |
 | Report + Sign-off | YYYY-MM-DD | YYYY-MM-DD | <days> |
+
+### 8.4 Sprint Tracking (Task-level)
+
+> ใช้ควบคู่กับไฟล์ `sprint-tracking-th.csv` (Excel) — track Est vs Actual hours รายสัปดาห์
+> Columns ที่ต้องมี: Task ID, Task Name, Req/Module Ref, TC Count, Sizing Mix, **Est Hours, Actual Hours, Variance %, AI-Assisted**, Owner, Plan/Actual Start-End, Status, Remark, Linked Bugs
+
+```
+ดู template: ./sprint-tracking-th.csv
+```
+
+**Rules:**
+- Task name ≤ 60 chars — ใส่ context ยาวใน Req/Module Ref แทน
+- Variance > ±30% → flag ใน Remark + พิจารณา refine Sizing Scale ต่อ sprint ถัดไป
+- AI-Assisted column บันทึกชื่อ skill ที่ใช้ (เช่น `AI-Assisted (test-case-writer)`)
+- Status task-level: Todo / In-progress / Done / Blocked (ไม่ใช่ Passed — Passed ใช้ sprint-level summary)
+
+> **Note:** ถ้ามีการเปลี่ยน Sizing ของ TC → re-run test-plan-writer ให้ refresh Schedule
+> Actual hours จะถูกเก็บใน Test Report section "Estimate vs Actual" → feedback refine sizing scale
 
 ## 9. Risk & Mitigation
 
@@ -87,15 +135,17 @@
 
 ## 10. Defect Management
 
+> ใช้ scale ตาม `references/qa-standards.md §1-§2` — **ห้าม Blocker/Trivial/High/Med/Low**
+
 - **Tool:** Jira (Project: `<PROJECT_KEY>`)
-- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic
-- **Priority:** P0 / P1 / P2 / P3
+- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic (qa-standards §1)
+- **Priority:** P0 / P1 / P2 / P3 (qa-standards §2)
 - **Status flow:** Open → In Progress → Fixed → Ready to Retest → Verified / Reopened
 
-**SLA:**
-- S1: fix within 1 day
-- S2: fix within 3 days
-- S3: fix within current sprint
+**SLA (SIT):**
+- S1: fix ≤ 1 วันทำการ
+- S2: fix ≤ 3 วันทำการ
+- S3: fix ใน sprint
 - S4: best effort
 
 ## 11. Traceability

@@ -4,6 +4,10 @@
 
 **ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (Bug Report, Matrix, E2E/Robot Automation)
 
+> 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
+>
+> 📊 **อยากเห็น Input/Process/Output ทุก skill + ไม่เปลือง AI?** → [docs/work-product-flow.md](docs/work-product-flow.md)
+
 ---
 
 ## Skills (10 ตัว)
@@ -102,6 +106,27 @@ NFR + API Spec → test-plan-writer (mode=perf)   → Perf Test Plan
 8. **Chain** — เชื่อมกับ skills อื่น (upstream/downstream)
 
 ดูรายละเอียด + guidelines สำหรับ contributor: [SKILL-TEMPLATE.md](SKILL-TEMPLATE.md)
+
+---
+
+## มาตรฐานกลาง — `qa-standards.md`
+
+> **New** — [references/qa-standards.md](references/qa-standards.md) กำหนด Severity / Priority / Sizing / Buffer / Velocity / KPI ที่ **บังคับใช้ทุก skill** เพื่อให้ข้อมูลไหลจาก TC → Plan → Report ได้ไม่ต้องแปลง scale
+
+```
+test-case-writer          test-plan-writer            test-report-writer
+────────────────          ────────────────            ──────────────────
+TC (Priority P0-P3,  →    Σ Sizing × Buffer Policy →  Estimate vs Actual
+ Severity S1-S4,           = Schedule (Effort +        (feedback refine sizing)
+ Sizing S/M/L/XL)            Calendar days)            AI Effort Savings KPI
+                                                       (เป้าทีม ≥ 50%)
+```
+
+**บังคับ:**
+- Severity 4 ระดับ (S1-S4) — ห้าม Blocker/Trivial
+- Priority 4 ระดับ (P0-P3) — ห้าม High/Med/Low
+- Schedule Formula ใน Test Plan = Σ Sizing + Buffer 20%
+- Test Report ต้องมี Estimate vs Actual + AI Savings section
 
 ---
 
@@ -249,8 +274,12 @@ feature: login, prefix: AUTH
 qa_ai_skill/
 ├── README.md                          ← คุณอยู่ตรงนี้
 ├── SKILL-TEMPLATE.md                  ← template สำหรับสร้าง skill ใหม่
+├── docs/
+│   ├── qa-onboarding.md               ← เริ่มต้นสำหรับ QA ใหม่
+│   └── work-product-flow.md           ← NEW — IPO diagrams + token economy
 ├── references/                         ← Shared (linked by all skills)
 │   ├── ai-guardrails.md                ← จาก SDP §5.3.3
+│   ├── qa-standards.md                 ← Severity/Priority/Sizing/Buffer/KPI
 │   └── sdp-mapping.md                  ← process → skill mapping
 └── skills/
     ├── test-plan-writer/               ← NEW — SIT/UAT/Perf Plan

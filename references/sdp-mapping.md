@@ -2,6 +2,7 @@
 
 > Map ระหว่าง skills ใน repo นี้ กับ Ayodia Software Development Process (SDP) §5 Testing
 > ช่วยทีม QA เห็นภาพว่าแต่ละ skill ช่วยในขั้นตอนไหนของ process, effort ที่ลดได้
+> **See also:** [`qa-standards.md`](qa-standards.md) — Severity/Priority/Sizing/Buffer/KPI standards (บังคับใช้ทุก skill)
 
 ---
 
@@ -107,7 +108,35 @@ Skill ทุกตัวมี **Quality Gate checklist** ใน section "Qualit
 
 ---
 
+## Data Flow — Priority/Severity/Sizing Pipeline
+
+> 3 skill เชื่อมกันผ่าน `qa-standards.md` (บังคับใช้ scale เดียวทุก artifact)
+
+```
+test-case-writer              test-plan-writer                test-report-writer
+──────────────                ────────────────                ──────────────────
+TC Table (23 col)        →    Read "Sizing Summary"      →    Compare Est vs Actual
+ ├ Priority P0-P3                 Σ sizing × Buffer Policy       (qa-standards §4)
+ ├ Severity S1-S4                 = Schedule (hrs + days)
+ └ Test Sizing S/M/L/XL           (qa-standards §4)         →    AI Effort Savings KPI
+                                                                 (qa-standards §6)
+Sizing Summary Block     →    Schedule Effort Breakdown
+(auto-generated at         →    sprint-tracking.csv         →    Feedback: refine
+ bottom of TC file)              (Est Hours per task)            sizing scale if
+                                                                 variance > 30%
+
+bug-report-writer
+─────────────────
+Severity S1-S4             ←→  Defect Management (Plan)   →    Defect Summary by S1-S4
+Priority P0-P3                  SLA by severity                 (Report)
+(qa-standards §1-§2)
+```
+
+---
+
 ## References
+- [`qa-standards.md`](qa-standards.md) — มาตรฐานกลาง (Severity/Priority/Sizing/Buffer/KPI)
+- [`ai-guardrails.md`](ai-guardrails.md) — AI usage guardrails
 - Ayodia SDP §5 Testing (`ayodia-organizational-process-assets.wiki/Guidelines/Process-Architecture/Software-Development-Process.md`)
 - IEEE 829 — Test Documentation Standard
 - ISTQB Foundation Level Syllabus

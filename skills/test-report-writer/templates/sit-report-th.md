@@ -64,14 +64,16 @@
 
 ## 4. Defect Summary
 
+> Severity ใช้ qa-standards §1 — **S1 Critical / S2 Major / S3 Minor / S4 Cosmetic** (ห้าม Blocker/Trivial)
+
 ### 4.1 By Severity × Status
 
 | Severity | Open | In Progress | Fixed | Verified | Deferred | Total |
 |----------|-----:|------------:|------:|---------:|---------:|------:|
-| Critical | 0 | 0 | 0 | 2 | 0 | 2 |
-| Major | 0 | 0 | 0 | 5 | 0 | 5 |
-| Minor | 3 | 0 | 1 | 4 | 2 | 10 |
-| Cosmetic | 0 | 0 | 0 | 1 | 0 | 1 |
+| S1 Critical | 0 | 0 | 0 | 2 | 0 | 2 |
+| S2 Major | 0 | 0 | 0 | 5 | 0 | 5 |
+| S3 Minor | 3 | 0 | 1 | 4 | 2 | 10 |
+| S4 Cosmetic | 0 | 0 | 0 | 1 | 0 | 1 |
 | **Total** | **3** | **0** | **1** | **12** | **2** | **18** |
 
 ### 4.2 By Module
@@ -93,12 +95,55 @@
 
 ---
 
-## 6. Critical / Major Open Bugs
-**ไม่มี** — ทุก Critical/Major bug ถูก Verified แล้ว ✅
+## 6. S1 / S2 Open Bugs
+**ไม่มี** — ทุก S1 Critical/S2 Major bug ถูก Verified แล้ว ✅
 
 ---
 
-## 7. Risk & Mitigation (ที่เหลือ)
+## 7. Estimate vs Actual (Hours)
+
+> อ้างอิง: `references/qa-standards.md §4 Buffer Policy` — feedback loop ไปปรับ Sizing Scale sprint ถัดไป
+
+| Phase | Estimated (Plan) | Actual | Variance | Note |
+|-------|-----------------:|-------:|---------:|------|
+| Test Prep | 2.5 hr | 2.0 hr | -20% | env setup เร็วกว่าคาด |
+| Peer Review | 1.25 hr | 1.5 hr | +20% | reviewer เจอ gap เพิ่ม 3 TC |
+| Execution Cycle 1 | 11.31 hr | 14.8 hr | **+31%** ⚠️ | 5 TC sizing M จริงใช้เวลา L — refine |
+| Defect Fix + Retest | 3.39 hr | 4.0 hr | +18% | |
+| Execution Cycle 2 | 2.26 hr | 2.0 hr | -12% | |
+| Report + Sign-off | 4.0 hr | 1.5 hr | -62% | ใช้ AI draft — ตรงตาม plan |
+| **Total** | **24.71 hr** | **25.8 hr** | **+4%** | overall ใกล้ plan |
+
+**Variance Analysis:**
+- 🟢 Overall variance +4% — อยู่ในเกณฑ์ ±30%
+- ⚠️ Execution Cycle 1 variance +31% → **action: upgrade sizing ของ 5 TC `<list>` จาก M → L ในโปรเจคถัดไป**
+- 🟢 Report phase ประหยัด 62% จาก AI-assisted
+
+---
+
+## 8. AI Effort Savings (KPI)
+
+> อ้างอิง: `references/qa-standards.md §6` — เป้าทีม: ลด manual effort ด้วย AI
+
+| Artifact | AI Draft | Human Review | Total | Manual Baseline | Savings |
+|----------|---------:|-------------:|------:|----------------:|--------:|
+| SIT Plan | 30 min | 3.5 hr | 4 hr | 8 hr | **50%** ✅ |
+| SIT Test Case (60 TC) | 1 hr | 11 hr | 12 hr | 24 hr | **50%** ✅ |
+| Peer Review | 5 min | 2.5 hr | 2.6 hr | 4.3 hr | **40%** ✅ |
+| SIT Report (this doc) | 15 min | 1.25 hr | 1.5 hr | 4 hr | **62%** ✅ |
+| Bug Reports (18 bugs) | 30 min | 2.5 hr | 3 hr | 5 hr | **40%** ✅ |
+| **Total** | **2.33 hr** | **20.75 hr** | **23.1 hr** | **45.3 hr** | **49%** |
+
+**Skills ที่ใช้:**
+- `test-plan-writer`, `test-case-writer`, `test-case-reviewer`, `test-report-writer`, `bug-report-writer`
+
+**ข้อสังเกต:**
+- Savings 49% ≈ เป้า qa-standards §6 (50%) — ✅ Pass
+- Bottleneck: Peer Review ยังพึ่ง human มาก (96% ของ time) — consider automated checklist enhancement
+
+---
+
+## 9. Risk & Mitigation (ที่เหลือ)
 
 | Risk | Mitigation | Owner |
 |------|-----------|-------|
@@ -107,21 +152,23 @@
 
 ---
 
-## 8. Conclusion + Recommendation
+## 10. Conclusion + Recommendation
 
-### 8.1 Conclusion
+### 10.1 Conclusion
 - ✅ SIT Phase 1 passed all Exit Criteria
 - ✅ ระบบพร้อมเข้า UAT Phase
 - ⚠️ มี 3 Minor Open Bug ที่ User จะเจอ — ต้องสื่อสารล่วงหน้า
+- ✅ Effort variance +4% (อยู่ในเกณฑ์), AI savings 49% (ตามเป้าทีม)
 
-### 8.2 Recommendation
+### 10.2 Recommendation
 1. **Go to UAT** ตาม schedule (2026-04-22)
 2. **ก่อน UAT Kickoff:** Brief User เรื่อง 3 Minor bugs + workaround
 3. **Minor bugs:** Plan แก้ใน Maintenance Phase (Sprint 2026-S10)
+4. **Sizing refinement:** upgrade 5 TC จาก M → L ใน template ของ module ถัดไป (variance +31% ใน Cycle 1)
 
 ---
 
-## 9. Sign-off
+## 11. Sign-off
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|

@@ -32,7 +32,7 @@
 
 ## 4. Exit Criteria
 1. ทุก Endpoint ผ่าน NFR
-2. ไม่มี Critical Bottleneck ที่ block Go-Live
+2. ไม่มี S1 Critical Bottleneck ที่ block Go-Live
 3. Tuning Recommendation ที่ Must Fix แก้เสร็จ + re-test ผ่าน
 
 ## 5. Workload Model
@@ -112,6 +112,26 @@
 
 ## 10. Schedule
 
+> Perf test effort ไม่ based on TC sizing (ไม่มี TC count ตรง) — ใช้ Scenario-based estimate + Buffer `qa-standards.md §4`
+> Track Actual vs Estimate ใน `sprint-tracking-th.csv`
+
+### 10.1 Effort Breakdown (hrs)
+
+| Phase | Estimate Formula | Hours |
+|-------|------------------|------:|
+| Script Prep | 2 hr × endpoints | <hr> |
+| Smoke + Baseline | 2 hr | 2 |
+| Load Test | duration + 30% setup | <hr> |
+| Stress Test | duration + 30% setup | <hr> |
+| Soak Test | duration + 30% setup | <hr> |
+| Analysis + Report | 8 hr | 8 |
+| Tuning + Re-test | Script Prep × 0.5 | <hr> |
+| **SubTotal** | | **<hr>** |
+| Buffer | SubTotal × 0.20 | <hr> |
+| **Total** | | **<hr>** |
+
+### 10.2 Calendar Schedule
+
 | Phase | Start | End | Duration |
 |-------|-------|-----|----------|
 | Script Prep | YYYY-MM-DD | YYYY-MM-DD | <days> |
@@ -132,11 +152,14 @@
 | รบกวน env อื่น | Medium | Medium | รันนอกเวลาทำงาน; notify team |
 
 ## 12. Defect Management
+> ใช้ S1-S4 ตาม `references/qa-standards.md §1`
+
 - Threshold fail → defect ใน Jira พร้อม raw result + analysis
-- Severity:
-  - S1: NFR fail > 50% endpoints
-  - S2: NFR fail single endpoint + no workaround
-  - S3: NFR fail minor endpoint / low priority
+- Severity mapping (Perf-specific):
+  - **S1 Critical**: NFR fail > 50% endpoints หรือ service crash / memory leak
+  - **S2 Major**: NFR fail single endpoint + no workaround
+  - **S3 Minor**: NFR fail minor endpoint / low priority
+  - **S4 Cosmetic**: variance ภายใน ±5% ของ NFR
 
 ## 13. Sign-off
 

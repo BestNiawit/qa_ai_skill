@@ -21,6 +21,8 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 - Scope ต้อง trace กลับ SRS (ระบุ FR ID)
 - Environment ต้อง **ตรงกับ Production config**
 - Risk & Mitigation ต้องมี
+- **Schedule ต้องคำนวณจาก TC Sizing** (ไม่เดา) ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule)
+- **Severity/Priority** ใช้ S1-S4 / P0-P3 ตาม [qa-standards.md §1-§2](../../references/qa-standards.md)
 
 ---
 
@@ -45,10 +47,13 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 | SRS / PRD path | ✅ | สำหรับ Scope + Traceability |
 | Module(s) in scope | ✅ | ระบุ module หรือ "ทั้งระบบ" |
 | ภาษา output: TH / EN | ✅ | default ตาม SRS |
+| **Test Case file (สำหรับ Schedule)** | ✅\* | path ไฟล์ TC ที่มี **Sizing Summary Block** — ใช้คำนวณ Schedule ด้วยสูตรแทนการเดา |
+| **Number of testers** | ✅\* | default = 1 (override ถ้าหลายคนขนาน) |
 | Contract / NFR (สำหรับ Perf mode) | ⚠️ | response time, throughput, error rate |
-| Schedule / Timeline | ⚠️ | ถ้าไม่มี → AI ประมาณจาก TC count |
 | Existing SIT Plan (สำหรับ UAT mode) | ⚠️ | ใช้ปรับเป็น business view |
-| `project-context.md` | ⚠️ | env, team, severity scale |
+| `project-context.md` | ⚠️ | env, team velocity override, NFR |
+
+> \* ถ้ายังไม่มี Test Case file → สร้าง Plan ก่อนแบบ placeholder Schedule + flag ให้ re-run เมื่อมี TC
 
 ---
 
@@ -60,6 +65,7 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 - SIT Plan: [`templates/sit-plan-th.md`](templates/sit-plan-th.md) / [`sit-plan-en.md`](templates/sit-plan-en.md)
 - UAT Plan: [`templates/uat-plan-th.md`](templates/uat-plan-th.md) / [`uat-plan-en.md`](templates/uat-plan-en.md)
 - Perf Plan: [`templates/perf-test-plan-th.md`](templates/perf-test-plan-th.md) / [`perf-test-plan-en.md`](templates/perf-test-plan-en.md)
+- **Sprint Tracking (Excel-friendly):** [`templates/sprint-tracking-th.csv`](templates/sprint-tracking-th.csv) — ใช้ track task-level Est vs Actual hours + AI-Assisted flag รายสัปดาห์ (feedback loop ไปหา Test Report + qa-standards refinement)
 
 **File naming:**
 - `sit_plan_<scope>_<YYYYMMDD>.md`
@@ -76,8 +82,10 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 6. Test Environment (Server, DB, URL, Browser)
 7. Roles & Responsibilities
 8. Schedule / Timeline
+   8a. Effort Breakdown (จาก TC Sizing Summary + Buffer Policy)
+   8b. Calendar Schedule
 9. Risk & Mitigation Plan
-10. Defect Management Process
+10. Defect Management Process (Severity S1-S4 / Priority P0-P3)
 11. Traceability (SRS ↔ Plan scope)
 12. Test Data Preparation
 13. Suspension & Resumption Criteria
@@ -98,14 +106,41 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 
 ### Step 1: Read Input + Detect Mode
 1. อ่าน SRS/PRD ทั้งไฟล์
-2. อ่าน `project-context.md` (env, team, NFR)
-3. ถ้า UAT mode + มี SIT Plan → อ่าน SIT Plan เพื่อ "inherit" scope/criteria
+2. อ่าน `project-context.md` (env, team velocity override, NFR)
+3. **อ่าน Test Case file → extract Sizing Summary Block** (ถ้ามี)
+4. ถ้า UAT mode + มี SIT Plan → อ่าน SIT Plan เพื่อ "inherit" scope/criteria
 
 ### Step 2: Ask User (ถ้าขาด)
 - Module scope ชัดเจน?
 - Entry/Exit Criteria มีตัวเลขเป้าหมายมั้ย? (เช่น Pass Rate ≥ 95%)
 - Perf mode: NFR เป็นอะไร? (p95 response time, throughput, error rate)
+- **Number of testers** (default 1)
+- **มี TC file แล้วหรือยัง?** ถ้ายัง → Schedule จะ placeholder
 - Schedule: สัปดาห์ที่เริ่ม/จบ?
+
+### Step 2.5: คำนวณ Schedule ตาม qa-standards §4 Buffer Policy
+
+ถ้ามี Sizing Summary:
+```
+Σ Execution Effort  = total_hr (จาก TC file)
+Total_TC            = total count
+
+Test Prep           = Total_TC × 0.1 hr
+Peer Review         = Total_TC × 0.05 hr
+Execution Cycle 1   = Σ Execution Effort
+Defect Fix + Retest = Execution × 0.30
+Execution Cycle 2   = Execution × 0.20  (regression)
+Report + Sign-off   = 4 hr
+SubTotal            = sum above
+Buffer              = SubTotal × 0.20
+Total Planned Hours = SubTotal + Buffer
+
+Calendar Days       = Total Planned Hours / (testers × 6 hr/day)
+```
+
+ตัวอย่าง: TC 25 ตัว (Σ sizing = 11.31 hr), tester = 1
+- Prep: 2.5 hr, Review: 1.25 hr, Exec1: 11.31, Fix: 3.39, Exec2: 2.26, Report: 4 → SubTotal 24.71 hr
+- Buffer 20%: 4.94 hr → **Total: 29.65 hr ≈ 5 วัน**
 
 ### Step 3: Draft ตาม Template + Mode
 
@@ -124,6 +159,8 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 - ทุก Scope item → มี FR ID
 - Entry/Exit criteria → มีตัวเลข
 - Env → ตรงกับ prod config
+- **Severity = S1-S4 / Priority = P0-P3** (ห้าม Blocker/High/Med/Low)
+- **Schedule มี Effort Breakdown + Buffer** (ห้ามเดาเป็น `<days>` เฉยๆ)
 
 ### Step 5: Save + Summary
 แจ้ง user:
@@ -141,13 +178,14 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - [ ] Objective ชัดเจน
 - [ ] Scope (In-Scope / Out-of-Scope) ครบ trace SRS
 - [ ] Entry Criteria **วัดได้** (ไม่มี "พร้อมทดสอบ")
-- [ ] Exit Criteria **วัดได้** (มีตัวเลข Pass Rate, Bug Severity)
+- [ ] Exit Criteria **วัดได้** (มีตัวเลข Pass Rate + Bug Severity S1-S4)
 - [ ] Test Environment (Server, DB, URL) ครบ
 - [ ] Test Approach ระบุชัด
-- [ ] Schedule / Timeline
+- [ ] **Schedule มี Effort Breakdown** (จาก TC Sizing × Buffer Policy) — ไม่ใช่ `<days>` เฉยๆ
+- [ ] **Buffer 20% ระบุในตาราง** (ตาม qa-standards §4)
 - [ ] Roles & Responsibilities
 - [ ] Risk & Mitigation
-- [ ] Defect Management Process
+- [ ] Defect Management Process (ใช้ S1-S4 / P0-P3)
 - [ ] Traceability SRS ↔ Plan
 - [ ] Sign-off section
 
@@ -169,6 +207,8 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - ❌ Scope เขียน "ทดสอบระบบทั้งหมด" (ไม่ระบุ module)
 - ❌ Exit Criteria = "ทดสอบผ่านทั้งหมด" (ไม่มีตัวเลข)
 - ❌ ไม่ระบุ Environment
+- ❌ **Schedule มีแค่ `<days>` ไม่แสดง Effort Breakdown / Buffer**
+- ❌ **ใช้ severity/priority scale นอก qa-standards** (Blocker, Trivial, High/Med/Low)
 - ❌ Copy จากโปรเจกต์เก่าโดยไม่ปรับ
 - ❌ UAT: ไม่มี User Tester
 - ❌ Perf: ไม่มี NFR ตัวเลข
@@ -196,19 +236,26 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 **Upstream:**
 - SRS / PRD (external docs)
 - NFR document / SLA / Contract
-- `project-context.md`
+- `project-context.md` (team velocity override)
+- **`test-case-writer` output — Sizing Summary Block → Schedule calculation**
 
 **Downstream:**
-- `test-case-writer` — ใช้ Plan scope + criteria เป็น context เขียน TC
+- `test-case-writer` — ใช้ Plan scope + criteria เป็น context เขียน TC (iteration 1)
 - `test-matrix-generator` — quick coverage matrix ก่อนขยายเป็น full TC
 - `perf-test-generator` (mode=perf) — Workload Model + NFR → k6 script
-- `test-report-writer` — Plan เป็น baseline สำหรับ Exit Criteria Evaluation ใน Report
+- `test-report-writer` — Plan เป็น baseline สำหรับ Exit Criteria + Estimate vs Actual ใน Report
 
-**Workflow ตัวอย่าง:**
+**Workflow ตัวอย่าง (iterative):**
 ```
-SRS/NFR → test-plan-writer → [TL/PM sign-off]
-                                    ├→ test-case-writer → ... → test-report-writer (เทียบ Exit Criteria กลับมา Plan)
-                                    └→ perf-test-generator (mode=perf) → perf-result-analyzer
+SRS/NFR
+  ├→ test-plan-writer (draft v1: placeholder Schedule)
+  │         ↓
+  ├→ test-case-writer → TC + Sizing Summary
+  │         ↓
+  └→ test-plan-writer (v2: Schedule from Sizing Summary) → [TL/PM sign-off]
+                                                                ├→ [Execute]
+                                                                └→ test-report-writer
+                                                                      (Exit Criteria + Estimate vs Actual → feedback to refine sizing)
 ```
 
 ---

@@ -64,7 +64,7 @@
 |---|-----------|--------|--------|:------:|
 | 1 | ทุก UAT Scenario execute | 100% | 100% | ✅ |
 | 2 | User Pass Rate | ≥ 95% | 100% | ✅ |
-| 3 | Critical Bug (Open) | = 0 | 0 | ✅ |
+| 3 | S1 Critical Bug (Open) | = 0 | 0 | ✅ |
 | 4 | User Sign-off | Approved | Approved | ✅ |
 
 **Overall:** ✅ All Criteria Met
@@ -73,13 +73,16 @@
 
 ## 5. Defect Summary
 
+> Severity ใช้ qa-standards §1 — S1-S4
+
 | Severity | Count | Status |
 |----------|------:|--------|
-| Critical | 0 | - |
-| Major | 0 | - |
-| Minor | 2 | 1 Open, 1 Deferred |
+| S1 Critical | 0 | - |
+| S2 Major | 0 | - |
+| S3 Minor | 2 | 1 Open, 1 Deferred |
+| S4 Cosmetic | 0 | - |
 
-### Minor Defects Detail
+### S3 Minor Defects Detail
 
 | Bug ID | Summary | Status | Resolution Plan |
 |--------|---------|--------|----------------|
@@ -88,7 +91,35 @@
 
 ---
 
-## 6. User Feedback (Qualitative)
+## 6. Estimate vs Actual (Hours)
+
+> qa-standards §4 — feedback loop
+
+| Phase | Estimated | Actual | Variance | Note |
+|-------|----------:|-------:|---------:|------|
+| User Training | 4 hr | 3 hr | -25% | User คุ้นเคยระบบจาก SIT |
+| UAT Execution | 12 hr | 14 hr | +17% | User เจอ edge case เพิ่ม |
+| Defect Fix + Retest | 3 hr | 2 hr | -33% | bugs เล็กน้อย |
+| UAT Re-test | 2 hr | 1.5 hr | -25% | |
+| Report + Sign-off | 4 hr | 1.5 hr | -62% | AI-assisted |
+| **Total** | **25 hr** | **22 hr** | **-12%** | ดีกว่าแผน |
+
+---
+
+## 7. AI Effort Savings (KPI)
+
+> qa-standards §6 — เป้าทีม 50%
+
+| Artifact | AI Draft | Human Review | Total | Baseline | Savings |
+|----------|---------:|-------------:|------:|---------:|--------:|
+| UAT Plan | 30 min | 3.5 hr | 4 hr | 8 hr | **50%** ✅ |
+| UAT Test Case (15 scenarios) | 1 hr | 7 hr | 8 hr | 16 hr | **50%** ✅ |
+| UAT Report (this doc) | 15 min | 1.25 hr | 1.5 hr | 4 hr | **62%** ✅ |
+| **Total** | | | **13.5 hr** | **28 hr** | **52%** |
+
+---
+
+## 8. User Feedback (Qualitative)
 
 | User | Feedback |
 |------|----------|
@@ -99,22 +130,23 @@
 
 ---
 
-## 7. Conclusion + Recommendation
+## 9. Conclusion + Recommendation
 
-### 7.1 Conclusion
+### 9.1 Conclusion
 - ✅ UAT ผ่าน 100% — User approve
 - ✅ Ready for Production Deployment
-- ℹ️ Minor bug 2 ตัว (1 แก้ sprint หน้า, 1 deferred)
+- ℹ️ S3 Minor bug 2 ตัว (1 แก้ sprint หน้า, 1 deferred)
 - ℹ️ User feedback 2 ข้อ → เพิ่มใน Backlog สำหรับ Phase 2
+- ✅ Variance -12% (ดีกว่าแผน), AI savings 52% (ตามเป้า)
 
-### 7.2 Recommendation
+### 9.2 Recommendation
 1. **Go-Live** 2026-05-05 ตาม schedule
-2. **Release Note:** แจ้ง User เรื่อง Minor bugs + roadmap
+2. **Release Note:** แจ้ง User เรื่อง S3 Minor bugs + roadmap
 3. **Post Go-Live:** Monitor 2 สัปดาห์แรก, prepare hotfix plan
 
 ---
 
-## 8. User Sign-off
+## 10. User Sign-off
 
 | Role | Name | Signature | Date |
 |------|------|-----------|------|
