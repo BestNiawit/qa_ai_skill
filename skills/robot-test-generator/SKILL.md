@@ -202,6 +202,9 @@ ${LOGIN_SUBMIT_BUTTON_LOCATOR}      xpath=//button[.//span[normalize-space()='${
 4. XPath + `contains(@class, ...)`
 5. ❌ Index ตายตัว (`[1]`, `[2]`) — ใช้ `[last()]` ถ้าจำเป็น
 
+### หา XPath จาก HTML/URL จริง
+ถ้าต้องหา locator ให้ element ที่ยังไม่มี `data-test-id` หรือ HTML ซับซ้อน (table row, label-input pair, portal dropdown, ฯลฯ) → ใช้ workflow ใน [`references/xpath-finder.md`](references/xpath-finder.md) — รับ HTML snippet + element description, ส่ง primary + fallback + fragility warnings กลับ
+
 ### Dynamic — `{{placeholder}}`
 ```robot
 ${MENU_LOCATOR}    xpath=(//span[normalize-space()='{{menu}}'])[last()]
@@ -305,7 +308,8 @@ robot -d testresult -v ENV:dev -v LANG:en ./testcases/ui
 ---
 
 ## References
-- [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
-- [`references/sdp-mapping.md`](../../references/sdp-mapping.md)
+- [`references/xpath-finder.md`](references/xpath-finder.md) — workflow หา XPath จาก HTML/URL จริง
+- [`../../references/ai-guardrails.md`](../../references/ai-guardrails.md)
+- [`../../references/sdp-mapping.md`](../../references/sdp-mapping.md)
 - `examples/` — working examples (testcases, keywords, resources)
 - External: athm_automation repo (canonical pattern)
