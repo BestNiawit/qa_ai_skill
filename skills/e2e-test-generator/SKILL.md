@@ -5,6 +5,8 @@ description: สร้าง E2E web automation test ตาม Page Object Model
 
 # E2E Test Generator (Web — Multi-Framework)
 
+> **คำย่อ (E2E / TC / POM / SIT / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 สร้าง E2E web automation script ตาม **4 กฎเหล็ก** ที่ใช้กับทุก framework:

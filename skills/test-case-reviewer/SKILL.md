@@ -5,6 +5,8 @@ description: Peer Review test case อัตโนมัติ — ตรวจ 
 
 # Test Case Reviewer
 
+> **คำย่อ (TC / SRS / FR / SIT / UAT / QC / TL / BA / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 Draft Peer Review Report ให้ QC/TL/BA approve — ลดเวลา manual review ตาราง checklist

@@ -332,6 +332,7 @@ feature: login, prefix: AUTH
 
 | ถ้าคุณต้องการ... | ไปที่ |
 |------------------|-------|
+| ดูคำย่อ (SRS/FR/NFR/TC/SIT/UAT/BVA/...) | [§ Glossary](#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd) |
 | เห็น Input/Process/Output ทุก skill + ไม่เปลือง AI | [docs/work-product-flow.md](work-product-flow.md) |
 | เข้าใจ standard ของทีม | [references/qa-standards.md](../references/qa-standards.md) |
 | เข้าใจ skill ↔ process mapping | [references/sdp-mapping.md](../references/sdp-mapping.md) |
@@ -339,6 +340,69 @@ feature: login, prefix: AUTH
 | รายละเอียด skill ใดๆ | `skills/<skill-name>/SKILL.md` |
 | Repo overview + install | [README.md](../README.md) |
 | Contribute skill ใหม่ | [SKILL-TEMPLATE.md](../SKILL-TEMPLATE.md) |
+
+---
+
+## 📖 คำย่อ (Glossary) — เช็คก่อนอ่าน SKILL.md
+
+> ย่อที่ใช้ทั้ง repo — **SKILL.md แต่ละไฟล์ expand ครั้งแรกแล้วใช้ย่อ** เพื่อไม่รก
+
+### Requirement / Document
+| ย่อ | คำเต็ม (EN) | ความหมาย |
+|-----|------------|---------|
+| **SRS** | Software Requirements Specification | เอกสารระบุ requirement ของระบบ (รวม FR + NFR) — input หลักของ test-plan/test-case |
+| **PRD** | Product Requirements Document | เอกสาร requirement มุมธุรกิจ (what/why) |
+| **FRS** | Functional Requirements Specification | technical breakdown ของ SRS |
+| **FR** | Functional Requirement | requirement ด้าน function (feature ทำอะไรได้) — มักมี ID เช่น `FR_LOG_01` |
+| **NFR** | Non-Functional Requirement | requirement ด้านคุณภาพ (performance, security, usability) |
+| **SLA** | Service Level Agreement | ข้อตกลงระดับบริการ (เช่น fix S1 ≤ 1 วัน) |
+| **SDP** | Software Development Process | เอกสาร process มาตรฐานของทีม |
+
+### Testing Type
+| ย่อ | คำเต็ม (EN) | ความหมาย |
+|-----|------------|---------|
+| **TC** | Test Case | 1 เคสทดสอบ (มีทุก column ตาม 23-col template) |
+| **SIT** | System Integration Testing | ทดสอบ integration ระหว่าง module โดย QC (technical view) |
+| **UAT** | User Acceptance Testing | ทดสอบโดย User/BA ก่อนรับระบบ (business view) |
+| **Perf** | Performance Testing | ทดสอบด้าน performance (Load / Stress / Soak / Spike) |
+| **E2E** | End-to-End Testing | ทดสอบ flow ครบ cycle ข้าม module/role |
+| **Smoke** | Smoke Testing | ทดสอบว่า build ใช้งานได้เบื้องต้น ก่อนเริ่ม SIT รอบเต็ม |
+| **Regression** | Regression Testing | ทดสอบว่า feature เดิมยังใช้ได้หลัง fix |
+
+### Testing Technique
+| ย่อ | คำเต็ม (EN) | ความหมาย |
+|-----|------------|---------|
+| **BVA** | Boundary Value Analysis | ทดสอบค่าขอบเขต (min-1, min, max, max+1) |
+| **ECP** | Equivalence Class Partitioning | แบ่งกลุ่ม input ที่น่าจะให้ผลลัพธ์เดียวกัน |
+| **DT** | Decision Table | ตารางเงื่อนไขหลายตัวผสมกัน |
+| **ST** | State Transition | ทดสอบการเปลี่ยน state ของ object |
+
+### Role
+| ย่อ | คำเต็ม (EN) | บทบาท |
+|-----|------------|-------|
+| **QC** | Quality Control | Tester / คนรัน SIT |
+| **QA** | Quality Assurance | ทีม/กระบวนการประกันคุณภาพ (ครอบคลุมกว่า QC) |
+| **BA** | Business Analyst | คน analyze business requirement + ช่วย UAT |
+| **TL** | Team Leader / Tech Lead | หัวหน้าทีม — review + unblock |
+| **PM** | Project Manager | อนุมัติ deferral + sign-off |
+
+### Metric / Scale (ดู qa-standards.md ครบ)
+| ย่อ | คำเต็ม (EN) | ความหมาย |
+|-----|------------|---------|
+| **S1-S4** | Severity 1-4 | Critical / Major / Minor / Cosmetic (ห้ามใช้ Blocker/Trivial) |
+| **P0-P3** | Priority 0-3 | Critical / High / Medium / Low (ห้ามใช้ High/Med/Low ตรงๆ) |
+| **S / M / L / XL** | Sizing — Small/Medium/Large/Extra-Large | TC execution time (<15min / 15-30min / 30-60min / >60min) |
+| **KPI** | Key Performance Indicator | ตัววัดผล (เช่น AI Savings ≥ 50%) |
+| **TPS / RPS** | Transactions / Requests Per Second | throughput (Perf) |
+| **VU** | Virtual User | จำนวน user จำลองใน load test (k6) |
+| **p95 / p99** | 95th / 99th percentile | response time ที่ 95%/99% ของ request ต่ำกว่าค่านี้ |
+
+### Tool / Output
+| ย่อ | คำเต็ม (EN) | ความหมาย |
+|-----|------------|---------|
+| **IPO** | Input-Process-Output | วิธี document ทุก skill (ดู work-product-flow.md) |
+| **PII** | Personally Identifiable Information | ข้อมูลระบุตัวตน (ห้าม commit จริงลง repo) |
+| **MD / CSV** | Markdown / Comma-Separated Values | format output ของ skill |
 
 ---
 

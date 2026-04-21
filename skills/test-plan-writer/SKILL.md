@@ -5,6 +5,8 @@ description: เขียน Test Plan จาก SRS/PRD — รองรับ 
 
 # Test Plan Writer
 
+> **คำย่อ (SRS / PRD / FR / NFR / TC / SIT / UAT / Perf / SDP / S1-S4 / P0-P3 / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort ทำงานเอกสารซ้ำๆ

@@ -5,6 +5,8 @@ description: สร้าง Robot Framework automation test + Page Object + Loc
 
 # Robot Test Generator (athm_automation pattern)
 
+> **คำย่อ (TC / POM / SIT / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 สร้าง Robot Framework automation ตาม pattern ทีม athm_automation:

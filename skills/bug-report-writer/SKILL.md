@@ -5,6 +5,8 @@ description: สร้าง bug report ที่มีโครงสร้า�
 
 # Bug Report Writer
 
+> **คำย่อ (S1-S4 / P0-P3 / SIT / UAT / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 เขียน bug report ที่ developer อ่านแล้ว **reproduce ได้ทันที** ไม่ต้องถามกลับ

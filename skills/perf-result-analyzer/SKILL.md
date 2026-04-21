@@ -5,6 +5,8 @@ description: วิเคราะห์ผล Performance Test จาก raw da
 
 # Performance Result Analyzer
 
+> **คำย่อ (NFR / TPS / p95 / p99 / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 วิเคราะห์ raw result จาก load test tool (k6/JMeter/Gatling) → Bottleneck + NFR Evaluation + Tuning Recommendation

@@ -5,6 +5,8 @@ description: สร้าง test matrix แบบ compact (CSV) เพื่อ
 
 # Test Matrix Generator
 
+> **คำย่อ (TC / SRS / SIT / QA / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 สร้าง test matrix แบบ **compact** ให้ QA ได้ coverage เร็ว เมื่อเขียน full TC ไม่ทัน

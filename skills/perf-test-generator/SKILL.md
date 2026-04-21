@@ -5,6 +5,8 @@ description: สร้าง k6 performance test (smoke / load / stress / soak /
 
 # Performance Test Generator (k6)
 
+> **คำย่อ (NFR / TPS / RPS / VU / p95 / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 สร้าง k6 performance test ตาม pattern **k6-perf-test-ayodia** — config-driven + tag-based thresholds + load-model-agnostic

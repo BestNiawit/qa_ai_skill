@@ -5,6 +5,8 @@ description: สรุป Test Report จาก Test Execution Data (Jira/Excel/
 
 # Test Report Writer
 
+> **คำย่อ (SIT / UAT / Perf / TC / S1-S4 / P0-P3 / KPI / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 Draft Test Report จาก raw execution data → QC review ตัวเลข + เขียน Recommendation

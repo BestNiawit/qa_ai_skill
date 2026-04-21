@@ -5,6 +5,8 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 
 # Test Case Writer
 
+> **คำย่อ (SRS / PRD / FR / TC / SIT / UAT / BVA / ECP / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+
 ## 1. Purpose — เป้าหมาย
 
 แปลง requirement → test case ที่:
