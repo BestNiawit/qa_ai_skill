@@ -700,7 +700,7 @@
         </div>
       </div>
 
-      <div class="progress-label"><span>ความคืบหน้า</span><span id="progressTxt">0 / 10</span></div>
+      <div class="progress-label"><span>ความคืบหน้า</span><span id="progressTxt">0 / 12</span></div>
       <div class="progress">
         <div id="progressBar"></div>
       </div>
@@ -725,11 +725,13 @@
       <div class="section-label">สำหรับ Web Automation</div>
       <nav>
         <a href="#playwright" data-step="9"><span class="num">9</span> Playwright</a>
+        <a href="#selenium" data-step="10"><span class="num">10</span> Selenium</a>
+        <a href="#robotframework" data-step="11"><span class="num">11</span> Robot Framework</a>
       </nav>
 
       <div class="section-label">ปิดท้าย</div>
       <nav>
-        <a href="#verify" data-step="10"><span class="num">10</span> ตรวจสอบทุกอย่าง</a>
+        <a href="#verify" data-step="12"><span class="num">12</span> ตรวจสอบทุกอย่าง</a>
         <a href="#troubleshoot" data-step="tb"><span class="num">?</span> แก้ปัญหาที่พบบ่อย</a>
       </nav>
     </aside>
@@ -756,6 +758,8 @@
           <span class="badge"><span class="dot"></span>Node.js 20+</span>
           <span class="badge"><span class="dot"></span>Appium 2.x</span>
           <span class="badge"><span class="dot"></span>Playwright 1.4x</span>
+          <span class="badge"><span class="dot"></span>Selenium 4.13</span>
+          <span class="badge"><span class="dot"></span>Robot Framework 6.1</span>
         </div>
       </header>
 
@@ -1330,11 +1334,227 @@ npx playwright show-report         <span class="cmt"># ดู HTML report</span>
           ให้เอาไปปรับต่อได้</div>
       </section>
 
-      <!-- ============== STEP 10: Verify ============== -->
+      <!-- ============== STEP 10: Selenium ============== -->
+      <section class="step" id="selenium">
+        <h2><span class="chip">Step 10</span> ติดตั้ง Selenium WebDriver</h2>
+        <p class="lead">Web automation framework แบบ classic ที่รองรับหลายภาษา (Python, Java, JS) — เหมาะกับ legacy
+          project และใช้ร่วมกับ Robot Framework ได้</p>
+        <div class="check-row"><label><input type="checkbox" data-step="10"> ฉันติดตั้ง Selenium + WebDriver
+            เสร็จแล้ว</label></div>
+
+        <div class="note">Selenium 4.x มาพร้อม <b>Selenium Manager</b> ที่ดาวน์โหลด browser driver
+          (chromedriver/geckodriver) ให้อัตโนมัติ — ไม่ต้องตั้งค่า driver เองเหมือนเมื่อก่อนแล้ว</div>
+
+        <h3>1) ติดตั้ง Selenium สำหรับ Python (แนะนำสำหรับ QA)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># activate venv ของโปรเจกต์ก่อน (ดู Step 4)</span>
+pip install selenium
+pip install webdriver-manager    <span class="cmt"># (ทางเลือก) จัดการ driver อัตโนมัติ</span>
+
+<span class="cmt"># ตรวจสอบ</span>
+pip show selenium | grep Version</pre>
+        </div>
+
+        <h3>2) ทางเลือก: ติดตั้ง Selenium สำหรับ Node.js</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># ในโฟลเดอร์โปรเจกต์</span>
+npm install -D selenium-webdriver
+npm install -D @types/selenium-webdriver   <span class="cmt"># ถ้าใช้ TypeScript</span></pre>
+        </div>
+
+        <h3>3) ติดตั้ง Browsers ที่ใช้ทดสอบ</h3>
+        <div class="os-tabs" data-tabgroup="t10">
+          <button class="active" data-os="mac"><span class="dot-mac"></span>macOS</button>
+          <button data-os="win"><span class="dot-win"></span>Windows</button>
+        </div>
+        <div class="os-panel active" data-tabgroup="t10" data-os="mac">
+          <div class="code">
+            <div class="code-head"><span>Terminal</span><button class="copy-btn">Copy</button></div>
+            <pre>brew install --cask google-chrome
+brew install --cask firefox
+<span class="cmt"># Safari มีมาให้แล้วบน Mac — เปิด Develop → Allow Remote Automation</span></pre>
+          </div>
+        </div>
+        <div class="os-panel" data-tabgroup="t10" data-os="win">
+          <div class="code">
+            <div class="code-head"><span>PowerShell (Admin)</span><button class="copy-btn">Copy</button></div>
+            <pre>winget install Google.Chrome
+winget install Mozilla.Firefox
+<span class="cmt"># Edge มีมาให้แล้วบน Windows</span></pre>
+          </div>
+        </div>
+
+        <h3>4) ทดสอบ Selenium ด้วยสคริปต์สั้น ๆ (Python)</h3>
+        <div class="code">
+          <div class="code-head"><span>smoke_selenium.py</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="kw">from</span> selenium <span class="kw">import</span> webdriver
+<span class="kw">from</span> selenium.webdriver.common.by <span class="kw">import</span> By
+
+driver = webdriver.Chrome()
+driver.get(<span class="str">"https://www.google.com"</span>)
+<span class="kw">print</span>(driver.title)
+driver.quit()</pre>
+        </div>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>python smoke_selenium.py    <span class="cmt"># ควรเปิด Chrome แล้ว print "Google"</span></pre>
+        </div>
+
+        <div class="tip">ถ้า Selenium Manager ดาวน์โหลด driver ไม่สำเร็จ ให้ตรวจว่าเวอร์ชัน Chrome/Firefox
+          ตรงกับเวอร์ชัน browser ที่ติดตั้งไว้ หรือใช้ <code>webdriver-manager</code> แทน</div>
+      </section>
+
+      <!-- ============== STEP 11: Robot Framework ============== -->
+      <section class="step" id="robotframework">
+        <h2><span class="chip">Step 11</span> ติดตั้ง Robot Framework</h2>
+        <p class="lead">Keyword-driven test framework ภาษา Python — เขียน test case แบบตารางอ่านง่าย เหมาะกับทีม QA
+          ที่ไม่ถนัด code เยอะ</p>
+        <div class="check-row"><label><input type="checkbox" data-step="11"> ฉันติดตั้ง Robot Framework + libraries
+            เสร็จแล้ว</label></div>
+
+        <div class="note">Robot Framework ต้องการ <b>Python 3.8+</b> (ได้จาก Step 4) และใช้ <b>Selenium</b>
+          เป็น backend สำหรับ web testing (ได้จาก Step 10)</div>
+
+        <div class="tip">ทีม Ayodia มี <b>Starter Kit</b> ให้แล้ว — clone มาใช้เป็น baseline ได้เลย ไม่ต้องสร้างโครงเอง:
+          <br><code>git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/automation-starter-kit.git</code>
+        </div>
+
+        <h3>1) Clone Starter Kit (แนะนำ)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/automation-starter-kit.git
+cd automation-starter-kit
+
+<span class="cmt"># สร้าง venv เฉพาะโปรเจกต์</span>
+python3 -m venv .venv
+source .venv/bin/activate       <span class="cmt"># Mac/Linux</span>
+<span class="cmt"># .\.venv\Scripts\Activate.ps1 # Windows</span>
+
+pip install --upgrade pip
+pip install -r requirements.txt</pre>
+        </div>
+
+        <h3>2) สิ่งที่ <code>requirements.txt</code> จะติดตั้ง</h3>
+        <div class="code">
+          <div class="code-head"><span>requirements.txt (starter-kit)</span><button class="copy-btn">Copy</button></div>
+          <pre>robotframework>=6.1,<7
+robotframework-seleniumlibrary==6.1.2
+robotframework-debuglibrary==2.3.0
+selenium==4.13.0
+urllib3<2
+typing_extensions>=4.10.0
+PyYAML==6.0.1
+fpdf2==2.7.9
+
+<span class="cmt"># Quality / dev tooling</span>
+robotframework-pabot==2.16.0        <span class="cmt"># parallel execution</span>
+robotcode[all]==0.99.0              <span class="cmt"># LSP / VS Code support</span>
+robotframework-robocop==3.2.1       <span class="cmt"># linter</span>
+robotframework-tidy==4.14.0         <span class="cmt"># formatter</span>
+pre-commit==4.0.1
+yamllint==1.35.1</pre>
+        </div>
+
+        <div class="warn">Starter kit ใช้ <b>Robot Framework 6.x</b> (ไม่ใช่ 7.x) เพื่อให้ compatible กับ
+          libraries/tools ที่ทีมใช้อยู่ — <b>อย่า</b>อัปเกรดเป็น 7.x เองโดยไม่ปรึกษาทีม</div>
+
+        <h3>3) ติดตั้งโดยไม่ใช้ Starter Kit (กรณีสร้างโปรเจกต์เอง)</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>pip install "robotframework>=6.1,<7"
+pip install robotframework-seleniumlibrary==6.1.2
+pip install selenium==4.13.0 PyYAML==6.0.1
+
+<span class="cmt"># ตรวจสอบ</span>
+robot --version         <span class="cmt"># ควรเห็น Robot Framework 6.x</span></pre>
+        </div>
+
+        <h3>4) ติดตั้ง VS Code Extension</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre>code --install-extension d-biehl.robotcode          <span class="cmt"># LSP หลัก (ตรงกับ robotcode ใน requirements)</span>
+code --install-extension robocorp.robotframework-lsp <span class="cmt"># ทางเลือก</span></pre>
+        </div>
+
+        <h3>5) รัน test จาก Starter Kit</h3>
+        <div class="code">
+          <div class="code-head"><span>Terminal / PowerShell</span><button class="copy-btn">Copy</button></div>
+          <pre><span class="cmt"># รัน test ทั้งหมดในโฟลเดอร์ testcases/</span>
+robot testcases/
+
+<span class="cmt"># รันเฉพาะไฟล์เดียว</span>
+robot testcases/task_magement/TC_M_0002.robot
+
+<span class="cmt"># เลือก environment (dev/at/prod/ci)</span>
+robot --variablefile config/environments/dev.yaml testcases/
+
+<span class="cmt"># รันแบบ parallel ด้วย pabot</span>
+pabot --processes 4 testcases/</pre>
+        </div>
+
+        <div class="note">หลังรันจะได้ไฟล์ <code>report.html</code>, <code>log.html</code>, <code>output.xml</code> —
+          เปิด <b>report.html</b> เพื่อดูสรุป, <b>log.html</b> สำหรับ step-by-step debug</div>
+
+        <h3>6) โครงสร้างโปรเจกต์ (จาก Starter Kit)</h3>
+        <div class="code">
+          <div class="code-head"><span>โฟลเดอร์</span><button class="copy-btn">Copy</button></div>
+          <pre>automation-starter-kit/
+├── .github/                    <span class="cmt"># GitHub workflows</span>
+├── .vscode/                    <span class="cmt"># VS Code settings</span>
+├── .gitlab-ci.yml              <span class="cmt"># GitLab CI pipeline</span>
+├── .pre-commit-config.yaml     <span class="cmt"># lint/format hooks</span>
+├── .robocop                    <span class="cmt"># Robocop linter config</span>
+├── requirements.txt
+│
+├── drivers/                    <span class="cmt"># browser drivers (chromedriver ฯลฯ)</span>
+│   └── chromedriver-mac-arm64/
+│
+├── config/
+│   └── environments/           <span class="cmt"># config ต่อ env</span>
+│       ├── dev.yaml
+│       ├── at.yaml
+│       ├── prod.yaml
+│       └── ci.yaml
+│
+├── Library/                    <span class="cmt"># custom Python libraries</span>
+│   ├── config_loader.py
+│   └── test_flow_report_listener.py
+│
+├── resources/
+│   ├── imports.robot           <span class="cmt"># central import</span>
+│   ├── variables.robot
+│   ├── locators/               <span class="cmt"># page locators แยกไฟล์</span>
+│   │   ├── login_page.robot
+│   │   ├── home_page.robot
+│   │   └── job_position_page.robot
+│   ├── testdata/
+│   │   └── testdata.yaml
+│   └── translations/           <span class="cmt"># i18n (en/th)</span>
+│       ├── en/
+│       └── th/
+│
+├── keywords/                   <span class="cmt"># reusable keywords แบ่งเป็น 3 layer</span>
+│   ├── common/                 <span class="cmt">#  - browser/ui ทั่วไป</span>
+│   ├── page/                   <span class="cmt">#  - keyword ต่อหน้า</span>
+│   └── feature/                <span class="cmt">#  - business flow</span>
+│
+└── testcases/                  <span class="cmt"># .robot test suites</span>
+    └── task_magement/
+        └── TC_M_0002.robot</pre>
+        </div>
+
+        <div class="tip"><b>Layered keyword pattern</b>: <code>common → page → feature → testcases</code> —
+          test case เรียก feature keyword, feature ประกอบจาก page keyword, page ใช้ locator + common keyword
+          ทำให้แก้ UI แค่ที่ locator/page ไม่ต้องแก้ test case</div>
+      </section>
+
+      <!-- ============== STEP 12: Verify ============== -->
       <section class="step" id="verify">
-        <h2><span class="chip">Step 10</span> ตรวจสอบทุกอย่างด้วยกัน</h2>
+        <h2><span class="chip">Step 12</span> ตรวจสอบทุกอย่างด้วยกัน</h2>
         <p class="lead">รันคำสั่งทั้งหมดนี้ — ทุกบรรทัดควรคืน version number ออกมา ไม่ใช่ "command not found"</p>
-        <div class="check-row"><label><input type="checkbox" data-step="10"> ทุกคำสั่งรันผ่านและคืน version
+        <div class="check-row"><label><input type="checkbox" data-step="12"> ทุกคำสั่งรันผ่านและคืน version
             ถูกต้อง</label></div>
 
         <div class="code">
@@ -1363,7 +1583,14 @@ appium driver list --installed
 appium-doctor --android   <span class="cmt"># ควรไม่มี error สีแดง</span>
 
 <span class="cmt"># Playwright</span>
-npx playwright --version</pre>
+npx playwright --version
+
+<span class="cmt"># Selenium (ต้อง activate venv ก่อน)</span>
+pip show selenium | grep Version
+
+<span class="cmt"># Robot Framework</span>
+robot --version
+pip show robotframework-seleniumlibrary | grep Version</pre>
         </div>
 
         <div class="tip"><b>เสร็จแล้ว! 🎉</b> น้องพร้อมเริ่มเขียน automation test แล้ว — ถาม mentor ในทีมได้ถ้าติดอะไร
@@ -1475,7 +1702,7 @@ $env:PLAYWRIGHT_DOWNLOAD_HOST="https://playwright.azureedge.net"; npx playwright
     });
 
     // ---------- Progress + checkbox persistence ----------
-    const totalSteps = 10;
+    const totalSteps = 12;
     const saved = JSON.parse(localStorage.getItem('automation-setup-progress') || '{}');
 
     document.querySelectorAll('.check-row input[type="checkbox"]').forEach(cb => {

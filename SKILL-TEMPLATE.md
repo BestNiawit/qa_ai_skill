@@ -36,7 +36,7 @@ description: <ทำอะไร> — <input> → <output> — <key features>.
 
 ## 2. When to Use — เมื่อไหร่ใช้
 - SDP mapping: "Process: <SDP process name> (§X)"
-- ตารางเทียบกับ skills พี่น้อง (ใช้ skill นี้ vs skill อื่นเมื่อไหร่)
+- ตารางเทียบกับ skills ที่เกี่ยวข้อง (ใช้ skill นี้ vs skill อื่นเมื่อไหร่)
 
 ## 3. Inputs — สิ่งที่ต้องเตรียม
 - ตาราง Required / Optional inputs
@@ -151,7 +151,7 @@ Description ต้องมี trigger keywords ทั้ง TH + EN เช่�
 - [ ] Frontmatter ครบ (name, description with TH+EN triggers)
 - [ ] 8 sections ครบตามลำดับ
 - [ ] Link ไปยัง `references/ai-guardrails.md` และ `references/sdp-mapping.md`
-- [ ] มีตารางเทียบกับ skills พี่น้องใน §2
+- [ ] มีตารางเทียบกับ skills ที่เกี่ยวข้องใน §2
 - [ ] Chain (§8) ระบุ upstream + downstream อย่างน้อย 1 skill
 - [ ] มี `templates/` หรือ `examples/` อย่างน้อย 1 ไฟล์
 - [ ] Update [`references/sdp-mapping.md`](references/sdp-mapping.md) (เพิ่มแถวในตาราง)

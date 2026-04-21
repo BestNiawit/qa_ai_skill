@@ -97,7 +97,7 @@ NFR + API Spec → test-plan-writer (mode=perf)   → Perf Test Plan
 ทุก skill ใช้ structure เดียวกัน — อ่านง่าย สลับใช้งานได้คล่อง:
 
 1. **Purpose** — เป้าหมาย + Effort savings
-2. **When to Use** — SDP mapping + เทียบกับ skills พี่น้อง
+2. **When to Use** — SDP mapping + เทียบกับ skills ที่เกี่ยวข้อง
 3. **Inputs** — สิ่งที่ต้องเตรียม (+ `project-context.md`)
 4. **Outputs** — format, templates, file naming
 5. **Process** — ขั้นตอน step-by-step
