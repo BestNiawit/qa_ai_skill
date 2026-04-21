@@ -206,6 +206,12 @@ draft UAT Plan จาก SIT Plan เดิม (sit_plan_leave_20260420.md) — 
 ```
 convert SIT TC ในไฟล์ testcases_sit_login_20260420.md เป็น UAT TC (business view)
 ```
+```
+เขียน UAT Checklist จาก docs/srs-medical-benefits.md
+mode=uat format=checklist
+project: KMUTNB, module: MDB
+roles: ข้าราชการ, การเงิน, หัวหน้า, กองคลัง, ผู้ใช้เบิกจ่าย
+```
 
 ### 3. test-case-reviewer
 ```

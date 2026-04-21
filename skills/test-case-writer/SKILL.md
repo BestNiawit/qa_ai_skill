@@ -1,6 +1,6 @@
 ---
 name: test-case-writer
-description: เขียน test case จาก requirement document (SRS/PRD/spec/user story) ให้ครอบคลุมและอ่านง่าย — รองรับทั้ง SIT mode (technical view) และ UAT mode (business view) + horizontal table 23 columns + testing techniques (ECP, BVA, Decision Table, State Transition, Use Case, Error Guessing) + Traceability Matrix. รองรับ TH/EN + Markdown/CSV. Trigger เมื่อ user ส่ง requirement file/SRS/PRD/spec/user story และขอให้เขียน test case, test scenario, SIT test case, UAT test case, "write test cases", "create test scenarios", "generate UAT test case". Maps to SDP §5.3.1 (Process 2, 6).
+description: เขียน test case จาก requirement document (SRS/PRD/spec/user story) ให้ครอบคลุมและอ่านง่าย — รองรับ SIT mode (technical view, 23 cols), UAT mode (business view 23 cols หรือ UAT Checklist multi-role workflow) + testing techniques (ECP, BVA, Decision Table, State Transition, Use Case, Error Guessing) + Traceability Matrix. รองรับ TH/EN + Markdown/CSV. Trigger เมื่อ user ส่ง requirement file/SRS/PRD/spec/user story และขอให้เขียน test case, test scenario, SIT test case, UAT test case, UAT checklist, "write test cases", "create test scenarios", "generate UAT checklist", "multi-role workflow test". Maps to SDP §5.3.1 (Process 2, 6).
 ---
 
 # Test Case Writer
@@ -17,8 +17,10 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 **Effort savings:** ~50-60% (SDP §5.3.4) — จาก 3 วัน/module → 1.5 วัน
 
 **Mode รองรับ:**
-- **SIT mode** (default) — Technical view, testing จาก SRS/DS perspective
+- **SIT mode** (default) — Technical view, 23-col table, testing จาก SRS/DS perspective
 - **UAT mode** — Business view, End-to-end business scenario, ภาษาที่ User เข้าใจ
+  - **Format: `tc`** (default) — 23-col table (เหมือน SIT แต่ภาษา business) — เหมาะกับ single-role scenario
+  - **Format: `checklist`** — Multi-role workflow + Category grouping (C1/C2...) + 3-way status — เหมาะกับ approval flow ข้าม role (เบิกสวัสดิการ, ลางาน, ขออนุมัติ)
 
 ---
 
@@ -30,9 +32,20 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 |-----------|-------------|
 | มีเวลา, ต้องการ TC พร้อมรัน | **`test-case-writer`** (skill นี้) |
 | รีบ, ต้องการ coverage ก่อน | `test-matrix-generator` (ก่อน skill นี้) |
-| มี SIT TC แล้ว อยากแปลงเป็น UAT | **`test-case-writer` mode=uat** |
+| มี SIT TC แล้ว อยากแปลงเป็น UAT | **`test-case-writer` mode=uat format=tc** |
+| UAT approval flow ข้าม role (เบิก / ลา / อนุมัติ) | **`test-case-writer` mode=uat format=checklist** |
 | อยากตรวจ TC ที่เขียนแล้ว | `test-case-reviewer` (หลัง skill นี้) |
 | TC approved แล้ว อยาก automate | `robot-test-generator` / `e2e-test-generator` |
+
+**เลือก UAT Format (tc vs checklist):**
+
+| ลักษณะ Scenario | ใช้ Format |
+|-----------------|-----------|
+| Single-role (User ทำเองจบ เช่น Login, Reset Password, View Profile) | **tc** (23-col) |
+| Multi-role handoff (Approve flow ผ่าน 3+ role) | **checklist** |
+| Category-based tracking (C1/C2/C3) + 3-way status (Pass/Pass w/ cond/Fail) | **checklist** |
+| ต้องการ automate → นำไป robot/e2e-test-generator | **tc** (checklist ไม่ map กับ automation) |
+| Client ใช้ format Excel sign-off มาตรฐาน | **checklist** |
 
 ---
 
@@ -42,11 +55,14 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 |-------|:--------:|----------|
 | Requirement file (SRS/PRD/spec/user story) | ✅ | path ของไฟล์ |
 | Mode: SIT หรือ UAT | ✅ | default = SIT ถ้าไม่ระบุ |
-| Module ID + Module Title | ✅ | เช่น `PMS_LOG` + "Login" |
+| **UAT Format: tc / checklist** (UAT mode เท่านั้น) | ✅\* | default = `tc` — ใช้ `checklist` เมื่อเป็น multi-role approval flow |
+| Module ID + Module Title | ✅ | เช่น `PMS_LOG` + "Login" / `KMUTNB_MDB` + "Medical Benefits" |
+| Project code (checklist เท่านั้น) | ⚠️ | เช่น `KMUTNB`, `PEA` — ใช้ใน Scenario ID: `UAT_<PROJECT>_<MOD>_<NUM>` |
+| Roles involved (checklist เท่านั้น) | ⚠️ | list of roles + example user/pass — เช่น "ข้าราชการ, การเงิน, หัวหน้า, กองคลัง" |
 | ภาษา output: TH / EN | ✅ | ถ้าไม่ระบุ → ถาม |
 | Format: Markdown / CSV | ✅ | CSV import Excel/Sheets/Jira ง่ายกว่า |
 | Priority scheme | — | **บังคับ P0/P1/P2/P3** ตาม [qa-standards.md §2](../../references/qa-standards.md) |
-| `project-context.md` | ⚠️ | env, glossary, severity scale, business rules |
+| `project-context.md` | ⚠️ | env, glossary, severity scale, business rules, role list |
 | SIT Test Cases (สำหรับ UAT mode) | ⚠️ | path ไฟล์ SIT TC ถ้าต้องการแปลง → UAT |
 
 **`project-context.md` format:**
@@ -69,13 +85,16 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 **Format:** Markdown table หรือ CSV (ตาม input)
 
 **Templates:**
-- TH SIT: [`templates/test-case-th.md`](templates/test-case-th.md)
+- TH SIT / UAT (tc format): [`templates/test-case-th.md`](templates/test-case-th.md)
 - EN SIT: [`templates/test-case-en.md`](templates/test-case-en.md)
 - CSV: `templates/test-case.csv`
+- **UAT Checklist (TH):** [`templates/uat-checklist-th.md`](templates/uat-checklist-th.md) — Markdown (multi-role workflow)
+- **UAT Checklist CSV (TH):** [`templates/uat-checklist-th.csv`](templates/uat-checklist-th.csv) — Excel-friendly
 
 **File naming:**
 - SIT: `testcases_sit_<module_id>_<YYYYMMDD>.md` / `.csv`
-- UAT: `testcases_uat_<module_id>_<YYYYMMDD>.md` / `.csv`
+- UAT (tc format): `testcases_uat_<module_id>_<YYYYMMDD>.md` / `.csv`
+- **UAT (checklist format):** `uat_checklist_<project>_<module_id>_<YYYYMMDD>.md` / `.csv`
 
 **โครงสร้างไฟล์:**
 ```
@@ -165,7 +184,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 - Expected Result เป็น technical detail (API response, DB state, error message)
 - Steps เป็นภาษา technical ("POST /api/leave", "tbl_leave.status='PENDING'")
 
-**UAT Mode (Business):**
+**UAT Mode — Format `tc` (default, 23-col):**
 - รวม SIT TC ที่เกี่ยวข้องเป็น End-to-End Business Scenario
 - Expected Result เป็นสิ่งที่ User เห็นบนหน้าจอ
 - ภาษา User เข้าใจ (ไม่ใช่ศัพท์ technical)
@@ -176,6 +195,31 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 |----------------|---|----------------|
 | Verify POST /api/leave returns 201 | → | กด "ส่งใบลา" → ระบบแสดง "ส่งใบลาสำเร็จ" |
 | Verify tbl_leave.status = 'APPROVED' | → | หัวหน้ากด "อนุมัติ" → สถานะเปลี่ยนเป็น "อนุมัติแล้ว" |
+
+**UAT Mode — Format `checklist` (multi-role workflow):**
+- **Category grouping** (C1, C2, C3 ...) — กลุ่ม business function เดียวกัน
+- Each scenario = **1 end-to-end flow ข้าม role** (ข้าราชการ → การเงิน → หัวหน้า → กองคลัง → ผู้ใช้)
+- Multi-role Execution Flow: 1 row ต่อ 1 role handoff
+- **3-way Status:** Passed / Passed w/ condition / Failed (scenario-level ไม่ใช่ step-level)
+- ไม่มี 23 cols — โครงสร้างคือ `Category > Scenario > Role Execution Steps`
+
+Scenario ID pattern: `UAT_<PROJECT>_<MOD>_<NUM>` (unique ทั่ว project) — เช่น `UAT_KMUTNB_MDB_001`
+
+ตัวอย่าง Scenario (checklist):
+```
+C1 — สวัสดิการรักษาพยาบาล
+  1. เบิกค่าตรวจสุขภาพ 3,000 บาท (happy path)
+     UAT_KMUTNB_MDB_001
+     Role 1: ข้าราชการ → สร้างคำขอ → "รอการเงินตรวจสอบ"
+     Role 2: การเงิน → อนุมัติ → "รอหัวหน้า"
+     Role 3: หัวหน้า → อนุมัติ → "รอกองคลัง"
+     Role 4: กองคลัง → อนุมัติ → "ดำเนินการแล้ว"
+     Role 5: ผู้ใช้ → เบิกจ่าย → "ส่ง ERP"
+
+  2. เบิกค่ารักษาตัว (กรณีกองคลังส่งกลับแก้ไข — variation)
+     UAT_KMUTNB_MDB_002
+     ...
+```
 
 ### Step 6: สร้าง Traceability Matrix
 ท้ายไฟล์: Requirement ID ↔ Test Case IDs
@@ -241,11 +285,23 @@ Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 - [ ] Precondition เป็นสิ่งที่ User ทำได้เอง
 - [ ] Expected Result = สิ่งที่เห็นบนหน้าจอ/ใบปริ้นท์
 
+### UAT Checklist-specific (format=checklist)
+- [ ] Category (C1/C2..) แยกตาม business function
+- [ ] Scenario ID format: `UAT_<PROJECT>_<MOD>_<NUM>` unique
+- [ ] **ทุก role handoff** มี expected "สถานะคำขอ" (รอการเงิน / รอหัวหน้า / ดำเนินการแล้ว)
+- [ ] Multi-role flow ครบตาม business process จริง (ไม่ข้าม role)
+- [ ] มี variation scenario (ส่งกลับแก้ไข / reject / conditional approve)
+- [ ] Status 3-way: Passed / Passed w/ condition / Failed (scenario-level)
+- [ ] Coverage Matrix ครบทุก FR ↔ Scenario ID
+- [ ] Scenario Summary table (Total / Passed / Failed / Pass Rate ต่อ Category)
+
 ### Red Flags (Reject ทันที)
 - ❌ มี Requirement ไม่ครอบคลุม (gap ใน Traceability Matrix)
 - ❌ Expected Result กำกวม ("ระบบทำงานปกติ")
 - ❌ ไม่มี Negative Case
 - ❌ UAT Copy SIT มาโดยไม่ปรับภาษา
+- ❌ UAT Checklist: role handoff ข้าม step (เช่น ข้าม "หัวหน้า" ไปกองคลังเลย) = business process ผิด
+- ❌ UAT Checklist: ไม่ระบุ "สถานะคำขอ" หลังแต่ละ role action
 
 ---
 

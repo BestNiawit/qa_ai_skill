@@ -266,9 +266,12 @@ feature: login, prefix: AUTH
 
 ### Scenario 2 — SIT ผ่านแล้ว เตรียม UAT
 ```
-1. test-case-writer mode=uat (feed SIT TC file) → UAT TC (business view)
+1. test-case-writer mode=uat format=tc (feed SIT TC file) → UAT TC (business view, 23 col)
+   ── หรือ ──
+   test-case-writer mode=uat format=checklist → UAT Checklist (multi-role workflow)
+       ใช้เมื่อเป็น approval flow ข้าม role (เบิกสวัสดิการ, ลางาน, ขออนุมัติ)
 2. test-case-reviewer mode=uat (check ว่าไม่ได้ copy SIT มาตรงๆ)
-3. test-plan-writer mode=uat (feed SIT Plan + UAT TC) → UAT Plan
+3. test-plan-writer mode=uat (feed SIT Plan + UAT TC/Checklist) → UAT Plan
 4. [Confirm User Tester + Sign-off UAT TC]
 5. [User execute] → test-report-writer mode=uat
 ```
