@@ -8,7 +8,7 @@
 ## ✅ Day 1 Checklist — อ่านตามนี้ (~30 นาที)
 
 - [ ] **1. [README.md](../README.md)** — 3 นาที
-  รู้ว่า repo นี้คืออะไร, มี 10 skills อะไรบ้าง, install ยังไง
+  รู้ว่า repo นี้คืออะไร, มี 11 skills อะไรบ้าง, install ยังไง
 
 - [ ] **2. [docs/qa-onboarding.md](qa-onboarding.md)** (ไฟล์นี้) — 10 นาที
   คู่มือหลัก — Quick Start + Decision Tree + End-to-End walkthrough
@@ -78,16 +78,40 @@ done
                           ↓
         ┌─────────────────┼─────────────────┐
         ↓                 ↓                 ↓
-   SRS / PRD        Test Case ที่มี       Test Execute เสร็จ
+   BRD/PRD/SRS      Test Case ที่มี       Test Execute เสร็จ
    (requirement)    อยู่แล้ว               (Jira/Excel)
         ↓                 ↓                 ↓
    ──────────────    ──────────────    ──────────────
-   เริ่ม SIT          Review / Convert    สรุป Report
+   Pre-check +       Review / Convert    สรุป Report
+   เริ่ม SIT
    ──────────────    ──────────────    ──────────────
 
 
 ┌─────────────────────────────────────────────────────────────────┐
-│ Q2 (A): เริ่ม SIT จาก SRS — รีบมั้ย?                            │
+│ Q2 (A0): BRD/PRD ชัดไหม? (requirement readiness check)          │
+└─────────────────────────────────────────────────────────────────┘
+                          ↓
+          ┌───────────────┴───────────────┐
+          ↓                               ↓
+   ไม่แน่ใจ / PM เขียนสั้น /          ชัดมากแล้ว (มี FR ID +
+   ขาด AC / ไม่ระบุ out-of-scope      AC วัดได้ + out-of-scope
+                                      + data dictionary)
+          ↓                               ↓
+   1. requirement-analyzer          ข้ามไป Q2 (A) ได้เลย
+      → Readiness Score + Normalized Req
+      → PM Confirmation Doc
+          ↓
+   2. ส่งให้ PM/BA review 2-3 วัน
+      (confirm Open Questions + Assumptions)
+          ↓
+   3. Update Normalized Req ตาม feedback
+          ↓
+   4. ไปต่อ Q2 (A) ด้วย Normalized Req
+      (แทนที่ BRD ดิบ)
+
+
+┌─────────────────────────────────────────────────────────────────┐
+│ Q2 (A): เริ่ม SIT จาก SRS / Normalized Req — รีบมั้ย?           │
 └─────────────────────────────────────────────────────────────────┘
                           ↓
           ┌───────────────┴───────────────┐
@@ -352,6 +376,9 @@ feature: login, prefix: AUTH
 |-----|------------|---------|
 | **SRS** | Software Requirements Specification | เอกสารระบุ requirement ของระบบ (รวม FR + NFR) — input หลักของ test-plan/test-case |
 | **PRD** | Product Requirements Document | เอกสาร requirement มุมธุรกิจ (what/why) |
+| **BRD** | Business Requirements Document | เอกสาร requirement ฉบับธุรกิจ (ใครต้องการ/ทำไม/outcome) — มักเป็น input ก่อนแตกเป็น SRS/PRD |
+| **AC** | Acceptance Criteria | เกณฑ์ยอมรับที่วัดได้ — ต้องมีใน BRD/SRS เพื่อให้ AI/QC เขียน expected result ได้ (ดู [brd-readiness-guide](../references/brd-readiness-guide.md)) |
+| **US** | User Story | requirement รูปแบบ "As a ... I want ... so that ..." (INVEST criteria) |
 | **FRS** | Functional Requirements Specification | technical breakdown ของ SRS |
 | **FR** | Functional Requirement | requirement ด้าน function (feature ทำอะไรได้) — มักมี ID เช่น `FR_LOG_01` |
 | **NFR** | Non-Functional Requirement | requirement ด้านคุณภาพ (performance, security, usability) |

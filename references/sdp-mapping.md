@@ -49,6 +49,7 @@
 
 | Skill | ใช้เมื่อ | เชื่อมกับ SDP |
 |-------|---------|-------------|
+| [requirement-analyzer](../skills/requirement-analyzer/) | BRD/PRD/SRS ยังไม่แน่ใจว่าพร้อมทำ TC ไหม + ต้องการให้ PM review ความเข้าใจก่อน | **Pre-§5.3.1** — gate ก่อนขั้น 1 (SIT Plan) และขั้น 2 (SIT TC) |
 | [test-matrix-generator](../skills/test-matrix-generator/) | เขียน TC ไม่ทัน, ต้องการ coverage เร็ว | ก่อน SIT Test Case (ขั้น 2) |
 | [bug-report-writer](../skills/bug-report-writer/) | เจอ defect ระหว่าง SIT/UAT | ระหว่าง "ทดสอบ SIT/UAT" → Jira Card |
 | [robot-test-generator](../skills/robot-test-generator/) | Automation Robot Framework | ขยาย "ทดสอบ SIT" → automate |
@@ -60,7 +61,11 @@
 
 ### SIT Chain
 ```
-SRS/PRD
+BRD/PRD/SRS
+  └→ requirement-analyzer       → Readiness Score + Normalized Requirement + PM Confirmation
+        │   (Readiness = Ready → go; Needs-clarification → [PM review] → iterate; Not-ready → stop)
+        ↓
+  Normalized Requirement (FR IDs + 9 fields)
   ├→ test-plan-writer           → SIT Plan
   ├→ test-matrix-generator       → Coverage/Pairwise/Platform matrix (optional, quick)
   └→ test-case-writer            → SIT Test Cases (full)

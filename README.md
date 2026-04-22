@@ -2,7 +2,7 @@
 
 รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5
 
-**ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (Bug Report, Matrix, E2E/Robot Automation)
+**ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (**Requirement Analyzer**, Bug Report, Matrix, E2E/Robot Automation)
 
 > 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
 >
@@ -10,7 +10,15 @@
 
 ---
 
-## Skills (10 ตัว)
+## Skills (11 ตัว)
+
+### Pre-Testing — Requirement Readiness (ก่อนเริ่ม SIT)
+
+| # | Skill | SDP Process | Effort Saved |
+|---|-------|-------------|:------------:|
+| 0 | [requirement-analyzer](skills/requirement-analyzer/) | **Pre-§5.3.1** — BRD/PRD/SRS → Readiness Score + Normalized Req + PM Confirmation | ~30-40% |
+
+> Gate ก่อน test-case-writer — ป้องกัน garbage-in/garbage-out กับ rework รอบใหญ่ตอน PM บอก "เข้าใจผิด"
 
 ### Testing Process Skills (ตาม SDP §5.3)
 
@@ -58,9 +66,12 @@
 
 ### SIT Chain
 ```
-SRS/PRD → test-plan-writer          → SIT Plan + Exit Criteria
-         → test-matrix-generator     → Coverage matrix (optional, quick)
-         → test-case-writer          → Full SIT Test Cases (23 cols)
+BRD/PRD/SRS
+  → requirement-analyzer          → Readiness Score + Normalized Req + PM Confirmation
+  → [PM/BA confirm Open Questions]
+  → test-plan-writer              → SIT Plan + Exit Criteria
+  → test-matrix-generator         → Coverage matrix (optional, quick)
+  → test-case-writer              → Full SIT Test Cases (23 cols)
               ↓
          test-case-reviewer          → Peer Review Report
               ↓
@@ -166,10 +177,10 @@ Skill จะอ่านไฟล์นี้ก่อน apply ใน output �
 
 ### แบบที่ 1: User-level (ใช้กับทุก project)
 ```bash
-# Symlink ทั้ง 10 skills
-for skill in test-plan-writer test-case-writer test-case-reviewer test-report-writer \
-             perf-test-generator perf-result-analyzer test-matrix-generator \
-             bug-report-writer robot-test-generator e2e-test-generator; do
+# Symlink ทั้ง 11 skills
+for skill in requirement-analyzer test-plan-writer test-case-writer test-case-reviewer \
+             test-report-writer perf-test-generator perf-result-analyzer \
+             test-matrix-generator bug-report-writer robot-test-generator e2e-test-generator; do
   ln -s "$(pwd)/skills/$skill" ~/.claude/skills/$skill
 done
 ```
@@ -186,6 +197,17 @@ cp -r skills/* /path/to/project/.claude/skills/
 ---
 
 ## วิธีใช้ — ตัวอย่างคำสั่ง
+
+### 0. requirement-analyzer (Pre-Testing gate)
+
+```
+วิเคราะห์ BRD ที่ docs/brd-leave.md — เช็คความพร้อมก่อนทำ TC
+module: LEAVE, project: PEA, ภาษาไทย
+```
+```
+normalize requirement จาก docs/srs-login.md + สร้าง PM Confirmation Doc
+ส่งให้คุณสมศรี review deadline 2026-04-25
+```
 
 ### 1. test-plan-writer
 ```
@@ -285,10 +307,12 @@ qa_ai_skill/
 │   └── work-product-flow.md           ← NEW — IPO diagrams + token economy
 ├── references/                         ← Shared (linked by all skills)
 │   ├── ai-guardrails.md                ← จาก SDP §5.3.3
+│   ├── brd-readiness-guide.md          ← NEW — "BRD แบบไหนพร้อมทำ TC" สำหรับ PM/BA
 │   ├── qa-standards.md                 ← Severity/Priority/Sizing/Buffer/KPI
 │   └── sdp-mapping.md                  ← process → skill mapping
 └── skills/
-    ├── test-plan-writer/               ← NEW — SIT/UAT/Perf Plan
+    ├── requirement-analyzer/           ← NEW — Pre-Testing gate (BRD → Normalized + PM Confirmation)
+    ├── test-plan-writer/               ← SIT/UAT/Perf Plan
     ├── test-case-writer/               ← SIT + UAT mode
     ├── test-case-reviewer/             ← NEW — Peer Review
     ├── test-report-writer/             ← NEW — SIT/UAT/Perf Report
