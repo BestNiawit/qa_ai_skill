@@ -69,9 +69,9 @@ Draft Test Report จาก raw execution data → QC review ตัวเลข 
 **Format:** Markdown
 
 **Templates:**
-- SIT: [`templates/sit-report-th.md`](templates/sit-report-th.md) / [`sit-report-en.md`](templates/sit-report-en.md)
-- UAT: [`templates/uat-report-th.md`](templates/uat-report-th.md) / [`uat-report-en.md`](templates/uat-report-en.md)
-- Perf: [`templates/perf-report-th.md`](templates/perf-report-th.md) / [`perf-report-en.md`](templates/perf-report-en.md)
+- SIT: [`templates/sit-report-th.md`](templates/sit-report-th.md)
+- UAT: [`templates/uat-report-th.md`](templates/uat-report-th.md)
+- Perf: [`templates/perf-report-th.md`](templates/perf-report-th.md)
 
 **File naming:**
 - `sit_report_<scope>_<YYYYMMDD>.md`

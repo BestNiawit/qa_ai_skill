@@ -64,9 +64,9 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 **Format:** Markdown
 
 **Templates:**
-- SIT Plan: [`templates/sit-plan-th.md`](templates/sit-plan-th.md) / [`sit-plan-en.md`](templates/sit-plan-en.md)
-- UAT Plan: [`templates/uat-plan-th.md`](templates/uat-plan-th.md) / [`uat-plan-en.md`](templates/uat-plan-en.md)
-- Perf Plan: [`templates/perf-test-plan-th.md`](templates/perf-test-plan-th.md) / [`perf-test-plan-en.md`](templates/perf-test-plan-en.md)
+- SIT Plan: [`templates/sit-plan-th.md`](templates/sit-plan-th.md)
+- UAT Plan: [`templates/uat-plan-th.md`](templates/uat-plan-th.md)
+- Perf Plan: [`templates/perf-test-plan-th.md`](templates/perf-test-plan-th.md)
 - **Sprint Tracking (Excel-friendly):** [`templates/sprint-tracking-th.csv`](templates/sprint-tracking-th.csv) — ใช้ track task-level Est vs Actual hours + AI-Assisted flag รายสัปดาห์ (feedback loop ไปหา Test Report + qa-standards refinement)
 - **Sprint Plan + Gantt (PEA-CMP style):** [`templates/sprint-plan-th.csv`](templates/sprint-plan-th.csv) + [styling guide](templates/sprint-plan-styling-guide.md) — Task hierarchy (Sprint → Task → Sub-task) + Gantt chart รายวัน + Expected/Actual Start-End + Status. เหมาะกับโปรเจกต์ที่ต้องการ visual timeline ส่งให้ PM/stakeholder
 
