@@ -112,7 +112,7 @@
 | 3 | [test-case-reviewer](../skills/test-case-reviewer/) | TC file, SRS, mode | **Peer Review Report** (MD) — Must Fix / Should Fix / OK + Coverage Gap | 15k/5k | 30 sec | Must Fix ถูก category, Coverage Gap ตรง SRS |
 | 4 | [test-report-writer](../skills/test-report-writer/) | TC with actual results, Test Plan, Defects, AI Usage Log, mode | **Test Report** (MD) — Summary, Exit Criteria, Defect, **Estimate vs Actual**, **AI Savings KPI**, Conclusion | 20k/8k | 1 min | ตัวเลขตรง raw, Go/No-Go ตรง criteria, variance >30% flag |
 | 5 | [test-matrix-generator](../skills/test-matrix-generator/) | Req file + scope, matrix type (Coverage/Combination/Platform) | **Test Matrix** (CSV, UTF-8 BOM) — compact, ~10-15 min to generate | 3k/3k | 15 sec | pairwise algorithm ถูก, ไม่มี platform combo เพี้ยน (Safari/Win) |
-| 6 | [bug-report-writer](../skills/bug-report-writer/) | Symptom, Steps, Env, Severity, Priority, attachments | **Bug Report** (MD) — Title+Module+Condition, Env, Steps, Expected vs Actual, Severity/Priority (S1-S4/P0-P3) | 2k/2k | 15 sec | Steps reproduce ได้, ไม่มี PII, title มี module+symptom+condition |
+| 6 | [bug-report-writer](../skills/bug-report-writer/) | Symptom, Steps, Env, Severity, Priority, attachments | **Bug Report** (MD) — Title+Module+Condition, Env, Steps, Expected vs Actual, Severity (Critical/Major/Minor/Trivial) + Priority (Critical/High/Medium/Low) + Action Label | 2k/2k | 15 sec | Steps reproduce ได้, ไม่มี PII, title มี module+symptom+condition |
 | 7 | [robot-test-generator](../skills/robot-test-generator/) | TC file, feature, prefix, locator ref | **Robot Files** — `*.robot`, `keywords.robot`, `locators.yml`, `translations.yml` | 10k/15k | 1 min | Locator UPPER_SNAKE_CASE, keyword ไม่มี assertion, bilingual EN/TH |
 | 8 | [e2e-test-generator](../skills/e2e-test-generator/) | TC file, framework (Playwright/Cypress/WDIO/Selenium), feature, prefix | **E2E Files** — `*.spec.ts`, `locators/*.ts` (POM), `pages/*.ts`, config | 10k/20k | 1-2 min | Advanced XPath, unique/shared locators, text-as-constants |
 | 9 | [perf-test-generator](../skills/perf-test-generator/) | API spec, NFR, workload mode (RPS/VUs), scenarios | **k6 Files** — `tests/*.js`, `config/<env>.js`, `data/*.json`, threshold config | 5k/10k | 1 min | HttpClient wrapper, tag-based threshold, sleep/think time |
@@ -160,7 +160,7 @@
 │  ❗ Exit Criteria มีตัวเลข (Pass Rate %, Bug count)                     │
 │  ❗ Environment ตรง prod config (IP, DB, browser version)               │
 │  ❗ Schedule มี Effort Breakdown (ไม่ใช่ `<days>` เฉยๆ)                 │
-│  ❗ Severity = S1-S4, Priority = P0-P3 (ห้าม Blocker/High/Med)          │
+│  ❗ Severity/Priority ตาม qa-standards §1-§2 (Ayodia TEST DEFINITION)   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -178,7 +178,7 @@
 │  • Module ID + Title            2. Pick Technique:       Header +      │
 │  • Language (TH/EN)                ECP, BVA, Decision     Scope +      │
 │  • Format (MD/CSV)                 Table, State,         23-col Table  │
-│  • Priority = P0-P3                Use Case, Error       + Traceab.    │
+│  • Priority + Severity             Use Case, Error       + Traceab.    │
 │                                    Guessing               Matrix       │
 │  OPTIONAL:                                                             │
 │  • project-context.md           3. แตก Scenario:         ⭐ Sizing     │
@@ -263,10 +263,10 @@
 │    (Jira/Excel/CSV)             2. Parse execution       11 §:         │
 │  • Test Plan file                  data → compute        1. Exec Summ. │
 │  • Defect list                     Pass Rate, Defect     2. Test Exec  │
-│  • AI Usage Log                    by S1-S4              3. Exit Crit. │
+│  • AI Usage Log                    by Severity           3. Exit Crit. │
 │  • Language                                              4. Defect     │
 │                                 3. Compare Exit Crit.    5. Deferred   │
-│  OPTIONAL:                         line-by-line          6. S1/S2 Open │
+│  OPTIONAL:                         line-by-line          6. Crit/Maj Op│
 │  • User Sign-off (UAT)                                   7. Est vs ⭐  │
 │  • Perf raw result (perf)       4. Draft Exec Summary:      Actual     │
 │  • project-context.md              Ready/Not Ready       8. AI Sav. ⭐ │
@@ -281,7 +281,7 @@
 │                                       (qa-standards §6)                │
 │                                                                         │
 │                                 6. Rule-based Go/No-Go:                │
-│                                    - S1/S2 Open > 0                    │
+│                                    - Sev Critical/Major Open > 0       │
 │                                      → No-Go                           │
 │                                    - Exit Crit. fail                   │
 │                                      → Conditional                     │
@@ -316,7 +316,7 @@
 │                                 3. Generate:                            │
 │  OPTIONAL:                         - Coverage: ✓/-      Summary:       │
 │  • Update existing file            - Combination: pair  • rows/cols    │
-│                                    - Platform: P1/2/3   • gap found    │
+│                                    - Platform: Hi/Me/Lo • gap found    │
 │                                                         • orphan TC    │
 │                                 4. Size check:                         │
 │                                    >50×50? → warn split                │
@@ -348,11 +348,11 @@
 │  • Steps to reproduce              ต้องถามก่อน            ลง Jira)     │
 │  • Expected vs Actual                                                   │
 │  • Environment                  2. เขียน Title:          โครง:         │
-│  • Severity S1-S4                  [Module] Action →     • Title       │
+│  • Severity (Crit/Maj/Min/Triv)    [Module] Action →     • Title       │
 │  • Language (TH/EN)                Symptom เมื่อ Cond.   • Environment │
 │                                                          • Severity/P  │
 │  OPTIONAL:                      3. แยก Severity vs       • Steps       │
-│  • Priority P0-P3                  Priority (ห้ามรวม)    • Expected    │
+│  • Priority (Crit/Hi/Me/Lo)        Priority (ห้ามรวม)    • Expected    │
 │  • Frequency                                             • Actual      │
 │  • Test data                    4. Format steps เป็น    • Attachments │
 │  • Screenshot/HAR                  ข้อๆ + highlight     • Workaround  │
@@ -363,7 +363,7 @@
 │  QC Verify (ก่อน paste Jira):                                           │
 │  ❗ Steps reproduce ได้จริง (ลองทำตามเอง)                               │
 │  ❗ ไม่มี PII จริง (password, email ลูกค้าจริง)                         │
-│  ❗ Severity ถูกตาม qa-standards §1 (S1-S4, ไม่ใช่ Blocker)             │
+│  ❗ Severity ถูกตาม qa-standards §2 (Critical/Major/Minor/Trivial)      │
 │  ❗ ไม่ได้รวม 2 bugs ใน 1 report                                        │
 └─────────────────────────────────────────────────────────────────────────┘
 ```

@@ -14,8 +14,8 @@
   คู่มือหลัก — Quick Start + Decision Tree + End-to-End walkthrough
 
 - [ ] **3. [references/qa-standards.md](../references/qa-standards.md)** — 5 นาที
-  มาตรฐานทีม: Severity S1-S4 / Priority P0-P3 / Sizing S/M/L/XL / Buffer 20% / AI KPI 50%
-  **ห้ามใช้ scale อื่น** (ห้าม Blocker/Trivial, ห้าม High/Med/Low)
+  มาตรฐานทีม: Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Sizing S/M/L/XL + Buffer 20% + AI KPI 50%
+  **อ้างอิง Ayodia TEST DEFINITION template เป็น source of truth**
 
 - [ ] **4. [docs/work-product-flow.md](work-product-flow.md)** — 10 นาที (skim)
   IPO ของทุก skill: Input แบบไหน → AI ทำอะไร → ได้ work product อะไร + Token economy
@@ -28,7 +28,7 @@
 
 1. **Install skills** → ทำตาม [Quick Start §Step 1](#step-1--install-skills) ด้านล่าง
 2. **เตรียม `project-context.md`** ของโปรเจคที่ทำอยู่ → [Step 2](#step-2--เตรียม-project-context)
-3. **ลองโมดูลเล็ก** (5-10 req) ตาม [End-to-End Walkthrough](#-end-to-end-walkthrough--login-module-ตัวอย่างจริง) — 7 prompts, 1 สัปดาห์
+3. **ลองโมดูลเล็ก** (5-10 req) ตาม [End-to-End Timeline](#-end-to-end-timeline--1-week-sit-ภาพรวม) — 7 prompts, 1 สัปดาห์
 4. **มีปัญหา?** → ดู [Common Scenarios](#-common-scenarios--ฉันเจอแบบนี้-ทำยังไง) (6 เคส)
 
 ---
@@ -62,7 +62,7 @@ done
 ```
 
 ### Step 3 — อ่าน [qa-standards.md](../references/qa-standards.md) 3 นาที
-ทั้งทีมใช้ scale เดียวกัน: **S1-S4 / P0-P3 / Sizing S/M/L/XL** — ห้ามใช้คำอื่น
+ทั้งทีมใช้ scale เดียวกัน: **Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Sizing S/M/L/XL** (Ayodia TEST DEFINITION template)
 
 ### Step 4 — เริ่มลุย!
 ดู [Decision Tree ด้านล่าง](#-decision-tree-ฉันอยู่ตรงนี้--ทำอะไรต่อ) — หาว่า "ฉันอยู่ตรงนี้" ใช้ skill ไหน
@@ -178,84 +178,42 @@ done
 
 ---
 
-## 🚶 End-to-End Walkthrough — Login Module (ตัวอย่างจริง)
+## 🚶 End-to-End Timeline — 1 Week SIT (ภาพรวม)
 
 > สมมติคุณได้ `docs/srs-login.md` (10 requirement) พรุ่งนี้ต้องเริ่ม SIT
-> Total: 1 สัปดาห์ = 7 prompts พอ
+> Total: 1 สัปดาห์ ≈ 7 prompts
 
-### Day 1 — Plan + TC Design
+| วัน | กิจกรรม | Skill | Prompt |
+|-----|---------|-------|--------|
+| Day 1 AM | Plan v1 (placeholder) | test-plan-writer | → [how-to-sit-uat Step 1](how-to-sit-uat.md#step-1--sit-plan-v1-placeholder-schedule) |
+| Day 1 PM | Test Case | test-case-writer | → [Step 3](how-to-sit-uat.md#step-3--sit-test-case) |
+| Day 2 AM | Plan v2 (Schedule จริง) | test-plan-writer | → [Step 5](how-to-sit-uat.md#step-5--sit-plan-v2-schedule-จริงจาก-sizing) |
+| Day 2 PM | Peer Review | test-case-reviewer | → [Step 4](how-to-sit-uat.md#step-4--peer-review) |
+| Day 3-5 | Execute + Bug report | bug-report-writer | ⬇ ตัวอย่างด้านล่าง |
+| Day 5-6 | Automate (optional) | robot/e2e-test-generator | ⬇ ตัวอย่างด้านล่าง |
+| Day 7 | Report | test-report-writer | → [Step 6](how-to-sit-uat.md#step-6--sit-report-หลัง-execute-เสร็จ) |
 
-**Prompt 1:** Draft Plan ก่อน (placeholder schedule)
-```
-เขียน SIT Plan จาก docs/srs-login.md
-- scope: Login Module (FR_LOG_01..10)
-- ภาษาไทย
-- 1 tester
-```
-→ ได้ `sit_plan_login_20260421.md` (Schedule = TBD เพราะยังไม่มี TC)
+> 📖 **Prompt เต็ม + UAT chain ต่อ (Step 7-10)** → [docs/how-to-sit-uat.md](how-to-sit-uat.md)
 
-**Prompt 2:** เขียน Test Case
-```
-เขียน SIT test case จาก docs/srs-login.md ภาษาไทย CSV
-module ID: LOG, prefix TC_LOG
-เน้น Positive + Negative + Boundary + Edge cases
-```
-→ ได้ `testcases_sit_LOG_20260421.md` พร้อม **Sizing Summary Block** ท้ายไฟล์
+### ตัวอย่าง Prompt เฉพาะ Onboarding
 
-### Day 2 — Plan Final + Peer Review
-
-**Prompt 3:** Re-run Plan ให้อ่าน Sizing Summary
-```
-update sit_plan_login_20260421.md
-ให้คำนวณ Schedule จาก testcases_sit_LOG_20260421.md
-(อ่าน Sizing Summary Block แล้วใช้ Buffer Policy ใน qa-standards.md §4)
-```
-→ ได้ Effort Breakdown + Calendar days จริง
-
-**Prompt 4:** Peer Review
-```
-review test case ใน testcases_sit_LOG_20260421.md
-เทียบกับ docs/srs-login.md — หา coverage gap + quality issue
-```
-→ ได้ `peer_review_LOG_20260421.md` — fix Must Fix issues ก่อนไป execute
-
-### Day 3-5 — Execute
-
-- Tester รัน TC ตามไฟล์ กรอก Actual Result / Test Result / Tested By / Date ใน template
-- เจอ bug → **Prompt 5:**
+**เจอ bug ระหว่าง execute:**
 ```
 เขียน bug report:
 - [Login] กดปุ่มเข้าระบบแล้วหน้าค้าง เมื่อ password มี whitespace นำหน้า
 - Chrome 130, macOS 14, SIT env
-- Severity: S2 Major
-- Priority: P1
+- Severity: Major, Priority: High
 - Steps: ...
 ```
 → ได้ `bug_login_whitespace_20260423.md` → copy paste ลง Jira
 
-### Day 5-6 — Automate (optional)
-
-**Prompt 6:** Automate TC ที่ `Automation=Yes`
+**Automate TC ที่ `Automation=Yes`:**
 ```
 สร้าง Playwright test จาก testcases_sit_LOG_20260421.md
 feature: login, prefix: AUTH
 เอาเฉพาะ TC ที่ Automation=Yes
 ```
 → ได้ `.spec.ts` files
-
-### Day 7 — Report
-
-**Prompt 7:** สรุป Report
-```
-สรุป SIT Report จาก testcases_sit_LOG_20260421.md (กรอก actual แล้ว)
-+ bug list ใน ./bugs/
-เทียบ Exit Criteria ใน sit_plan_login_20260421.md
-บันทึก AI effort savings:
-- Plan: draft 30min + review 3.5hr
-- TC: draft 1hr + review 11hr
-- Report (this): draft 15min + review 1.25hr
-```
-→ ได้ `sit_report_login_20260428.md` — มี **Estimate vs Actual** + **AI Savings KPI** ครบ → ส่ง TL/PM
 
 ---
 
@@ -300,6 +258,8 @@ feature: login, prefix: AUTH
 5. [User execute] → test-report-writer mode=uat
 ```
 
+> 📖 **อยากได้ prompt แบบ copy-paste ทุกขั้น (SIT→UAT 10 steps)?** → [docs/how-to-sit-uat.md](how-to-sit-uat.md)
+
 ### Scenario 3 — Perf Test ครั้งแรกในโปรเจค
 ```
 1. รวบ NFR จาก Contract / Architect (p95, TPS, error rate)
@@ -313,7 +273,7 @@ feature: login, prefix: AUTH
 
 ### Scenario 4 — เจอ bug ระหว่าง execute
 ```
-1. bug-report-writer (ใช้ Severity S1-S4, Priority P0-P3 ตาม qa-standards)
+1. bug-report-writer (ใช้ Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low ตาม qa-standards)
 2. paste ลง Jira
 3. เมื่อ dev fix แล้ว → re-test TC นั้น
 4. ถ้าผ่าน → update Test Result = Pass + กรอก Defect ID
@@ -342,7 +302,7 @@ feature: login, prefix: AUTH
 
 ## 🚨 อย่าทำ!
 
-- ❌ ใช้ Severity "Blocker/Trivial" หรือ Priority "High/Med/Low" — **ต้องใช้ S1-S4 / P0-P3 เท่านั้น**
+- ❌ ใช้ legacy scale (S1-S4, P0-P3, Cosmetic) — **ต้องใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม Ayodia TEST DEFINITION template**
 - ❌ เขียน Test Plan Schedule เป็น `<days>` โดยไม่มี Effort Breakdown
 - ❌ สรุป Test Report โดยไม่มี "Estimate vs Actual" + "AI Effort Savings" sections
 - ❌ Copy SIT TC เป็น UAT โดยไม่ปรับเป็น business language
@@ -382,7 +342,7 @@ feature: login, prefix: AUTH
 | **FRS** | Functional Requirements Specification | technical breakdown ของ SRS |
 | **FR** | Functional Requirement | requirement ด้าน function (feature ทำอะไรได้) — มักมี ID เช่น `FR_LOG_01` |
 | **NFR** | Non-Functional Requirement | requirement ด้านคุณภาพ (performance, security, usability) |
-| **SLA** | Service Level Agreement | ข้อตกลงระดับบริการ (เช่น fix S1 ≤ 1 วัน) |
+| **SLA** | Service Level Agreement | ข้อตกลงระดับบริการ (เช่น fix Severity Critical ≤ 1 วัน) |
 | **SDP** | Software Development Process | เอกสาร process มาตรฐานของทีม |
 
 ### Testing Type
@@ -416,8 +376,9 @@ feature: login, prefix: AUTH
 ### Metric / Scale (ดู qa-standards.md ครบ)
 | ย่อ | คำเต็ม (EN) | ความหมาย |
 |-----|------------|---------|
-| **S1-S4** | Severity 1-4 | Critical / Major / Minor / Cosmetic (ห้ามใช้ Blocker/Trivial) |
-| **P0-P3** | Priority 0-3 | Critical / High / Medium / Low (ห้ามใช้ High/Med/Low ตรงๆ) |
+| **Severity** | ความรุนแรงของปัญหา | Critical / Major / Minor / Trivial (Ayodia TEST DEFINITION template) |
+| **Priority** | ความเร่งด่วนของการทดสอบ | Critical / High / Medium / Low (Ayodia TEST DEFINITION template) |
+| **Action Label** | ผลลัพธ์ Severity × Priority Matrix | Blocker / Urgent / Standard High / Manageable / ... (qa-standards §2.1) |
 | **S / M / L / XL** | Sizing — Small/Medium/Large/Extra-Large | TC execution time (<15min / 15-30min / 30-60min / >60min) |
 | **KPI** | Key Performance Indicator | ตัววัดผล (เช่น AI Savings ≥ 50%) |
 | **TPS / RPS** | Transactions / Requests Per Second | throughput (Perf) |

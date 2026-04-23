@@ -63,7 +63,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | Roles involved (checklist เท่านั้น) | ⚠️ | list of roles + example user/pass — เช่น "ข้าราชการ, การเงิน, หัวหน้า, กองคลัง" |
 | ภาษา output: TH / EN | ✅ | ถ้าไม่ระบุ → ถาม |
 | Format: Markdown / CSV | ✅ | CSV import Excel/Sheets/Jira ง่ายกว่า |
-| Priority scheme | — | **บังคับ P0/P1/P2/P3** ตาม [qa-standards.md §2](../../references/qa-standards.md) |
+| Priority scheme | — | **บังคับ Critical/High/Medium/Low** ตาม [qa-standards.md §1](../../references/qa-standards.md) |
 | `project-context.md` | ⚠️ | env, glossary, severity scale, business rules, role list |
 | SIT Test Cases (สำหรับ UAT mode) | ⚠️ | path ไฟล์ SIT TC ถ้าต้องการแปลง → UAT |
 
@@ -75,7 +75,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 ## Glossary
 - "AT" = Assessment Tax
 ## Severity Scale
-- S1=Critical, S2=Major, S3=Minor, S4=Cosmetic
+- Critical / Major / Minor / Trivial (ตาม qa-standards §2)
 ## Business Rules
 - Leave balance = 10 days/year, reset 1 Jan
 ```
@@ -124,8 +124,8 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | 2  | Description | ✱ | Design | ประโยคสั้น บอกสิ่งที่ทดสอบ |
 | 3  | Role | ✱ | Design | End User / Admin / Super Admin / Guest |
 | 4  | Positive/Negative | ✱ | Design | Positive / Negative / Boundary / Edge |
-| 5  | Priority | ✱ | Design | **P0/P1/P2/P3** (qa-standards §2) |
-| 6  | Severity | ✱ | Design | **S1/S2/S3/S4** (qa-standards §1) |
+| 5  | Priority | ✱ | Design | **Critical/High/Medium/Low** (qa-standards §1) |
+| 6  | Severity | ✱ | Design | **Critical/Major/Minor/Trivial** (qa-standards §2) |
 | 7  | Test Sizing | ✱ | Design | **S/M/L/XL** (qa-standards §3) — ป้อน test-plan-writer |
 | 8  | Technique | | Design | ECP / BVA / Decision Table / State Transition / Use Case / Error Guessing |
 | 9  | Pre-Requisite | | Design | state ก่อนเริ่ม |
@@ -246,8 +246,8 @@ C1 — สวัสดิการรักษาพยาบาล
 | XL   | 2     | 1.25          | 2.50       |
 | **Total** | **25** | — | **11.31 hr** |
 
-Priority distribution: P0=3, P1=12, P2=8, P3=2
-Severity distribution: S1=2, S2=10, S3=11, S4=2
+Priority distribution: Critical=3, High=12, Medium=8, Low=2
+Severity distribution: Critical=2, Major=10, Minor=11, Trivial=2
 Automation candidates: 7 TC (L+XL with repeating frequency)
 ```
 
@@ -266,8 +266,8 @@ Automation candidates: 7 TC (L+XL with repeating frequency)
 Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 
 ### Must Have
-- [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, **Priority (P0-P3), Severity (S1-S4), Test Sizing (S/M/L/XL)**, Test Step, Expected Result
-- [ ] Priority/Severity/Sizing ใช้ scale เดียวตาม `references/qa-standards.md` (ไม่มี High/Med/Low, ไม่มี Blocker/Trivial)
+- [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, **Priority (Critical/High/Medium/Low), Severity (Critical/Major/Minor/Trivial), Test Sizing (S/M/L/XL)**, Test Step, Expected Result
+- [ ] Priority/Severity/Sizing ใช้ scale เดียวตาม `references/qa-standards.md` (อ้างอิง Ayodia TEST DEFINITION template)
 - [ ] Expected Result **วัดได้** — ไม่มี "ทำงานถูกต้อง" / "แสดงผลปกติ"
 - [ ] ครอบคลุม Positive + Negative ครบทุก Requirement
 - [ ] มี Boundary Test สำหรับ input field
@@ -322,7 +322,7 @@ Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 - ❌ Steps รวบ — ต้องแยกเป็นข้อๆ มีเบอร์
 - ❌ ใส่ password จริงใน Test Data
 - ❌ กรอก Actual/Result/Tested By ตั้งแต่ design phase (ปล่อยว่างให้ tester)
-- ❌ TC sizing = XL แต่ Priority = P3 (over-invest)
+- ❌ TC sizing = XL แต่ Priority = Low (over-invest)
 
 ---
 
@@ -359,7 +359,7 @@ SRS → test-case-writer (mode=sit) → test-case-reviewer → [approved]
 | XL | > 1 ชั่วโมง | **1.25** | 15+ | E2E ข้าม role, external system |
 
 **Pipeline:** sizing totals → Sizing Summary Block → test-plan-writer Schedule (ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule))
-**Rules:** XL ควร P0/P1 เท่านั้น; L/XL ที่รันบ่อย = automation candidate
+**Rules:** XL ควร Critical/High Priority เท่านั้น; L/XL ที่รันบ่อย = automation candidate
 
 ---
 

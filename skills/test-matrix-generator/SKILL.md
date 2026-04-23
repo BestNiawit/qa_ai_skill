@@ -123,19 +123,19 @@ C-009,over-60,JP,pro,credit card
 
 - **แถว** = Feature / Test scenario
 - **คอลัมน์** = Platform combo (Chrome-Win11, Safari-iOS17, ...)
-- **Cell** = `P1/P2/P3` = priority, `-` = ไม่เกี่ยว
+- **Cell** = `High/Medium/Low` = priority (qa-standards §1), `-` = ไม่เกี่ยว
 - **Priority criteria (เกณฑ์แนะนำ):**
-  - `P1` = critical flow + market share >20% (เช่น Chrome desktop)
-  - `P2` = market share 5-20% หรือ secondary flow
-  - `P3` = market share <5% หรือ edge case
+  - `High` = critical flow + market share >20% (เช่น Chrome desktop)
+  - `Medium` = market share 5-20% หรือ secondary flow
+  - `Low` = market share <5% หรือ edge case
 
 ```csv
 Feature,Chrome-Win11,Safari-macOS14,Safari-iOS17,Chrome-Android14,Firefox-Win11
-Login form,P1,P1,P1,P1,P2
-File upload,P1,P2,P2,P2,P3
-Payment checkout,P1,P1,P1,P1,P2
-Admin dashboard,P1,P2,-,-,P3
-Push notification,-,-,P1,P1,-
+Login form,High,High,High,High,Medium
+File upload,High,Medium,Medium,Medium,Low
+Payment checkout,High,High,High,High,Medium
+Admin dashboard,High,Medium,-,-,Low
+Push notification,-,-,High,High,-
 ```
 
 ---

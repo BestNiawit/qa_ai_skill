@@ -128,8 +128,8 @@ skills/<skill-name>/
 ## Glossary
 - "AT" = Assessment Tax
 - "PMS" = Property Management System
-## Severity Scale
-- P0 = แก้วันนี้, P1 = sprint นี้, P2 = sprint หน้า
+## Priority Scale (override ได้ถ้าต่าง default)
+- Critical = แก้วันนี้, High = sprint นี้, Medium = sprint หน้า, Low = เมื่อมีเวลา
 ```
 
 Skill อ่านไฟล์นี้ก่อน แล้ว apply ใน output — ไม่ต้อง hardcode ค่าใน SKILL.md

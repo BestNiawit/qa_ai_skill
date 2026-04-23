@@ -135,18 +135,20 @@
 
 ## 10. Defect Management
 
-> ใช้ scale ตาม `references/qa-standards.md §1-§2` — **ห้าม Blocker/Trivial/High/Med/Low**
+> ใช้ scale ตาม `references/qa-standards.md §1-§2` (อ้างอิง Ayodia TEST DEFINITION template)
 
 - **Tool:** Jira (Project: `<PROJECT_KEY>`)
-- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic (qa-standards §1)
-- **Priority:** P0 / P1 / P2 / P3 (qa-standards §2)
+- **Severity:** Critical / Major / Minor / Trivial (qa-standards §2)
+- **Priority:** Critical / High / Medium / Low (qa-standards §1)
+- **Action Label:** อ้าง Severity × Priority Matrix (qa-standards §2.1) — Blocker / Urgent / Standard High / Manageable / ...
 - **Status flow:** Open → In Progress → Fixed → Ready to Retest → Verified / Reopened
 
 **SLA (SIT):**
-- S1: fix ≤ 1 วันทำการ
-- S2: fix ≤ 3 วันทำการ
-- S3: fix ใน sprint
-- S4: best effort
+
+- Severity Critical: fix ≤ 1 วันทำการ
+- Severity Major: fix ≤ 2 วันทำการ
+- Severity Minor: fix ใน sprint
+- Severity Trivial: best effort
 
 ## 11. Traceability
 ดู `traceability_matrix_<scope>.csv` — map SRS Requirement ↔ SIT Test Case

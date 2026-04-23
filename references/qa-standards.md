@@ -2,35 +2,50 @@
 
 > **วัตถุประสงค์:** กำหนด Severity / Priority / Test Sizing / Buffer / Velocity ที่ **ทุก skill** และ **ทุกโปรเจค** ต้องใช้เหมือนกัน
 > เพื่อให้ข้อมูลไหลเชื่อมกันจาก **Test Case → Test Plan → Test Report** ได้โดยไม่ต้องแปลง scale
-> **อ้างอิง:** SDP §5 Testing + IEEE 829 + ISTQB Foundation
+> **อ้างอิง:** Ayodia **TEST DEFINITION** template (source of truth ของ Severity/Priority) + SDP §5 Testing + IEEE 829 + ISTQB Foundation
 
 ---
 
-## 1. Severity Scale (4 ระดับ — บังคับ)
+## 1. Priority Scale (4 ระดับ — บังคับ)
 
-| Code | ชื่อ | นิยาม | SLA Fix (SIT) |
-|------|------|------|--------------|
-| **S1** | Critical | ระบบพังทั้งหมด / feature หลักใช้งานไม่ได้ / data corruption / security breach | ≤ 1 วันทำการ |
-| **S2** | Major | feature สำคัญพังแต่มี workaround / integration fail / performance เกิน 2× NFR | ≤ 3 วันทำการ |
-| **S3** | Minor | UI ผิดเล็กน้อย / validation ไม่ครบ / edge case fail / performance เกิน 1.2× NFR | ใน sprint |
-| **S4** | Cosmetic | typo / alignment เพี้ยน / สีไม่ตรง spec / icon หาย | best effort |
+**ความสำคัญของการทดสอบ** — ระดับความเร่งด่วนของการทดสอบ Test Case หรือการแก้ไขระบบเมื่อ Test Case นั้นล้มเหลว (Fail) โดยดูจากความสำคัญต่อธุรกิจ ความคาดหวังของผู้ใช้งาน และเวลาในการส่งมอบระบบ
 
-> ❌ **ห้ามใช้คำอื่น** เช่น Blocker, Trivial, High/Med/Low (severity) — ให้ map เข้า 4 ระดับนี้:
-> - "Blocker" → **S1 Critical**
-> - "Trivial" → **S4 Cosmetic**
+| Level | ความหมาย | ตัวอย่าง |
+|-------|---------|---------|
+| 🔴 **Critical** | ต้องแก้ทันที เพราะ Blocked งานอื่น | ปุ่ม "Submit" พัง ทำให้ทดสอบต่อไม่ได้ |
+| 🟠 **High** | สำคัญต่อ Core Function ต้องทำในรอบนี้ | Register ใช้งานไม่ได้ |
+| 🟡 **Medium** | สำคัญรองลงมา แต่ควรให้ทันรอบถัดไป | การค้นหาข้อมูลทำงานช้ากว่าปกติ |
+| 🔵 **Low** | ไม่เร่งด่วน ทำทีหลังก็ได้ | UI ไม่ตรงกับ Figma, สีผิดโทน, Wording ไม่ถูกต้อง |
 
 ---
 
-## 2. Priority Scale (4 ระดับ — บังคับ)
+## 2. Severity Scale (4 ระดับ — บังคับ)
 
-| Code | ชื่อ | ความหมาย |
-|------|------|----------|
-| **P0** | Critical | ต้องแก้/ทดสอบทันทีวันนี้ — block release |
-| **P1** | High | แก้/ทดสอบใน sprint นี้ — ต้อง release พร้อมกัน |
-| **P2** | Medium | แก้/ทดสอบ sprint หน้า |
-| **P3** | Low | แก้/ทดสอบเมื่อมีเวลา / maintenance phase |
+**ความรุนแรงของปัญหา/ข้อผิดพลาด** — ระดับความรุนแรงของผลกระทบหาก Test Case นั้นล้มเหลว (Fail)
 
-> Priority ≠ Severity — typo (S4) อาจเป็น P0 ได้ถ้าลูกค้าใหญ่บ่น
+| Level | ความหมาย | ตัวอย่าง | SLA Fix (SIT) |
+|-------|---------|----------|---------------|
+| 🔴 **Critical** | ระบบหลักพัง ใช้งานไม่ได้ | ระบบล่ม, ชำระเงินไม่ผ่าน | ≤ 1 วันทำการ |
+| 🟠 **Major** | ฟังก์ชันหลักใช้ไม่ได้ แต่ระบบยังรันได้ | Login พัง, ข้อมูลไม่บันทึก | ≤ 2 วันทำการ |
+| 🟡 **Minor** | ปัญหาเล็กน้อย ไม่มีผลต่อการใช้งานหลัก | UI ไม่ตรง Figma, Validation แจ้งเตือนผิด | ใน sprint |
+| 🔵 **Trivial** | จุกจิก ไม่กระทบการใช้งานเลย | Wording ไม่ถูกต้อง, Alignment เพี้ยน | best effort |
+
+> **Priority ≠ Severity** — Trivial (typo) อาจเป็น Critical Priority ได้ถ้าลูกค้าใหญ่บ่น
+
+---
+
+## 2.1 Severity-Priority Matrix (Action Label)
+
+ใช้ใน Bug Report, Exit Criteria, Sprint triage — เมื่อจับคู่ Severity กับ Priority แล้วได้ **Action Label** ที่บอกชัดว่าควรจัดการยังไง
+
+| Severity \ Priority | 🔴 Critical | 🟠 High | 🟡 Medium | 🔵 Low |
+|---------------------|-------------|---------|-----------|--------|
+| 🔴 **Critical** | **Blocker** — ต้องดำเนินการโดยทันที เพื่อไม่ให้กระทบต่อระบบโดยรวม | **Urgent** — แก้ไขเร่งด่วนภายในรอบการพัฒนา เนื่องจากเป็นข้อผิดพลาดร้ายแรง | **Important** — สำคัญแต่ไม่ใช่ข้อผิดพลาดที่ทำให้ระบบหยุดทำงาน | **Deferred Critical** — ปัญหาสำคัญแต่ยังไม่เร่งด่วน |
+| 🟠 **Major** | **High Business Risk** — ควรเร่งดำเนินการเพราะกระทบต่อฟังก์ชันหลัก | **Standard High** — ฟังก์ชันผิดพลาด ควรแก้ให้ทันในรอบทดสอบนี้ | **Manageable** — แก้ไขเมื่อมีเวลา เพราะยังมีวิธีแก้ไขทางอ้อม | **Can Delay** — อนุโลมให้เลื่อนได้ |
+| 🟡 **Minor** | **Prioritize If Impacted** — เร่งแก้เฉพาะเมื่อฟีเจอร์นั้นเป็นจุดสำคัญ | **Optional but Noted** — ควรแก้ถ้ามีเวลา | **Acceptable Delay** — ไม่กระทบหลัก สามารถดำเนินการภายหลัง | **Low Impact Cosmetic** — ความคลาดเคลื่อนที่ไม่กระทบการใช้งาน |
+| 🔵 **Trivial** | **Non-critical but Visible** — ควรแก้ในกรณีที่อยู่ในหน้าหลักหรือส่งผลต่อภาพลักษณ์ | **Minor Fix Suggested** — แนะนำให้แก้เพื่อความสมบูรณ์ | **Can Be Scheduled Later** — ไม่รีบ ทำในรอบถัดไป | **Optional** — ไม่จำเป็นต้องดำเนินการ |
+
+> **Positive/Negative Case:** Positive = ยืนยันว่า feature ทำงาน "ได้จริง" | Negative = ยืนยันว่า feature "กันความผิดพลาดได้"
 
 ---
 
@@ -44,7 +59,7 @@
 | **XL** | > 1 hr | **1.25 hr** | 15+ | E2E ข้าม role / external system |
 
 > **Midpoint** = ตัวเลขที่ใช้ใน Schedule Formula ของ [test-plan-writer](../skills/test-plan-writer/)
-> **Sprint capacity:** XL ควรเป็น P0/P1 เท่านั้น — L/XL ที่รันบ่อย = automation candidate
+> **Sprint capacity:** XL ควรเป็น Critical/High Priority เท่านั้น — L/XL ที่รันบ่อย = automation candidate
 
 ---
 
@@ -108,13 +123,16 @@
 
 ---
 
-## 7. Scale Mapping Examples
+## 7. Scale Mapping Examples (เมื่อ external tool ใช้ scale อื่น)
 
 ```
-[Bug from tester]
-  ├─ Jira/external tool: Blocker    → แปลงเป็น S1 Critical ใน report
-  ├─ Jira/external tool: Trivial    → แปลงเป็น S4 Cosmetic
-  └─ "High priority"                → แปลงเป็น P1 High
+[Bug from external Jira / tracking tool]
+  ├─ "Blocker" / "Highest"       → Critical Severity (ถ้าระบบพัง) หรือ Critical Priority (ถ้า block)
+  ├─ "P1" / "S1" (legacy)        → Critical
+  ├─ "P2" / "S2"                 → High (Priority) หรือ Major (Severity)
+  ├─ "P3" / "S3"                 → Medium / Minor
+  ├─ "P4" / "Cosmetic"           → Low / Trivial
+  └─ "Nice to have"              → Low Priority
 
 [Test Case Sizing]
   ├─ "ใช้เวลา 10 นาที"      → S  (0.17 hr)
@@ -123,12 +141,15 @@
   └─ "E2E 2 role + report"  → XL (1.25 hr)
 ```
 
+> **หมายเหตุ:** ใน artifact ของทีม (TC/Plan/Report/Bug) ใช้ **Critical/High/Medium/Low** (Priority) + **Critical/Major/Minor/Trivial** (Severity) เท่านั้น การ map ข้างบนใช้ตอนรับข้อมูลจาก external tool เท่านั้น
+
 ---
 
 ## 8. Checklist — ใช้มาตรฐานครบมั้ย?
 
-- [ ] Severity ทุก artifact ใช้ S1/S2/S3/S4 (ไม่มี Blocker/Trivial)
-- [ ] Priority ทุก artifact ใช้ P0/P1/P2/P3 (ไม่มี High/Med/Low)
+- [ ] Priority ทุก artifact ใช้ **Critical / High / Medium / Low** (4 ระดับ)
+- [ ] Severity ทุก artifact ใช้ **Critical / Major / Minor / Trivial** (4 ระดับ)
+- [ ] Bug Report ระบุ **Action Label** จาก Severity × Priority Matrix §2.1 (Blocker, Urgent, Standard High, ...)
 - [ ] ทุก TC มี Test Sizing (S/M/L/XL)
 - [ ] Test Plan Schedule คำนวณจากสูตร Buffer Policy §4
 - [ ] Test Report มี section "Estimate vs Actual" + "AI Effort Savings"
@@ -137,6 +158,8 @@
 ---
 
 ## References
+
+- **Ayodia TEST DEFINITION template** — source of truth สำหรับ Severity/Priority scale + action label matrix
 - [sdp-mapping.md](sdp-mapping.md) — Skill ↔ SDP process
 - [ai-guardrails.md](ai-guardrails.md) — AI usage guardrails
 - SDP §5 Testing + §5.1 Quality Gates + §5.3 AI-Assisted Testing
