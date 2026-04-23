@@ -81,7 +81,9 @@
 
 ---
 
-## 5. Team Velocity (baseline — ปรับต่อโปรเจคได้ แต่ต้อง document ใน project-context.md)
+## 5. Team Velocity
+
+> baseline — ปรับต่อโปรเจคได้ แต่ต้อง document ใน `project-context.md`
 
 | Indicator | Default | ที่มา |
 |-----------|---------|-------|
@@ -117,7 +119,8 @@
 > **Peer Review 40%:** ต่ำสุดเพราะยังต้องให้คนตัดสิน business logic — AI ทำได้แค่ syntactic + coverage check
 
 **วิธีวัด (เก็บใน Test Report section "AI Effort Savings"):**
-```
+
+```text
 - AI Draft Time:     <minutes AI generated>
 - Human Review Time: <hrs QC spent reviewing/fixing>
 - Total (AI-Assisted): AI + Human
@@ -131,7 +134,7 @@
 
 ## 7. Scale Mapping Examples (เมื่อ external tool ใช้ scale อื่น)
 
-```
+```text
 [Bug from external Jira / tracking tool]
   ├─ "Blocker" / "Highest"       → Critical Severity (ถ้าระบบพัง) หรือ Critical Priority (ถ้า block)
   ├─ "P1" / "S1" (legacy)        → Critical
