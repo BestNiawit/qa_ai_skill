@@ -97,18 +97,24 @@
 ## 6. AI Effort Savings KPI (ต้องบันทึกทุก Report)
 
 > **เป้าหมายทีม:** ลด manual effort ด้วย AI ใน testing phase → วัดผลได้จริง
+>
+> ⚠️ **ตัวเลขด้านล่างเป็น default baseline** (rule-of-thumb อิง SDP §5.3.4) — **ยังไม่ใช่ measured data**
+> ทีม/โปรเจคควรเก็บข้อมูลจริง 1–2 sprint แรกเพื่อ calibrate แล้ว override ใน `project-context.md` (pattern เดียวกับ §5 Team Velocity)
 
-| Artifact | Baseline Manual (hrs) | AI-Assisted Target (hrs) | Savings Target |
-|----------|:---------------------:|:------------------------:|:--------------:|
-| SIT Plan | 8 | 4 | 50% |
-| SIT Test Case (per module, ~20 req) | 24 | 12 | 50% |
-| Peer Review | — | — | 40% |
-| SIT Report | 4 | 1.5 | 62% |
-| UAT Plan | 8 | 4 | 50% |
-| UAT Test Case | 16 | 8 | 50% |
-| UAT Report | 4 | 1.5 | 62% |
-| Perf Test Plan | 8 | 4 | 50% |
-| Perf Report | 8 | 4 | 50% |
+| Artifact | Baseline Manual (hrs) | AI-Assisted Target (hrs) | Savings Target | ที่มา / Rationale |
+|----------|:---------------------:|:------------------------:|:--------------:| ----------------- |
+| SIT Plan | 8 | 4 | 50% | 1 working day — เขียน plan 1 เอกสารตาม IEEE 829 |
+| SIT Test Case (per module, ~20 req) | 24 | 12 | 50% | 3 วัน → ~1.2 hr/TC (write + self-review) สำหรับ M-size TC |
+| Peer Review | — | — | 40% | AI ช่วย syntactic + traceability check, business logic ยังต้องคน → savings ต่ำกว่างานอื่น |
+| SIT Report | 4 | 1.5 | 62% | ครึ่งวัน — template-heavy, AI ช่วยสรุป defect list + Estimate vs Actual |
+| UAT Plan | 8 | 4 | 50% | 1 working day — โครงสร้างคล้าย SIT Plan |
+| UAT Test Case | 16 | 8 | 50% | 2 วัน — scenario ฝั่ง business ~10–15 scenarios, depth น้อยกว่า SIT |
+| UAT Report | 4 | 1.5 | 62% | ครึ่งวัน — เหมือน SIT Report |
+| Perf Test Plan | 8 | 4 | 50% | 1 working day — scenario + threshold design |
+| Perf Report | 8 | 4 | 50% | 1 วัน — ต้อง analyze result/graph, savings ต่ำกว่า SIT/UAT Report |
+
+> **Savings 50% vs 62%:** งานที่เป็น template-heavy (Report) AI ช่วยได้มากกว่างานที่ต้อง domain reasoning (Plan/TC authoring)
+> **Peer Review 40%:** ต่ำสุดเพราะยังต้องให้คนตัดสิน business logic — AI ทำได้แค่ syntactic + coverage check
 
 **วิธีวัด (เก็บใน Test Report section "AI Effort Savings"):**
 ```
