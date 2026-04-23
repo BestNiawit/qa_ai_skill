@@ -5,7 +5,7 @@ description: สร้าง bug report ที่มีโครงสร้า�
 
 # Bug Report Writer
 
-> **คำย่อ (S1-S4 / P0-P3 / SIT / UAT / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+> **คำย่อ (SIT / UAT / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
 
 ## 1. Purpose — เป้าหมาย
 
@@ -14,7 +14,8 @@ description: สร้าง bug report ที่มีโครงสร้า�
 **Key rules:**
 - Title = `[Module] Action → Symptom เมื่อ Condition`
 - แยก Severity (impact) vs Priority (urgency) — ห้ามรวมกัน
-- ใช้ Severity/Priority ตาม [qa-standards.md §1-§2](../../references/qa-standards.md) — **4 ระดับ S1-S4 / P0-P3 เท่านั้น**
+- ใช้ Severity/Priority ตาม [qa-standards.md §1-§2](../../references/qa-standards.md) — **Critical/Major/Minor/Trivial + Critical/High/Medium/Low** (Ayodia TEST DEFINITION template)
+- **Action Label** ระบุจาก Severity × Priority Matrix ([qa-standards §2.1](../../references/qa-standards.md#21-severity-priority-matrix-action-label)) — เช่น Blocker, Urgent, Standard High
 - Steps reproduce เป็นข้อๆ มีเบอร์ + precondition ชัด
 - Expected ≠ Actual ต้องเห็นต่างชัดเจน
 - Attach: screenshot / log / HAR file
@@ -73,8 +74,9 @@ description: สร้าง bug report ที่มีโครงสร้า�
 Title: [Module] Action → Symptom เมื่อ Condition
 ---
 Environment: OS, Browser, Version, URL
-Severity: S1 Critical / S2 Major / S3 Minor / S4 Cosmetic  (ตาม qa-standards.md)
-Priority: P0 / P1 / P2 / P3  (ตาม qa-standards.md)
+Severity: Critical / Major / Minor / Trivial  (ตาม qa-standards.md §2)
+Priority: Critical / High / Medium / Low  (ตาม qa-standards.md §1)
+Action Label: <จาก Severity × Priority matrix §2.1>  (e.g. Blocker, Urgent, Standard High)
 Frequency: Always/Sometimes/Once
 Related: TC-ID / Epic / Related ticket
 ---
@@ -122,16 +124,22 @@ TH หรือ EN
 
 | Severity (impact ทางเทคนิค) | Priority (ความเร่งด่วน) |
 |---------------------------|-------------------------|
-| **S1 Critical** — ระบบพัง / feature หลักใช้ไม่ได้ / data corruption / security breach | **P0** — แก้ทันทีวันนี้ block release |
-| **S2 Major** — feature สำคัญพัง มี workaround / integration fail | **P1** — แก้ใน sprint นี้ |
-| **S3 Minor** — UI ผิดเล็กน้อย / validation ไม่ครบ / edge case | **P2** — แก้ sprint หน้า |
-| **S4 Cosmetic** — typo / alignment / สีไม่ตรง / icon หาย | **P3** — แก้เมื่อมีเวลา |
+| **Critical** — ระบบพัง / feature หลักใช้ไม่ได้ / data corruption / security breach | **Critical** — แก้ทันทีวันนี้ block release |
+| **Major** — feature สำคัญพัง มี workaround / integration fail | **High** — แก้ใน sprint นี้ |
+| **Minor** — UI ผิดเล็กน้อย / validation ไม่ครบ / edge case | **Medium** — แก้ sprint หน้า |
+| **Trivial** — typo / alignment / สีไม่ตรง / icon หาย | **Low** — แก้เมื่อมีเวลา |
 
-**Mapping คำอื่น → S-scale:**
-- "Blocker" → **S1 Critical**
-- "Trivial" → **S4 Cosmetic**
+**Mapping คำอื่น → new scale (legacy):**
+- "Blocker" (Jira) → Severity Critical + Priority Critical = **Action Label: Blocker**
+- "S1 / P0" (legacy) → Critical
+- "Cosmetic" → Severity Trivial
 
-ตัวอย่าง: typo บนหน้า login (S4 Cosmetic) แต่ลูกค้าใหญ่บ่น → P0 Priority
+**เพิ่ม Action Label จาก Matrix ([qa-standards §2.1](../../references/qa-standards.md#21-severity-priority-matrix-action-label))** — เช่น:
+- Severity Critical × Priority Critical = **Blocker**
+- Severity Major × Priority High = **Standard High**
+- Severity Trivial × Priority Low = **Optional**
+
+ตัวอย่าง: typo บนหน้า login (Severity Trivial) แต่ลูกค้าใหญ่บ่น → Priority Critical → Action Label = **Non-critical but Visible**
 
 ### Step 5: Steps to Reproduce ต้องชัด
 - เป็นข้อๆ เรียงเลข

@@ -121,8 +121,8 @@ Skill ทุกตัวมี **Quality Gate checklist** ใน section "Qualit
 test-case-writer              test-plan-writer                test-report-writer
 ──────────────                ────────────────                ──────────────────
 TC Table (23 col)        →    Read "Sizing Summary"      →    Compare Est vs Actual
- ├ Priority P0-P3                 Σ sizing × Buffer Policy       (qa-standards §4)
- ├ Severity S1-S4                 = Schedule (hrs + days)
+ ├ Priority (C/H/M/L)            Σ sizing × Buffer Policy       (qa-standards §4)
+ ├ Severity (C/Ma/Mi/T)           = Schedule (hrs + days)
  └ Test Sizing S/M/L/XL           (qa-standards §4)         →    AI Effort Savings KPI
                                                                  (qa-standards §6)
 Sizing Summary Block     →    Schedule Effort Breakdown
@@ -132,9 +132,11 @@ Sizing Summary Block     →    Schedule Effort Breakdown
 
 bug-report-writer
 ─────────────────
-Severity S1-S4             ←→  Defect Management (Plan)   →    Defect Summary by S1-S4
-Priority P0-P3                  SLA by severity                 (Report)
-(qa-standards §1-§2)
+Severity (Critical/Major/   ←→  Defect Management (Plan)   →    Defect Summary by Severity
+ Minor/Trivial)                  SLA by severity                 (Report)
+Priority (Critical/High/                                    →    Action Label via
+ Medium/Low)                                                      Severity×Priority matrix
+(qa-standards §1-§2.1)
 ```
 
 ---

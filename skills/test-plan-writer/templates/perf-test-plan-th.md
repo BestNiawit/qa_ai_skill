@@ -32,7 +32,7 @@
 
 ## 4. Exit Criteria
 1. ทุก Endpoint ผ่าน NFR
-2. ไม่มี S1 Critical Bottleneck ที่ block Go-Live
+2. ไม่มี Severity Critical Bottleneck ที่ block Go-Live
 3. Tuning Recommendation ที่ Must Fix แก้เสร็จ + re-test ผ่าน
 
 ## 5. Workload Model
@@ -152,14 +152,14 @@
 | รบกวน env อื่น | Medium | Medium | รันนอกเวลาทำงาน; notify team |
 
 ## 12. Defect Management
-> ใช้ S1-S4 ตาม `references/qa-standards.md §1`
+> ใช้ Severity Critical/Major/Minor/Trivial ตาม `references/qa-standards.md §2`
 
 - Threshold fail → defect ใน Jira พร้อม raw result + analysis
 - Severity mapping (Perf-specific):
-  - **S1 Critical**: NFR fail > 50% endpoints หรือ service crash / memory leak
-  - **S2 Major**: NFR fail single endpoint + no workaround
-  - **S3 Minor**: NFR fail minor endpoint / low priority
-  - **S4 Cosmetic**: variance ภายใน ±5% ของ NFR
+  - **Critical**: NFR fail > 50% endpoints หรือ service crash / memory leak
+  - **Major**: NFR fail single endpoint + no workaround
+  - **Minor**: NFR fail minor endpoint / low priority
+  - **Trivial**: variance ภายใน ±5% ของ NFR
 
 ## 13. Sign-off
 

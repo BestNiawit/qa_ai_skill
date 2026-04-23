@@ -25,7 +25,7 @@
 - Performance / Load testing
 
 ## 3. Entry Criteria
-1. SIT ผ่านแล้ว — Pass Rate ≥ 95%, S1 Critical/S2 Major Bug (Open) = 0
+1. SIT ผ่านแล้ว — Pass Rate ≥ 95%, Severity Critical/Major Bug (Open) = 0
 2. UAT Environment พร้อม (URL: <https://uat.example.com>)
 3. UAT Test Case ได้รับการ confirm จาก User
 4. User Tester มีบัญชี + training แล้ว
@@ -34,7 +34,7 @@
 ## 4. Exit Criteria
 1. ทุก UAT Test Case ถูก execute
 2. User Pass Rate ≥ 95%
-3. S1 Critical Bug (Open) = 0
+3. Severity Critical Bug (Open) = 0
 4. User Sign-off (approval / conditional with defined conditions)
 
 ## 5. Test Approach
@@ -98,7 +98,7 @@
 | User requirement เปลี่ยน | Low | High | Change Request process; re-baseline |
 
 ## 10. Defect Management
-- เหมือน SIT Plan — ใช้ S1-S4 / P0-P3 ตาม `references/qa-standards.md §1-§2`
+- เหมือน SIT Plan — ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม `references/qa-standards.md §1-§2`
 - **เพิ่ม:** User Champion เป็นผู้ยืนยัน defect (ไม่ใช่ QC)
 
 ## 11. Traceability

@@ -5,7 +5,7 @@ description: เขียน Test Plan จาก SRS/PRD — รองรับ 
 
 # Test Plan Writer
 
-> **คำย่อ (SRS / PRD / FR / NFR / TC / SIT / UAT / Perf / SDP / S1-S4 / P0-P3 / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+> **คำย่อ (SRS / PRD / FR / NFR / TC / SIT / UAT / Perf / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
 
 ## 1. Purpose — เป้าหมาย
 
@@ -24,7 +24,7 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 - Environment ต้อง **ตรงกับ Production config**
 - Risk & Mitigation ต้องมี
 - **Schedule ต้องคำนวณจาก TC Sizing** (ไม่เดา) ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule)
-- **Severity/Priority** ใช้ S1-S4 / P0-P3 ตาม [qa-standards.md §1-§2](../../references/qa-standards.md)
+- **Severity/Priority** ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม [qa-standards.md §1-§2](../../references/qa-standards.md)
 
 ---
 
@@ -88,7 +88,7 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
    8a. Effort Breakdown (จาก TC Sizing Summary + Buffer Policy)
    8b. Calendar Schedule
 9. Risk & Mitigation Plan
-10. Defect Management Process (Severity S1-S4 / Priority P0-P3)
+10. Defect Management Process (Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Action Label from matrix)
 11. Traceability (SRS ↔ Plan scope)
 12. Test Data Preparation
 13. Suspension & Resumption Criteria
@@ -162,7 +162,7 @@ Calendar Days       = Total Planned Hours / (testers × 6 hr/day)
 - ทุก Scope item → มี FR ID
 - Entry/Exit criteria → มีตัวเลข
 - Env → ตรงกับ prod config
-- **Severity = S1-S4 / Priority = P0-P3** (ห้าม Blocker/High/Med/Low)
+- **Severity = Critical/Major/Minor/Trivial + Priority = Critical/High/Medium/Low** (ตาม Ayodia TEST DEFINITION template)
 - **Schedule มี Effort Breakdown + Buffer** (ห้ามเดาเป็น `<days>` เฉยๆ)
 
 ### Step 5: Save + Summary
@@ -181,14 +181,14 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - [ ] Objective ชัดเจน
 - [ ] Scope (In-Scope / Out-of-Scope) ครบ trace SRS
 - [ ] Entry Criteria **วัดได้** (ไม่มี "พร้อมทดสอบ")
-- [ ] Exit Criteria **วัดได้** (มีตัวเลข Pass Rate + Bug Severity S1-S4)
+- [ ] Exit Criteria **วัดได้** (มีตัวเลข Pass Rate + Bug Severity Critical/Major/Minor/Trivial)
 - [ ] Test Environment (Server, DB, URL) ครบ
 - [ ] Test Approach ระบุชัด
 - [ ] **Schedule มี Effort Breakdown** (จาก TC Sizing × Buffer Policy) — ไม่ใช่ `<days>` เฉยๆ
 - [ ] **Buffer 20% ระบุในตาราง** (ตาม qa-standards §4)
 - [ ] Roles & Responsibilities
 - [ ] Risk & Mitigation
-- [ ] Defect Management Process (ใช้ S1-S4 / P0-P3)
+- [ ] Defect Management Process (ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low + Action Label matrix)
 - [ ] Traceability SRS ↔ Plan
 - [ ] Sign-off section
 
@@ -211,7 +211,7 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - ❌ Exit Criteria = "ทดสอบผ่านทั้งหมด" (ไม่มีตัวเลข)
 - ❌ ไม่ระบุ Environment
 - ❌ **Schedule มีแค่ `<days>` ไม่แสดง Effort Breakdown / Buffer**
-- ❌ **ใช้ severity/priority scale นอก qa-standards** (Blocker, Trivial, High/Med/Low)
+- ❌ **ใช้ severity/priority scale นอก qa-standards** (เช่น Blocker, S1/P0, Cosmetic — legacy names)
 - ❌ Copy จากโปรเจกต์เก่าโดยไม่ปรับ
 - ❌ UAT: ไม่มี User Tester
 - ❌ Perf: ไม่มี NFR ตัวเลข

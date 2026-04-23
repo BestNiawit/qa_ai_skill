@@ -64,16 +64,16 @@
 
 ## 4. Defect Summary
 
-> Severity ใช้ qa-standards §1 — **S1 Critical / S2 Major / S3 Minor / S4 Cosmetic** (ห้าม Blocker/Trivial)
+> Severity ใช้ qa-standards §2 — **Critical / Major / Minor / Trivial** (อ้างอิง Ayodia TEST DEFINITION template)
 
 ### 4.1 By Severity × Status
 
 | Severity | Open | In Progress | Fixed | Verified | Deferred | Total |
 |----------|-----:|------------:|------:|---------:|---------:|------:|
-| S1 Critical | 0 | 0 | 0 | 2 | 0 | 2 |
-| S2 Major | 0 | 0 | 0 | 5 | 0 | 5 |
-| S3 Minor | 3 | 0 | 1 | 4 | 2 | 10 |
-| S4 Cosmetic | 0 | 0 | 0 | 1 | 0 | 1 |
+| Critical | 0 | 0 | 0 | 2 | 0 | 2 |
+| Major | 0 | 0 | 0 | 5 | 0 | 5 |
+| Minor | 3 | 0 | 1 | 4 | 2 | 10 |
+| Trivial | 0 | 0 | 0 | 1 | 0 | 1 |
 | **Total** | **3** | **0** | **1** | **12** | **2** | **18** |
 
 ### 4.2 By Module
@@ -95,8 +95,8 @@
 
 ---
 
-## 6. S1 / S2 Open Bugs
-**ไม่มี** — ทุก S1 Critical/S2 Major bug ถูก Verified แล้ว ✅
+## 6. Critical / Major Open Bugs
+**ไม่มี** — ทุก Severity Critical/Major bug ถูก Verified แล้ว ✅
 
 ---
 

@@ -16,9 +16,11 @@
 | **Tested At** | YYYY-MM-DD HH:mm (timezone) |
 
 ## Severity / Priority
-> Follow qa-standards.md — **do NOT use Blocker/Trivial** (map → S1/S4)
-- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic
-- **Priority:** P0 / P1 / P2 / P3
+> Follow qa-standards.md §1-§2 (per Ayodia TEST DEFINITION template)
+
+- **Severity:** Critical / Major / Minor / Trivial
+- **Priority:** Critical / High / Medium / Low
+- **Action Label:** <from Severity × Priority matrix §2.1 — Blocker / Urgent / Standard High / ...>
 - **Frequency:** Always (100%) / Sometimes (X/10) / Once
 
 ## Precondition

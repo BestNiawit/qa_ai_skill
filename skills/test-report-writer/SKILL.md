@@ -5,14 +5,14 @@ description: สรุป Test Report จาก Test Execution Data (Jira/Excel/
 
 # Test Report Writer
 
-> **คำย่อ (SIT / UAT / Perf / TC / S1-S4 / P0-P3 / KPI / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
+> **คำย่อ (SIT / UAT / Perf / TC / KPI / SDP / ...):** ดู [qa-onboarding §Glossary](../../docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd)
 
 ## 1. Purpose — เป้าหมาย
 
 Draft Test Report จาก raw execution data → QC review ตัวเลข + เขียน Recommendation
 
 **Key rules:**
-- Severity/Priority ใช้ S1-S4 / P0-P3 ตาม [qa-standards.md §1-§2](../../references/qa-standards.md)
+- Severity/Priority ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม [qa-standards.md §1-§2](../../references/qa-standards.md)
 - **ต้องมี section "Estimate vs Actual"** — เทียบเวลาจริงกับ Plan Schedule (qa-standards §4)
 - **ต้องมี section "AI Effort Savings"** — บันทึก AI draft / human review / savings % (qa-standards §6, KPI ทีม)
 - Feedback loop: variance > 30% → flag ให้ refine Test Sizing Scale รอบถัดไป
@@ -50,7 +50,7 @@ Draft Test Report จาก raw execution data → QC review ตัวเลข 
 | Mode | ✅ | SIT / UAT / Perf |
 | Execution data | ✅ | Jira export / CSV / Excel — ต้องมี column "Actual Hours" ถ้า track |
 | Test Plan (SIT/UAT/Perf) | ✅ | ใช้ Exit Criteria + **Effort Breakdown** (Estimate) เปรียบเทียบ |
-| Defect list | ✅ | Jira export / bug report list — Severity ใช้ S1-S4 เท่านั้น |
+| Defect list | ✅ | Jira export / bug report list — Severity ใช้ Critical/Major/Minor/Trivial เท่านั้น |
 | Language | ✅ | TH / EN |
 | **AI Usage Log** | ✅ | AI draft time (min) + Human review time (hr) ต่อ artifact — สำหรับ KPI |
 | User Sign-off info (UAT mode) | ⚠️ | Who, date, approval status |
@@ -86,10 +86,10 @@ Draft Test Report จาก raw execution data → QC review ตัวเลข 
 3. Exit Criteria Evaluation (เทียบกับ Test Plan)
    | Criterion | Target | Actual | Status |
 4. Defect Summary
-   a. By Severity: S1 Critical / S2 Major / S3 Minor / S4 Cosmetic × Open/Closed/Deferred
+   a. By Severity: Critical / Major / Minor / Trivial × Open/Closed/Deferred
    b. By Module
 5. Deferred Bugs (+ เหตุผล + PM approval)
-6. S1/S2 Open Bugs (ชื่อ + steps สรุป)
+6. Critical/Major Open Bugs (ชื่อ + steps สรุป)
 7. Estimate vs Actual (hrs)  ← บังคับ (qa-standards §4 feedback)
    | Phase | Estimated (Plan) | Actual | Variance | Note |
 8. AI Effort Savings (KPI)  ← บังคับ (qa-standards §6)
@@ -136,7 +136,7 @@ Draft Test Report จาก raw execution data → QC review ตัวเลข 
 - Pass Rate = Pass / (Total - Not Run) × 100%
 
 **Defect:**
-- Count by Severity (**S1 Critical / S2 Major / S3 Minor / S4 Cosmetic**) — ใช้ qa-standards §1
+- Count by Severity (**Critical / Major / Minor / Trivial**) — ใช้ qa-standards §2
 - Count by Status (Open/In Progress/Resolved/Closed/Deferred)
 - Top 3 module with most defects
 
@@ -193,8 +193,8 @@ Derived จาก SDP §5.1.3 (SIT Report) + §5.1.6 (UAT Report) + §5.1.8 (Per
 - [ ] Test Execution Summary table ครบ (Total/Pass/Fail/Block/Skipped/Not Run)
 - [ ] Pass Rate = ตัวเลขที่คำนวณได้ (ไม่ใช่ "สูง")
 - [ ] Exit Criteria Evaluation — เทียบกับ Plan criterion ทีละข้อ
-- [ ] Defect Summary by **S1-S4** + Status (qa-standards §1 — ห้าม Blocker/Trivial)
-- [ ] S1/S2 Open Bug list
+- [ ] Defect Summary by **Critical/Major/Minor/Trivial** + Status (qa-standards §2 — อ้าง Ayodia TEST DEFINITION template)
+- [ ] Critical/Major Open Bug list
 - [ ] Deferred Bugs + เหตุผล + PM approval reference
 - [ ] **Estimate vs Actual Hours** table (qa-standards §4 feedback)
 - [ ] **AI Effort Savings** table (qa-standards §6 — KPI ทีม)
@@ -215,10 +215,10 @@ Derived จาก SDP §5.1.3 (SIT Report) + §5.1.6 (UAT Report) + §5.1.8 (Per
 ### Red Flags (Reject)
 - ❌ ตัวเลขไม่ตรงกับ raw data
 - ❌ Exit Criteria ไม่เทียบกับ Plan
-- ❌ มี S1/S2 Open Bug แต่ Recommendation = "Ready"
+- ❌ มี Severity Critical/Major Open Bug แต่ Recommendation = "Ready"
 - ❌ **ไม่มี Estimate vs Actual section** (หรือมีแต่ว่างหมด)
 - ❌ **ไม่มี AI Effort Savings section** (KPI วัดไม่ได้)
-- ❌ ใช้ severity scale นอก qa-standards (Blocker/Trivial)
+- ❌ ใช้ severity scale นอก qa-standards (เช่น S1/S2, Cosmetic — legacy)
 - ❌ UAT: ไม่มี User Sign-off
 - ❌ Perf: Metric ไม่ผ่าน NFR แต่ไม่มี Waiver / explanation
 

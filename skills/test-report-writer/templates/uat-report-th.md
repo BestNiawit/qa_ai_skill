@@ -64,7 +64,7 @@
 |---|-----------|--------|--------|:------:|
 | 1 | ทุก UAT Scenario execute | 100% | 100% | ✅ |
 | 2 | User Pass Rate | ≥ 95% | 100% | ✅ |
-| 3 | S1 Critical Bug (Open) | = 0 | 0 | ✅ |
+| 3 | Severity Critical Bug (Open) | = 0 | 0 | ✅ |
 | 4 | User Sign-off | Approved | Approved | ✅ |
 
 **Overall:** ✅ All Criteria Met
@@ -73,16 +73,16 @@
 
 ## 5. Defect Summary
 
-> Severity ใช้ qa-standards §1 — S1-S4
+> Severity ใช้ qa-standards §2 — Critical/Major/Minor/Trivial (อ้างอิง Ayodia TEST DEFINITION template)
 
 | Severity | Count | Status |
 |----------|------:|--------|
-| S1 Critical | 0 | - |
-| S2 Major | 0 | - |
-| S3 Minor | 2 | 1 Open, 1 Deferred |
-| S4 Cosmetic | 0 | - |
+| Critical | 0 | - |
+| Major | 0 | - |
+| Minor | 2 | 1 Open, 1 Deferred |
+| Trivial | 0 | - |
 
-### S3 Minor Defects Detail
+### Minor Defects Detail
 
 | Bug ID | Summary | Status | Resolution Plan |
 |--------|---------|--------|----------------|
@@ -135,13 +135,13 @@
 ### 9.1 Conclusion
 - ✅ UAT ผ่าน 100% — User approve
 - ✅ Ready for Production Deployment
-- ℹ️ S3 Minor bug 2 ตัว (1 แก้ sprint หน้า, 1 deferred)
+- ℹ️ Severity Minor bug 2 ตัว (1 แก้ sprint หน้า, 1 deferred)
 - ℹ️ User feedback 2 ข้อ → เพิ่มใน Backlog สำหรับ Phase 2
 - ✅ Variance -12% (ดีกว่าแผน), AI savings 52% (ตามเป้า)
 
 ### 9.2 Recommendation
 1. **Go-Live** 2026-05-05 ตาม schedule
-2. **Release Note:** แจ้ง User เรื่อง S3 Minor bugs + roadmap
+2. **Release Note:** แจ้ง User เรื่อง Severity Minor bugs + roadmap
 3. **Post Go-Live:** Monitor 2 สัปดาห์แรก, prepare hotfix plan
 
 ---

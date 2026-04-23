@@ -6,6 +6,8 @@
 
 > 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
 >
+> 🔁 **ต้องรัน SIT → UAT แล้วอยากได้ prompt พร้อม copy?** → [docs/how-to-sit-uat.md](docs/how-to-sit-uat.md) — 10 steps, พิมพ์อะไรให้ AI ทุกขั้น
+>
 > 📊 **อยากเห็น Input/Process/Output ทุก skill + ไม่เปลือง AI?** → [docs/work-product-flow.md](docs/work-product-flow.md)
 
 ---
@@ -127,15 +129,16 @@ NFR + API Spec → test-plan-writer (mode=perf)   → Perf Test Plan
 ```
 test-case-writer          test-plan-writer            test-report-writer
 ────────────────          ────────────────            ──────────────────
-TC (Priority P0-P3,  →    Σ Sizing × Buffer Policy →  Estimate vs Actual
- Severity S1-S4,           = Schedule (Effort +        (feedback refine sizing)
+TC (Priority C/H/M/L,→    Σ Sizing × Buffer Policy →  Estimate vs Actual
+ Severity C/Ma/Mi/T,      = Schedule (Effort +        (feedback refine sizing)
  Sizing S/M/L/XL)            Calendar days)            AI Effort Savings KPI
                                                        (เป้าทีม ≥ 50%)
 ```
 
 **บังคับ:**
-- Severity 4 ระดับ (S1-S4) — ห้าม Blocker/Trivial
-- Priority 4 ระดับ (P0-P3) — ห้าม High/Med/Low
+- Severity 4 ระดับ (Critical/Major/Minor/Trivial) ตาม Ayodia TEST DEFINITION template
+- Priority 4 ระดับ (Critical/High/Medium/Low) ตาม Ayodia TEST DEFINITION template
+- **Severity × Priority matrix** → Action Label (Blocker/Urgent/Standard High/...) ใน Bug Report
 - Schedule Formula ใน Test Plan = Σ Sizing + Buffer 20%
 - Test Report ต้องมี Estimate vs Actual + AI Savings section
 
@@ -163,7 +166,7 @@ Skill แต่ละตัว **ไม่ hardcode** company-specific config �
 - "PMS" = Property Management System
 
 ## Severity Scale
-- S1 Critical, S2 Major, S3 Minor, S4 Cosmetic
+- Critical / Major / Minor / Trivial (ตาม qa-standards §2)
 
 ## Business Rules
 - Leave balance = 10 days/year, reset 1 Jan

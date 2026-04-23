@@ -16,9 +16,11 @@
 | **Tested Date/Time** | YYYY-MM-DD HH:mm (timezone) |
 
 ## Severity / Priority
-> ตาม qa-standards.md — **ห้ามใช้ Blocker/Trivial** (map → S1/S4)
-- **Severity:** S1 Critical / S2 Major / S3 Minor / S4 Cosmetic
-- **Priority:** P0 / P1 / P2 / P3
+> ตาม qa-standards.md §1-§2 (อ้างอิง Ayodia TEST DEFINITION template)
+
+- **Severity:** Critical / Major / Minor / Trivial
+- **Priority:** Critical / High / Medium / Low
+- **Action Label:** <จาก Severity × Priority matrix §2.1 — Blocker / Urgent / Standard High / ...>
 - **Frequency:** Always (100%) / Sometimes (X/10) / Once
 
 ## Precondition
