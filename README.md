@@ -14,27 +14,70 @@
 
 ## Install as Claude Code Plugin
 
-ทีมติดตั้งครั้งเดียวได้ทุก skill ผ่าน Claude Code plugin system — 2 ขั้นตอน
+ทีมติดตั้งครั้งเดียวได้ทุก skill ผ่าน Claude Code plugin system
 
-**Step 1.** เพิ่ม marketplace (ครั้งเดียว ต่อเครื่อง)
+### Prerequisite
+
+ติดตั้ง Claude Code CLI (ถ้ายังไม่มี):
 
 ```bash
-/plugin marketplace add https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
+npm install -g @anthropic-ai/claude-code
 ```
 
-**Step 2.** ลง plugin
+### Step 1. Clone repo
+
+เพราะ GitLab repo เป็น **private** ต้อง clone มาเครื่องก่อน (marketplace ของ Claude Code ใช้ local path):
 
 ```bash
+cd ~/Documents/GitHub    # หรือที่ไหนก็ได้ที่สะดวก
+git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
+```
+
+### Step 2. เปิด Claude Code แล้ว add marketplace
+
+```bash
+claude
+```
+
+ใน Claude Code session พิมพ์:
+
+```
+/plugin marketplace add /Users/<you>/Documents/GitHub/qa_ai_skill
+```
+
+(ใส่ absolute path ของ repo ที่เพิ่ง clone — ชี้ที่ root ไม่ใช่ `.claude-plugin/`)
+
+ถ้าสำเร็จจะเห็น: `Successfully added marketplace: ayodia-qa`
+
+### Step 3. Install plugin
+
+```
 /plugin install qa-ai-skill@ayodia-qa
 ```
 
 หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 13 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
 
-- อัปเดต: `/plugin marketplace update ayodia-qa`
-- ถอน: `/plugin uninstall qa-ai-skill@ayodia-qa`
-- โหลด skill ใหม่หลังแก้ไฟล์ใน repo: `/reload-plugins`
+### เช็คว่าติดตั้งสำเร็จ
 
-> **Private GitLab repo?** auth จะใช้ git credentials ที่เครื่องมีอยู่แล้ว (SSH key ใน `ssh-agent` หรือ HTTPS token ใน macOS Keychain / git-credential-store) — ถ้า `git clone <url>` ได้ `/plugin marketplace add` ก็ได้
+- `/plugins` → tab **Installed** ต้องเห็น `qa-ai-skill · ayodia-qa`
+- `/help` → section Skills มี `test-case-writer`, `bug-report-writer`, ฯลฯ
+- ลองเรียก skill เช่น `/test-case-writer` หรือ `/bug-report-writer`
+- ถ้า plugin ไม่โหลด → `/plugins` → tab **Errors** ดู log
+
+### คำสั่งอื่นที่ใช้บ่อย
+
+| ทำอะไร | คำสั่ง |
+|---|---|
+| อัปเดต skills หลัง pull repo ใหม่ | `cd qa_ai_skill && git pull` แล้วใน Claude: `/plugin marketplace update ayodia-qa` |
+| โหลด skill ใหม่หลังแก้ไฟล์ใน repo | `/reload-plugins` |
+| ถอน plugin | `/plugin uninstall qa-ai-skill@ayodia-qa` |
+| ลบ marketplace | `/plugin marketplace remove ayodia-qa` |
+
+### Troubleshooting
+
+- **`Invalid schema ... plugins.0.source: Invalid input`** — marketplace.json เวอร์ชันเก่า ให้ `git pull` มาเวอร์ชันล่าสุด
+- **`Invalid input: expected object, received string`** ตอน add ด้วย https URL — GitLab raw URL ต้อง auth กับ private repo จะได้ HTML login page กลับมาไม่ใช่ JSON ให้ใช้ **Step 1 + 2** (clone + local path) แทน
+- **Path does not exist: /plugin marketplace add ...** — อย่าพิมพ์ `/plugin marketplace add` ซ้ำในช่อง "Enter marketplace source:" ให้ใส่แค่ path เปล่าๆ
 
 ---
 
@@ -203,29 +246,6 @@ Skill แต่ละตัว **ไม่ hardcode** company-specific config �
 ```
 
 Skill จะอ่านไฟล์นี้ก่อน apply ใน output — ย้าย project โดยไม่ต้องแก้ skill
-
----
-
-## วิธี Install
-
-### แบบที่ 1: User-level (ใช้กับทุก project)
-```bash
-# Symlink ทั้ง 12 skills
-for skill in requirement-analyzer data-type-matrix-generator test-plan-writer test-case-writer test-case-reviewer \
-             test-report-writer perf-test-generator perf-result-analyzer \
-             test-matrix-generator bug-report-writer robot-test-generator e2e-test-generator; do
-  ln -s "$(pwd)/skills/$skill" ~/.claude/skills/$skill
-done
-```
-
-### แบบที่ 2: Project-level
-```bash
-mkdir -p /path/to/project/.claude/skills
-cp -r skills/* /path/to/project/.claude/skills/
-```
-
-### ตรวจสอบ
-เปิด Claude Code พิมพ์ `/help` หรือลองสั่ง เช่น "ช่วยเขียน SIT Plan จาก docs/srs.md"
 
 ---
 
