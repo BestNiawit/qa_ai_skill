@@ -1,0 +1,25 @@
+{
+  "name": "qa-ai-skill",
+  "version": "1.0.0",
+  "description": "Claude Code skills สำหรับทีม QA — ลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5 (13 skills: requirement-analyzer, test-plan-writer, test-case-writer/reviewer, test-report-writer, perf-test-generator/analyzer, test-matrix-generator, bug-report-writer, robot-test-generator, e2e-test-generator, weekly-update-writer, data-type-matrix-generator)",
+  "author": {
+    "name": "Nirawit Thepsawade",
+    "email": "testerayodia@gmail.com"
+  },
+  "homepage": "https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill",
+  "repository": "https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git",
+  "license": "UNLICENSED",
+  "keywords": [
+    "qa",
+    "testing",
+    "sit",
+    "uat",
+    "performance-testing",
+    "test-case",
+    "bug-report",
+    "automation",
+    "robot-framework",
+    "playwright",
+    "ayodia-sdp"
+  ]
+}

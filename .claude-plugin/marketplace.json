@@ -1,0 +1,14 @@
+{
+  "name": "ayodia-qa",
+  "owner": {
+    "name": "Ayodia Tester Teams",
+    "email": "testerayodia@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "qa-ai-skill",
+      "source": ".",
+      "description": "13 skills สำหรับทีม QA ครอบคลุม SIT/UAT/Performance ตาม Ayodia SDP §5"
+    }
+  ]
+}

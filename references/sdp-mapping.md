@@ -50,6 +50,7 @@
 | Skill | ใช้เมื่อ | เชื่อมกับ SDP |
 |-------|---------|-------------|
 | [requirement-analyzer](../skills/requirement-analyzer/) | BRD/PRD/SRS ยังไม่แน่ใจว่าพร้อมทำ TC ไหม + ต้องการให้ PM review ความเข้าใจก่อน | **Pre-§5.3.1** — gate ก่อนขั้น 1 (SIT Plan) และขั้น 2 (SIT TC) |
+| [data-type-matrix-generator](../skills/data-type-matrix-generator/) | Requirement ไม่ชัด + ไม่มีเวลา wait PM + ต้องส่งงาน — ได้ Data Type Matrix + Happy Path + Integration + Assumption Checklist | **Pre-§5.3.1** — defensive fallback เมื่อ requirement-analyzer Score = Not-ready แต่ timeline บังคับ |
 | [test-matrix-generator](../skills/test-matrix-generator/) | เขียน TC ไม่ทัน, ต้องการ coverage เร็ว | ก่อน SIT Test Case (ขั้น 2) |
 | [bug-report-writer](../skills/bug-report-writer/) | เจอ defect ระหว่าง SIT/UAT | ระหว่าง "ทดสอบ SIT/UAT" → Jira Card |
 | [robot-test-generator](../skills/robot-test-generator/) | Automation Robot Framework | ขยาย "ทดสอบ SIT" → automate |

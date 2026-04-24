@@ -12,15 +12,44 @@
 
 ---
 
-## Skills (11 ตัว)
+## Install as Claude Code Plugin
+
+ทีมติดตั้งครั้งเดียวได้ทุก skill ผ่าน Claude Code plugin system — 2 ขั้นตอน
+
+**Step 1.** เพิ่ม marketplace (ครั้งเดียว ต่อเครื่อง)
+
+```bash
+/plugin marketplace add https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
+```
+
+**Step 2.** ลง plugin
+
+```bash
+/plugin install qa-ai-skill@ayodia-qa
+```
+
+หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 13 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
+
+- อัปเดต: `/plugin marketplace update ayodia-qa`
+- ถอน: `/plugin uninstall qa-ai-skill@ayodia-qa`
+- โหลด skill ใหม่หลังแก้ไฟล์ใน repo: `/reload-plugins`
+
+> **Private GitLab repo?** auth จะใช้ git credentials ที่เครื่องมีอยู่แล้ว (SSH key ใน `ssh-agent` หรือ HTTPS token ใน macOS Keychain / git-credential-store) — ถ้า `git clone <url>` ได้ `/plugin marketplace add` ก็ได้
+
+---
+
+## Skills (13 ตัว)
 
 ### Pre-Testing — Requirement Readiness (ก่อนเริ่ม SIT)
 
 | # | Skill | SDP Process | Effort Saved |
 |---|-------|-------------|:------------:|
 | 0 | [requirement-analyzer](skills/requirement-analyzer/) | **Pre-§5.3.1** — BRD/PRD/SRS → Readiness Score + Normalized Req + PM Confirmation | ~30-40% |
+| 0b | [data-type-matrix-generator](skills/data-type-matrix-generator/) | **Pre-§5.3.1** — defensive fallback เมื่อ req ไม่ชัด + ไม่มีเวลา wait PM → Data Type Matrix + Happy Path + Integration + Assumption Checklist | ~30-50% |
 
 > Gate ก่อน test-case-writer — ป้องกัน garbage-in/garbage-out กับ rework รอบใหญ่ตอน PM บอก "เข้าใจผิด"
+>
+> เมื่อ `requirement-analyzer` ตัดสิน Not-ready แต่ timeline บังคับให้เดินต่อ → ใช้ `data-type-matrix-generator` เพื่อเดินหน้าได้ พร้อม Assumption Checklist ส่ง PM tick 10 นาที (cover ตัวเองเวลา bug escape)
 
 ### Testing Process Skills (ตาม SDP §5.3)
 
@@ -71,6 +100,7 @@
 BRD/PRD/SRS
   → requirement-analyzer          → Readiness Score + Normalized Req + PM Confirmation
   → [PM/BA confirm Open Questions]
+  → (ถ้า Score = Not-ready + no time to wait) → data-type-matrix-generator → 4-file pack + Assumption Checklist → [PM tick 10 min]
   → test-plan-writer              → SIT Plan + Exit Criteria
   → test-matrix-generator         → Coverage matrix (optional, quick)
   → test-case-writer              → Full SIT Test Cases (23 cols)
@@ -180,8 +210,8 @@ Skill จะอ่านไฟล์นี้ก่อน apply ใน output �
 
 ### แบบที่ 1: User-level (ใช้กับทุก project)
 ```bash
-# Symlink ทั้ง 11 skills
-for skill in requirement-analyzer test-plan-writer test-case-writer test-case-reviewer \
+# Symlink ทั้ง 12 skills
+for skill in requirement-analyzer data-type-matrix-generator test-plan-writer test-case-writer test-case-reviewer \
              test-report-writer perf-test-generator perf-result-analyzer \
              test-matrix-generator bug-report-writer robot-test-generator e2e-test-generator; do
   ln -s "$(pwd)/skills/$skill" ~/.claude/skills/$skill
@@ -210,6 +240,20 @@ module: LEAVE, project: PEA, ภาษาไทย
 ```
 normalize requirement จาก docs/srs-login.md + สร้าง PM Confirmation Doc
 ส่งให้คุณสมศรี review deadline 2026-04-25
+```
+
+### 0b. data-type-matrix-generator (fallback เมื่อ req ไม่ชัด + ต้องส่งงาน)
+
+```
+สร้าง data type matrix + assumption checklist สำหรับ feature ใหม่:
+- feature: เพิ่ม field Middle Name ในหน้า Register
+- fields: middle_name (string, optional)
+- base: ฟีเจอร์ Register เดิมที่ /register
+- PM: คุณสมศรี, deadline confirm: 2026-04-27
+```
+```
+ไม่มี BRD แต่ต้องเทสฟีเจอร์ update profile — ทำ data type matrix ให้หน่อย
+fields: bio (string), avatar_url (url), birth_date (date)
 ```
 
 ### 1. test-plan-writer
@@ -315,6 +359,7 @@ qa_ai_skill/
 │   └── sdp-mapping.md                  ← process → skill mapping
 └── skills/
     ├── requirement-analyzer/           ← NEW — Pre-Testing gate (BRD → Normalized + PM Confirmation)
+    ├── data-type-matrix-generator/     ← NEW — fallback เมื่อ req ไม่ชัด (Data Type Matrix + Happy Path + Integration + Assumption Checklist)
     ├── test-plan-writer/               ← SIT/UAT/Perf Plan
     ├── test-case-writer/               ← SIT + UAT mode
     ├── test-case-reviewer/             ← NEW — Peer Review
