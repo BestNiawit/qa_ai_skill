@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "qa-ai-skill",
-      "source": ".",
+      "source": "./",
       "description": "13 skills สำหรับทีม QA ครอบคลุม SIT/UAT/Performance ตาม Ayodia SDP §5"
     }
   ]
