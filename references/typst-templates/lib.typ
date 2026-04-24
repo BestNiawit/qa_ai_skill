@@ -157,6 +157,108 @@
   pagebreak()
 }
 
+// ── Test Case Summary Table (overview — 1 row per TC) ────────
+#let tc-summary-table(rows) = qa-table(
+  columns: (auto, 1.4fr, auto, auto, auto, auto, auto),
+  header: ([TC ID], [Description], [Priority], [Severity], [Sizing], [Auto], [Status]),
+  ..rows.map(r => (
+    raw(r.id),
+    r.desc,
+    align(center, pri-badge(r.priority)),
+    align(center, sev-badge(r.severity)),
+    align(center, r.at("sizing", default: "—")),
+    align(center, text(size: 9pt, r.at("automation", default: "—"))),
+    align(center, if r.at("status", default: none) != none { status-badge(r.status) } else { text(fill: ayodia-muted, size: 9pt, "Not Run") }),
+  )).flatten()
+)
+
+// ── Test Case Card (detail — 1 block per TC) ─────────────────
+#let tc-card(tc) = block(
+  breakable: false,
+  stroke: 0.6pt + ayodia-border,
+  radius: 5pt,
+  inset: 14pt,
+  width: 100%,
+  above: 14pt,
+  below: 8pt,
+  {
+    // Header: ID + badges
+    grid(
+      columns: (auto, 1fr),
+      align: (left + horizon, right + horizon),
+      column-gutter: 10pt,
+      text(size: 12pt, weight: "bold", fill: ayodia-primary, raw(tc.id)),
+      {
+        pri-badge(tc.priority)
+        h(5pt)
+        sev-badge(tc.severity)
+        h(5pt)
+        badge(tc.at("sizing", default: "-"), fill: ayodia-accent)
+        h(5pt)
+        text(size: 9pt, fill: ayodia-muted, tc.at("technique", default: ""))
+      }
+    )
+    v(4pt)
+    line(length: 100%, stroke: 0.3pt + ayodia-border)
+    v(8pt)
+
+    // Description
+    text(size: 10.5pt, weight: "bold", tc.desc)
+    v(10pt)
+
+    // Meta fields (3-col grid)
+    let meta-label(k) = text(size: 8.5pt, fill: ayodia-muted, weight: "bold", upper(k))
+    let meta-value(v) = text(size: 9.5pt, v)
+    grid(
+      columns: (1fr, 1fr, 1fr),
+      row-gutter: 8pt,
+      column-gutter: 10pt,
+      stack(spacing: 2pt, meta-label("Role"), meta-value(tc.at("role", default: "—"))),
+      stack(spacing: 2pt, meta-label("Pos/Neg"), meta-value(tc.at("posneg", default: "—"))),
+      stack(spacing: 2pt, meta-label("Automation"), meta-value(tc.at("automation", default: "—"))),
+      stack(spacing: 2pt, meta-label("FR Ref"), meta-value(raw(tc.at("fr_id", default: "—")))),
+      stack(spacing: 2pt, meta-label("Labels"), meta-value(tc.at("labels", default: "—"))),
+      stack(spacing: 2pt, meta-label("Environment"), meta-value(tc.at("environment", default: "—"))),
+    )
+    v(10pt)
+    line(length: 100%, stroke: 0.3pt + ayodia-border)
+    v(8pt)
+
+    // Detail fields
+    let detail-label(k) = text(size: 9pt, fill: ayodia-primary, weight: "bold", k)
+    stack(
+      spacing: 10pt,
+      [#detail-label("Pre-Requisite") \ #tc.at("precondition", default: "—")],
+      [#detail-label("Test Step") \ #tc.at("test_step", default: "—")],
+      [#detail-label("Test Data") \ #tc.at("test_data", default: "—")],
+      [#detail-label("Expected Result") \ #tc.at("expected", default: "—")],
+    )
+
+    v(8pt)
+    line(length: 100%, stroke: 0.3pt + ayodia-border)
+    v(6pt)
+
+    // Execution section
+    text(size: 8.5pt, fill: ayodia-muted, weight: "bold", tracking: 1pt, "EXECUTION RECORD")
+    v(4pt)
+    let exec-row(k, v) = grid(
+      columns: (25%, 75%),
+      gutter: 6pt,
+      text(size: 9pt, fill: ayodia-muted, k),
+      text(size: 9pt, v),
+    )
+    stack(
+      spacing: 4pt,
+      exec-row("Actual Result", tc.at("actual", default: text(style: "italic", fill: ayodia-muted, "not executed"))),
+      exec-row("Test Result", tc.at("result", default: status-badge("Not Run"))),
+      exec-row("Tested By", tc.at("tester", default: "")),
+      exec-row("Test Date", tc.at("date", default: "")),
+      exec-row("Defect ID", tc.at("defect", default: "")),
+      exec-row("Remark", tc.at("remark", default: "")),
+    )
+  }
+)
+
 // ── Test Definition Matrix (Ayodia standard) ──────────────────
 // Renders the full Priority + Severity + Severity×Priority matrix
 // Usage as appendix: #test-definition-matrix()
