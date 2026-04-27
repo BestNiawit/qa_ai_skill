@@ -29,9 +29,9 @@ Blocker / ต้องการ support
 - <Blocker 2>: <impact> → ask จาก <owner>
 
 Plan สัปดาห์หน้า
-1. P0 <งาน>
-2. P1 <งาน>
-3. P2 <งาน>
+1. Critical <งาน>
+2. High <งาน>
+3. Medium <งาน>
 
 Carry-over (งานค้างจากสัปดาห์ที่แล้ว)
 - <งานที่ยังไม่จบ — เหตุผล + plan>

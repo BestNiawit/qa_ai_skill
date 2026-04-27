@@ -105,9 +105,9 @@ Blocker ที่อยากขอ support จาก <ผู้รับ ask>
 <prose describing blocker + ask>
 
 Plan สัปดาห์หน้า
-1. P0 <งาน>
-2. P1 <งาน>
-3. P2 <งาน>
+1. Critical <งาน>
+2. High <งาน>
+3. Medium <งาน>
 
 ขอบคุณ<particle>
 <sender name>
@@ -143,7 +143,7 @@ Map section ของ input → section ของ email ตาม audience:
 | Initiative detail (ใครทำอะไร) | ⚠️ 1-2 บรรทัด | ✅ เต็ม | ✅ เต็ม |
 | AI Effort Savings KPI | ✅ บังคับ | ✅ | ⚠️ optional |
 | Blockers | ✅ + Ask | ✅ + Ask | ⚠️ ขึ้นกับเคส |
-| Plan next week | ✅ P0/P1/P2 | ✅ | ✅ |
+| Plan next week | ✅ Critical/High/Medium | ✅ | ✅ |
 | Asks / Decisions | ✅ บังคับ | ✅ | ❌ |
 
 ### Step 4: Draft ด้วย Anti-AI Language Rules (สำคัญ!)
@@ -160,7 +160,7 @@ Map section ของ input → section ของ email ตาม audience:
 
 **ใช้ได้ (ปกติในที่ทำงาน):**
 - Kick off, rollout, align, adopt, calibrate, allocate, baseline, on track, blocker
-- P0 / P1 / P2
+- Critical / High / Medium
 - Framework / repo / pipeline / stack / coverage
 
 ### Step 5: Consistency Check
@@ -183,7 +183,7 @@ Map section ของ input → section ของ email ตาม audience:
 - [ ] เปิดด้วย hook 1 ประโยคสรุปภาพรวม
 - [ ] มี "งานที่เดินในสัปดาห์นี้" พร้อม status per initiative
 - [ ] Blocker ทุกข้อ มี Ask + ผู้รับ ask
-- [ ] Plan สัปดาห์หน้า จัด priority (P0/P1/P2)
+- [ ] Plan สัปดาห์หน้า จัด priority (Critical/High/Medium)
 - [ ] Speaker particle ถูกต้อง (ครับ หรือ ค่ะ เลือกอย่างเดียว)
 - [ ] Signature มีชื่อ + role
 - [ ] ถ้ามี AI Effort Savings → ใส่ตาราง KPI

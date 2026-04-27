@@ -68,7 +68,7 @@ AI ชอบ **bold** ทุก noun ทุก 2-3 คำ
 | "**Kick off** **Test Automation** กับ **3 โปรเจค** (**Athm**, **dtmu**, **OIE**)" | "Kick off Test Automation กับ 3 โปรเจค (Athm, dtmu, OIE)" |
 
 **ใช้ bold เฉพาะ:**
-- Section label จริง ๆ (Blocker, Ask, P0)
+- Section label จริง ๆ (Blocker, Ask, Critical)
 - Keyword สำคัญที่ต้อง scan เจอ (ชื่อโปรเจค critical, วันสำคัญ)
 
 ### 1.7 "ค่ะ/ครับ" คู่กัน

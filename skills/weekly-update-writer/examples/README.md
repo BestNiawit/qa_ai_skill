@@ -34,9 +34,9 @@
 - Timeline shift → จัด resource ไม่ทัน → Need CTO help
 
 ## 4. Plan สัปดาห์หน้า
-- P0: Athm มจพ
-- P1: Booking time น้อง automation
-- P2: AI process guideline
+- Critical: Athm มจพ
+- High: Booking time น้อง automation
+- Medium: AI process guideline
 ```
 
 **User input to skill:**
@@ -60,7 +60,7 @@ support จากพี่ชายด้านล่างครับ
 สัปดาห์นี้ kick off Test Automation กับ 3 โปรเจค (Athm, dtmu, OIE ISingleForm),
 ปล่อย QA AI Skill 11 ตัวให้น้อง ๆ เริ่มใช้จริง, และเตรียม Automation starter kit
 (Robot / Playwright / K6) โดยเริ่มเอาน้อง ๆ เข้ามาใน repo แล้ว สัปดาห์หน้าผมจะ
-โฟกัส Athm มจพ automation เป็น P0 โดยเบสลงไปทำเองในส่วน test case กับ test matrix
+โฟกัส Athm มจพ automation เป็น Critical โดยเบสลงไปทำเองในส่วน test case กับ test matrix
 ส่วนเรื่อง executor ถ้าไม่ทันจะรีบแจ้งพี่ชายครับ
 
 งานที่เดินในสัปดาห์นี้
@@ -90,9 +90,9 @@ allocate resource ไม่ทัน กระทบคุณภาพ test แ�
 ให้ PM กับ Dev แจ้งการขยับ timeline ล่วงหน้าอย่างเป็นทางการครับ
 
 Plan สัปดาห์หน้า
-1. P0 Athm มจพ automation
-2. P1 Booking time ให้น้องทำ Automation (dtmu, Athm, OIE)
-3. P2 กำหนด AI process guideline (Input / Process / Output)
+1. Critical Athm มจพ automation
+2. High Booking time ให้น้องทำ Automation (dtmu, Athm, OIE)
+3. Medium กำหนด AI process guideline (Input / Process / Output)
 
 ขอบคุณครับ
 นิรวิทย์ เทพสวัสดิ์

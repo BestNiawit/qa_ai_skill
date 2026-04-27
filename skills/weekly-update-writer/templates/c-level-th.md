@@ -28,9 +28,9 @@ Blocker ที่อยากขอ support จาก <ผู้รับ ask �
 <prose describing blocker + impact + ask ชัดเจน ไม่ใช้ bullet ถ้า blocker มีเดียว>
 
 Plan สัปดาห์หน้า
-1. P0 <งาน priority สูงสุด>
-2. P1 <งานรอง>
-3. P2 <งานที่ push ถ้ามีเวลา>
+1. Critical <งาน priority สูงสุด>
+2. High <งานรอง>
+3. Medium <งานที่ push ถ้ามีเวลา>
 
 <ประโยคปิด: ถ้ามีอะไรอยากคุยเพิ่ม แจ้งได้เลย<particle>>
 
