@@ -1,7 +1,7 @@
 {
   "name": "qa-ai-skill",
   "version": "1.0.0",
-  "description": "Claude Code skills สำหรับทีม QA — ลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5 (13 skills: requirement-analyzer, test-plan-writer, test-case-writer/reviewer, test-report-writer, perf-test-generator/analyzer, test-matrix-generator, bug-report-writer, robot-test-generator, e2e-test-generator, weekly-update-writer, data-type-matrix-generator)",
+  "description": "Claude Code skills สำหรับทีม QA — ลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5 (14 skills: requirement-analyzer, test-plan-writer, test-case-writer/reviewer, test-report-writer, perf-test-generator/analyzer, test-matrix-generator, bug-report-writer, robot-test-generator, e2e-test-generator, weekly-update-writer, data-type-matrix-generator, handoff-writer)",
   "author": {
     "name": "Nirawit Thepsawade",
     "email": "testerayodia@gmail.com"
