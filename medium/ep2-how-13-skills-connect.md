@@ -1,185 +1,104 @@
-# EP2: How 13 AI Skills Actually Connect — And Why We Started Thinking About Token Cost
+<!--
+  EP2 — Final published version
+  Published: 2026-04-28
+  URL: https://medium.com/@nirawit.mail/ep2-how-13-ai-skills-actually-connect-and-why-token-cost-started-bothering-me-f965f4de7eed
+  Language: English
+  Tone: casual, first-person, beginner-writer voice (no em dashes, no AI aphorisms)
+  Images: see /medium/assets/ep2/
+-->
 
-*If you haven't read EP1, the short version: our QA team was using ChatGPT the wrong way. Everyone had their own prompts, their own output formats, and their own interpretation of what "done" looks like. We fixed it by building skills that embed team context instead of asking people to explain it every session. This is what happened after that.*
+# EP2: How 13 AI Skills Actually Connect, And Why Token Cost Started Bothering Me
 
----
+> *Quick recap if you skipped EP1. Our QA team was using ChatGPT in a kind of messy way. Everyone had their own prompts, their own output format, their own version of what "done" meant. We tried to fix that by building skills with team context baked in, so people didn't have to re-explain everything every session. This post is what happened after that.*
 
-I want to start with something I got wrong.
+. . .
 
-When we finished the first few skills, I assumed the hardest part was over. We had `test-case-writer`, `bug-report-writer`, `test-report-writer` — the three things QA does every single sprint. I thought we'd just stack more skills on top and call it a workflow.
+## *Okay so I want to start by admitting something I got wrong.*
 
-What I didn't realize is that **a collection of skills isn't a workflow**. It's just a collection.
+After we finished the first 3 skills I kind of thought the hard part was over. We had `test-case-writer`, `bug-report-writer`, `test-report-writer`, basically the three things QA does every sprint, and in my head we just had to keep stacking more skills on top and we'd be done.
 
-The gap between "we have 13 tools" and "we have a system" took longer to close than building the tools themselves.
+Turns out that's not really how it works. **Having 13 skills doesn't mean you have a workflow.** It just means you have 13 skills sitting in a folder. Getting from "we have tools" to "we have an actual system that flows together" honestly took us way longer than building the tools in the first place, and that's the part I want to talk about in this post.
 
----
+. . .
 
-## The first time the chain actually worked
+## The first time the chain actually worked end to end
 
-About two months in, a team member was handed a BRD on a Monday morning. New feature, medium complexity, needed TC by Thursday.
+About two months into all this, one of the team members got handed a BRD (basically a requirement doc from PM) on a Monday morning. It was a new feature, medium complexity, and she had to deliver test cases by Thursday. Tight but doable.
 
-She ran through it like this:
+She didn't follow some master plan. She just opened the requirement, ran it through `requirement-analyzer` first to see if it was even ready to test, sent the gaps back to PM, and chained from there. The whole thing took about 3.5 days, and honestly most of that was waiting on PM replies.
 
-```
-Monday AM:   /requirement-analyzer  →  "Readiness: 71%. Here are 4 questions
-                                         you need PM to answer before writing TC."
+Here's how she actually went through it:
 
-Monday PM:   Sent questions. PM replied same day (rare, but it happened).
+> **[IMAGE: timeline-mon-thu]** — Mon AM `/requirement-analyzer` Readiness 71% → 4 questions for PM. Mon PM PM replied same day. Tue `/requirement-analyzer` Readiness 94% READY → `/test-plan-writer` draft + estimate. Wed `/data-type-matrix-generator` (3 new inputs) → `/test-case-writer` full TC SIT+UAT. Thu AM `/test-case-reviewer` flagged 2 gaps, suggested 1 merge → approved by noon.
 
-Tuesday:     /requirement-analyzer again  →  "Readiness: 94%. Ready."
-             /test-plan-writer             →  Draft plan with schedule estimate
+The thing that actually stood out wasn't really the speed though. It was more that nothing went sideways. She didn't have to redo test cases because the requirement got misunderstood. PM didn't come back on Wednesday with "oh wait we changed the scope." The reviewer flagged 2 small gaps and suggested one merge, and that was basically it. The whole thing kind of just worked, which sounds boring written down, but if you've done QA for any amount of time you know how rare a clean week actually is.
 
-Wednesday:   /data-type-matrix-generator  →  field-level coverage for 3 new inputs
-             /test-case-writer             →  full TC, SIT + UAT mode
+For comparison, the same kind of feature maybe six months earlier probably would've eaten her entire sprint. Like 5 days of writing TCs, another day of rework once PM clarifications trickled in, and almost guaranteed one round of "wait this TC doesn't match the final spec anymore." So pulling the whole thing off in 3.5 days with no rework felt kind of unreal the first time we saw it happen.
 
-Thursday AM: /test-case-reviewer          →  flagged 2 gaps, suggested 1 merge
-             (30 min to fix, approved by noon)
-```
+That was kind of when I started realizing the skills themselves weren't really the point. The actual thing that had changed was that people could stop firefighting long enough to finish things. And it got me thinking about why this version felt so different from how we used to work. The answer ended up being weirder than I expected, and it's something nobody really talks about until they have to deal with it.
 
-Thursday afternoon she had a reviewed, approved test case set. For a feature that would normally eat the whole week.
-
-That was the first time it felt like a pipeline instead of a bunch of separate scripts.
-
----
+. . .
 
 ## What the workflow actually looks like (not the pretty version)
 
-Here's the honest diagram — including the parts that aren't clean:
+Here's the honest diagram including the parts that aren't clean:
 
-```
-INPUT: BRD / PRD / Spec / User Story
-         │
-         ▼
-┌─────────────────────────────────┐
-│  LANE 1 — Pre-Testing Gate      │
-│                                 │
-│  requirement-analyzer           │  ← sometimes loops 2-3x
-│         │                       │    before PM confirms
-│         ▼                       │
-│  test-plan-writer               │
-└────────────┬────────────────────┘
-             │
-             ▼
-┌─────────────────────────────────┐
-│  LANE 2 — Test Design           │
-│                                 │
-│  data-type-matrix-generator     │  ← skip if requirement
-│         │                       │    is already well-defined
-│         ▼                       │
-│  test-case-writer               │
-│    ├── test-matrix-generator    │  ← for multi-variable
-│    └── test-case-reviewer       │    combinations
-└──────┬──────────────┬───────────┘
-       │              │
-       ▼              ▼
-┌──────────────┐  ┌──────────────────────────┐
-│  LANE 3      │  │  LANE 4 — Automation     │
-│  Manual/UAT  │  │                          │
-│              │  │  robot-test-generator    │
-│  (execute    │  │  e2e-test-generator      │
-│   the TCs)   │  │  perf-test-generator     │
-└──────┬───────┘  └──────────┬───────────────┘
-       └──────────┬───────────┘
-                  │
-                  ▼
-┌─────────────────────────────────┐
-│  LANE 5 — Reporting             │
-│                                 │
-│  bug-report-writer              │
-│  perf-result-analyzer           │
-│  test-report-writer             │
-│  weekly-update-writer           │
-└─────────────────────────────────┘
-```
+> **[IMAGE: pipeline-5-lanes]** — INPUT (BRD/PRD/Spec/User Story) → Lane 1 Pre-Testing Gate (`requirement-analyzer` loops 2-3x until PM confirms → `test-plan-writer`) → Lane 2 Test Design (`data-type-matrix-generator` skip if already well-defined → `test-case-writer` → `test-matrix-generator` + `test-case-reviewer`) → Lane 3 Manual/UAT (execute, manual run, UAT signoff) parallel to Lane 4 Automation (`robot-test-generator`, `e2e-test-generator`, `perf-test-generator`) → Lane 5 Reporting (`bug-report-writer`, `test-report-writer`, `perf-result-analyzer`, `weekly-update-writer`). Both manual + automation results feed reporting. Loop-back to Lane 1 until requirements stabilize.
 
-You don't run all 5 lanes every time. Small feature with no automation scope? Skip Lane 4. Well-written requirement with no ambiguous fields? Skip `data-type-matrix-generator`. Performance isn't in scope this sprint? Skip `perf-test-generator` and `perf-result-analyzer`.
+One thing I want to be honest about, you don't actually run all 5 lanes every sprint. Like if it's a small feature with no automation scope, we just skip Lane 4. If the requirement is well-written and there's nothing ambiguous, we skip `data-type-matrix-generator`. If performance testing isn't in scope this sprint, we skip both `perf-test-generator` and `perf-result-analyzer`. So it's not really a fixed pipeline where you have to run everything in order. It's more like, depending on what you're working on, you pick the path that makes sense. Most branches are optional, but there's always at least one route that gets you to something a reviewer can actually look at.
 
-The structure isn't a railroad. It's more like a decision tree where most branches are optional but at least one path always gets you to a review-ready output.
+. . .
 
----
+## The thing I keep ending up explaining: tokens
 
-## The thing nobody talks about: Token Economy
+This sounds abstract until it clicks, so I'll keep it short. **Tokens aren't just about cost. They're also about attention.** Every token you send to the model is something it has to keep track of while it's writing the response. So the more context you dump in, the more its attention gets spread across stuff that may or may not even matter for what you're actually asking.
 
-This is the part I find myself explaining most when people ask about the system, and it's also the part that sounds the most abstract until it clicks.
+Pretty early on we ran a quick test to see if this was real or if I was overthinking it. Same requirement, two prompts:
 
-**Token is not just money. Token is attention.**
+> **[IMAGE: token-compare]** — Prompt A "the old way": severity scale (5 levels), priority scale (P0–P3), output format, expected result definition, sensitive-data guardrails, then the full 400-line requirement. Used ~1,400 tokens before the requirement even started. Prompt B "the skill way": just `/test-case-writer` + `<400-line requirement>`. ~0 tokens of instructions, all attention goes to the requirement. Output quality: roughly the same.
+>
+> *Caption: Same input, same output quality. The difference is what the model spent its attention on.*
 
-Every token you send to a language model is part of what it has to hold in its head while generating a response. The more context you dump in, the more the model has to split its attention across things that may or may not be relevant to the actual question.
+Output quality came out roughly the same. But Prompt A burned around 1,400 tokens just on instructions before it even got to the requirement. Multiply that by every session, every team member, every sprint, and yeah it adds up money-wise. But the bigger thing for me wasn't really the money. It was realizing that **every extra token I spent on instructions** was a token the model wasn't spending on actually understanding the requirement.
 
-This matters in a very practical way. We ran a test early on — same requirement, two prompts:
+. . .
 
-**Prompt A (old way):** Explained severity scale, priority scale, output format, what "expected result" should look like, guardrails around sensitive data, and then pasted the full 400-line requirement.
+## Where the chain still breaks (because of course it does)
 
-**Prompt B (skill way):** `/test-case-writer` + the 400-line requirement. No explanation. The skill already knows everything from Prompt A because it's baked in.
+Honestly, Lane 4 is the weakest part of the whole thing.
 
-Output quality: roughly equal.  
-Token count: Prompt A used about 1,400 tokens just on instructions before even touching the requirement.
+The automation skills (`robot-test-generator`, `e2e-test-generator`) really need locator information to do their job, meaning the actual HTML structure of the page you're testing. Without that, the AI just generates selectors that look totally plausible but don't actually exist on the page. Which is kind of worse than generating nothing, because you only find out at runtime instead of when you're reviewing the script.
 
-Multiply that by every session, every team member, every sprint. It adds up. But the bigger cost isn't money — it's that every extra token of instruction is a token not spent on actually understanding your requirement.
+So we made a rule: **no automation skill runs without some kind of locator source.** That means either you paste the relevant HTML snippet, or you give it `data-testid` attributes that we control, or you just accept that the generated script will have placeholder locators that a human has to go in and fix before running.
 
----
+It's not pretty, I know. But at least it's honest, and it stops us from falling back into the EP1 problem, where the output looks right but blows up the moment you try to actually run it.
 
-## Three principles we now design every skill around
+The other place things fall apart is `perf-result-analyzer`. It works fine when the test results come in a structured format. But it kind of breaks down when the performance tool outputs something weird, or when there's infrastructure noise that's hard to tell apart from a real regression. We haven't fully solved this one yet. For now the skill literally says "requires human judgment on anomalies" and we mean it, it's not just a disclaimer.
 
-**1. Skills should know what they need without being told.**
+> **[IMAGE: locator-source]** — Without locator source: AI invents `css=.btn-primary-login` (doesn't exist), `id=user_email_input` (guessed), ambiguous xpath. Looks plausible at review, blows up at runtime. With `data-testid` hooks: `<input data-testid="login-email" />`, `Input Text css=[data-testid="login-email"]`. Stable across UI refactors, runs first try.
+>
+> *Caption: Left: what the AI invents on its own. Right: what we feed it instead.*
 
-Severity scale, priority scale, output column order, what counts as a valid expected result, when to flag something as TBD instead of guessing — all of this lives inside the skill. The person calling it shouldn't need to re-explain team standards.
+. . .
 
-This sounds obvious. It wasn't obvious to us at first. Our early skills were basically "nice prompts saved as files." The shift happened when we stopped thinking "what should I tell the AI" and started thinking "what does this AI need to already know to do this without asking."
+## Stuff that surprised me after six months
 
-**2. Output of skill N is input of skill N+1. No reformatting.**
+The biggest productivity gain didn't actually come from the heavy-lift skills like `test-case-writer` or `test-report-writer`. Honestly the thing that helped the most was `weekly-update-writer`, which kind of caught me off guard.
 
-`requirement-analyzer` produces a structured readiness report in a format that `test-case-writer` can consume directly. `test-case-writer` produces TCs in a format that `robot-test-generator` understands. Each handoff is designed so the next skill doesn't have to spend tokens parsing data that arrived in the wrong shape.
+Nobody on the team liked writing weekly status updates. They're necessary, they take like 30 to 45 minutes to do properly, but they're not interesting work at all and they always felt like time being stolen from actual testing. The moment we had a skill that could just read the week's bug reports, closed TCs, and blockers, and spit out a first draft in two minutes, the mood on Friday afternoons changed in a way I didn't expect. Small annoying tasks, when you remove them consistently, kind of add up over time. I didn't really get that until I saw it happen.
 
-The first time we violated this principle — we had a skill that produced a summary paragraph and expected the next skill to extract structured data from it — we spent three sessions debugging why the downstream skill kept missing fields. The answer was just: prose is expensive to parse and lossy. Tables and structured output are cheap.
+The other surprise was how the skills ended up changing the way we talk to PM. When `requirement-analyzer` produces a structured list of open questions with severity tags on each one, PMs actually started taking requirement gaps more seriously. Not because the AI is somehow more authoritative than us. It's more that a document saying "these 4 ambiguities could cause rework" is just harder to ignore than a Slack message saying "hey this BRD is kinda unclear." So basically **the format itself ended up changing how people responded**, which wasn't something we set out to do at all.
 
-**3. Separate what persists from what's session-specific.**
+> **[IMAGE: pm-format]** — BEFORE Slack DM: "hey this BRD is kinda unclear, can you take a look when free?" → easy to scroll past, no clear next step, gets answered later (or not). AFTER `requirement-analyzer` output: Readiness 71% | 4 open questions, with HIGH/MED/LOW severity tags. "Discount cap not specified for combo orders (could cause rework)", "Refund window: 'reasonable time' is undefined (blocks TC writing)", "Currency rounding rule missing for THB/USD (data-type-matrix flag)", "UI copy for empty cart not in spec (TC-able with assumption)" → harder to ignore, PM replies with specifics not vibes, rare but happened same day.
+>
+> *Caption: Same complaint, two formats. The right side is just harder to scroll past.*
 
-There are two kinds of context in this system:
+. . .
 
-- **Persistent context** (`project-context.md`): base URL, environment variables, team-specific business rules, glossary of domain terms. Every skill reads this automatically. Never paste this manually.
-- **Session context**: the BRD you're analyzing today, the specific TC set you're reviewing right now. Loaded once, used, gone.
+## What's coming in EP3
 
-Before we made this distinction explicit, people were pasting the entire project context *plus* the document *plus* instructions into every session. By the time you got to the actual work, the model was already half-distracted.
+EP3 is going to be the one where I talk about the stuff we built and then threw away, why `data-type-matrix-generator` almost didn't make it into the system at all, and the internal argument we had about whether AI should ever be allowed to estimate effort in a test plan. (Short answer: probably not, but I'll explain why we tried it anyway.)
 
----
+Basically the messier, less polished story of how this actually got built.
 
-## Where the chain breaks (and what we do about it)
-
-Honest answer: Lane 4 is the weakest link.
-
-Automation skills (`robot-test-generator`, `e2e-test-generator`) have a hard dependency on locator information — the actual HTML structure of the page you're testing. Without it, the AI generates plausible-looking selectors that don't exist, which is arguably worse than generating nothing because you find out at runtime instead of at review time.
-
-Our solution is a rule: **no automation skill runs without a locator source**. That means either pasting the relevant HTML snippet, providing `data-testid` attributes we control, or accepting that the generated script will have placeholder locators that a human needs to fill in before running.
-
-It's not elegant. But it's honest, and it prevents the thing we were trying to avoid in EP1 — an output that looks right but fails at execution.
-
-The other break point is `perf-result-analyzer`. It works well when test results are structured. It falls apart when your performance tool outputs a non-standard format or when the test run had infrastructure noise that's hard to distinguish from actual regressions. We haven't solved this fully. Right now it's flagged in the skill as "requires human judgment on anomalies" and we mean it.
-
----
-
-## What surprised us after six months
-
-The biggest productivity gain wasn't from the heavy-lift skills like `test-case-writer` or `test-report-writer`.
-
-It was from `weekly-update-writer`.
-
-Nobody on the team liked writing weekly status updates. They're necessary, they take maybe 30-45 minutes to write properly, but they're not interesting work and they feel like time stolen from actual testing. The moment we had a skill that could read the week's bug reports, closed TCs, and blockers — and produce a first draft in two minutes — the collective mood of Friday afternoons changed noticeably.
-
-Small friction, consistently removed, compounds.
-
-The second surprise was how much the skills changed how we communicate with PM. When `requirement-analyzer` produces a structured list of open questions with severity tags, PMs started taking requirement gaps more seriously. Not because the AI was more authoritative than us — but because a structured document with "these 4 ambiguities could cause rework" is harder to ignore than a Slack message saying "hey this BRD is unclear."
-
-Format changes behavior. We didn't expect that side effect.
-
----
-
-## What's next
-
-EP3 is going to be the one where I talk about what we built and threw away, why `data-type-matrix-generator` almost didn't make it into the system, and the argument we had internally about whether AI should ever be allowed to estimate effort in a test plan (short answer: it shouldn't, and here's why we tried it anyway).
-
-The less-polished version of how this actually got built.
-
----
-
-*The skills are open-source. If you're building something similar or want to see how any of this is structured, drop a comment and I'll share the repo.*
+. . .
