@@ -19,14 +19,16 @@
 ### ขั้นตอนที่ 1 — ก่อน AI ตัวเก่า cooldown
 
 สั่ง AI ตัวเก่าว่า:
-```
+
+```text
 สร้าง HANDOFF.md ไว้ใน [folder งาน] โดยใช้ template จาก references/handoff-guide.md
 ```
 
 ### ขั้นตอนที่ 2 — เปิด AI ตัวใหม่
 
 Prompt แรกที่ส่ง:
-```
+
+```text
 อ่าน HANDOFF.md ใน [folder งาน] ก่อน แล้วทำ next step ต่อได้เลย
 ไม่ต้องถามซ้ำเรื่องที่อยู่ใน section "ตัดสินแล้ว"
 ```

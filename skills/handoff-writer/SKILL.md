@@ -109,24 +109,20 @@ AI ดึง context จาก conversation history เองได้ — ไ�
 - Section "ตัดสินแล้ว" ต้องครอบคลุม **ทุก** decision ใน session นี้
 - File paths ต้องเป็น absolute หรือ relative ที่ชัดเจน
 
-### Step 4: สร้างไฟล์
+### Step 4: สร้างไฟล์และแจ้ง user
 - บันทึกที่ folder งานที่เหมาะสม
-- แจ้ง user: path + prompt ที่ใช้เปิด AI ตัวใหม่
+- แจ้ง user: path ของ HANDOFF.md + prompt ด้านล่างให้ copy ไปเปิด AI ตัวใหม่
 
----
+**Prompt สำหรับ AI ตัวใหม่ (copy ไปใช้):**
 
-## 6. Prompt สำหรับ AI ตัวใหม่
-
-หลังสร้าง HANDOFF.md แล้ว ให้แนบ prompt นี้ไปให้ user copy ไปใช้:
-
-```
+```text
 อ่าน [path/HANDOFF.md] ก่อน แล้วทำ next step ต่อได้เลย
 ไม่ต้องถามซ้ำเรื่องที่อยู่ใน section "ตัดสินแล้ว"
 ```
 
 ---
 
-## 7. Quality Gate — Checklist ก่อนส่ง
+## 6. Quality Gate — Checklist ก่อนส่ง
 
 ### Must Have
 - [ ] Section "ตัดสินแล้ว" มี decision ครบทุกข้อจาก session
@@ -142,7 +138,7 @@ AI ดึง context จาก conversation history เองได้ — ไ�
 
 ---
 
-## 8. AI Guardrails — ข้อควรระวัง
+## 7. AI Guardrails — ข้อควรระวัง
 
 อ้างอิง: [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
 
@@ -152,14 +148,15 @@ AI ดึง context จาก conversation history เองได้ — ไ�
 
 ---
 
-## 9. Chain — เชื่อมกับ skills อื่น
+## 8. Chain — เชื่อมกับ skills อื่น
 
 **Upstream:** ใช้ได้หลัง **ทุก skill** — เป็น utility ที่ไม่ขึ้นกับ skill ใดเฉพาะ
 
 **Downstream:** AI ตัวใหม่อ่าน HANDOFF.md → ทำงาน skill เดิมต่อ
 
 **Workflow:**
-```
+
+```text
 [skill ใดก็ได้]  →  ใกล้ limit  →  handoff-writer  →  HANDOFF.md
                                                             ↓
                                                    [เปิด AI ตัวใหม่]
