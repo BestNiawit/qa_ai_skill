@@ -1,19 +1,48 @@
-# OS
+# ── OS ─────────────────────────────────────────────
 .DS_Store
+._*
 Thumbs.db
 
-# Editor
+# ── Editor / IDE ───────────────────────────────────
 .idea/
 .vscode/
 *.swp
 *.swo
+*~
+*.bak
 
-# Local Claude config (ถ้ามีคน clone แล้ว config เฉพาะเครื่อง)
+# ── Secrets (ห้ามขึ้น git เด็ดขาด) ─────────────────
+.env
+.env.*
+!.env.example
+
+# ── Local Claude config (per-machine) ──────────────
 .claude/settings.local.json
 
-# Logs / temp
+# ── Logs / Temp / Cache ────────────────────────────
 *.log
+*.tmp
 tmp/
+.cache/
+
+# ── Python (เผื่อ skill gen Python) ────────────────
+__pycache__/
+*.pyc
+*.pyo
+
+# ── Node (เผื่อใครใช้) ─────────────────────────────
+node_modules/
+
+# ── Typst test/scratch files (ขึ้นต้นด้วย _) ──────
+_*.typ
+_*.pdf
+
+# ── AI-generated workspace (per-user, ไม่ใช่ artifact ของ repo) ──
 outputs
 
+# ── Sample packs: ignore ทุกไฟล์ใน docs/samples/<pack>/ ยกเว้น README.md (pointer doc) ──
+docs/samples/*/*
+!docs/samples/*/README.md
+
+# ── Excel exports (Jira / test data ที่อาจมี PII) ──
 *.xlsx

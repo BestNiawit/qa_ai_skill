@@ -9,6 +9,8 @@
 > 🔁 **ต้องรัน SIT → UAT แล้วอยากได้ prompt พร้อม copy?** → [docs/how-to-sit-uat.md](docs/how-to-sit-uat.md) — 10 steps, พิมพ์อะไรให้ AI ทุกขั้น
 >
 > 📊 **อยากเห็น Input/Process/Output ทุก skill + ไม่เปลือง AI?** → [docs/work-product-flow.md](docs/work-product-flow.md)
+>
+> 📤 **เอาไปแชร์ทีม / ผู้บริหาร — เห็น Input/Output ของ E2E ใน 1 หน้า?** → [docs/workflow-io-summary.md](docs/workflow-io-summary.md)
 
 ---
 
@@ -137,6 +139,8 @@ claude
 ---
 
 ## Workflow แนะนำ (End-to-End)
+
+> 📤 **อยากได้ Input/Output ของทั้ง flow แบบส่ง exec ได้?** → [docs/workflow-io-summary.md](docs/workflow-io-summary.md)
 
 ### SIT Chain
 ```
