@@ -8,7 +8,7 @@
 ## ✅ Day 1 Checklist — อ่านตามนี้ (~30 นาที)
 
 - [ ] **1. [README.md](../README.md)** — 3 นาที
-  รู้ว่า repo นี้คืออะไร, มี 11 skills อะไรบ้าง, install ยังไง
+  รู้ว่า repo นี้คืออะไร, มี 14 skills อะไรบ้าง, install ยังไง
 
 - [ ] **2. [docs/qa-onboarding.md](qa-onboarding.md)** (ไฟล์นี้) — 10 นาที
   คู่มือหลัก — Quick Start + Decision Tree + End-to-End walkthrough

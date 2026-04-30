@@ -97,13 +97,13 @@ AI ชอบทำให้ทุก paragraph แตกเป็น bullet — 
     - dtmu
     - OIE
 - QA AI Skill
-  - 11 ตัว
+  - 14 ตัว
   - น้อง 4 คน adopt
 ```
 
 **✅ Natural:**
 ```
-สัปดาห์นี้ kick off Test Automation กับ 3 โปรเจค (Athm, dtmu, OIE) และปล่อย QA AI Skill 11 ตัว
+สัปดาห์นี้ kick off Test Automation กับ 3 โปรเจค (Athm, dtmu, OIE) และปล่อย QA AI Skill 14 ตัว
 ให้น้อง 4 คนเริ่มใช้จริงแล้ว
 ```
 

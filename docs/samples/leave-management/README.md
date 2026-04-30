@@ -19,11 +19,12 @@
 
 ## 📦 ไฟล์ใน Pack ทั้งหมด
 
-### 📄 PDF (Typst — สำหรับ Exec / Stakeholder) — 6 ไฟล์
+### 📄 PDF (Typst — สำหรับ Exec / Stakeholder) — 7 ไฟล์
 
 | # | ชื่อ | จาก Skill | Audience |
 |:-:|------|-----------|----------|
 | 02 | SIT Plan | test-plan-writer | PM + Dev Lead |
+| 03 | SIT Test Cases | test-case-writer | QA + Reviewer |
 | 04 | Peer Review | test-case-reviewer | QA Peer / Lead |
 | 05 | Bug Report | bug-report-writer | Dev / Triage |
 | 06 | ⭐ SIT Report | test-report-writer (sit) | **Exec / PM** |

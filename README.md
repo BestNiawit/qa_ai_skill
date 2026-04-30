@@ -2,7 +2,7 @@
 
 รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5
 
-**ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (**Requirement Analyzer**, Bug Report, Matrix, E2E/Robot Automation)
+**ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (**Requirement Analyzer**, Bug Report, Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
 
 > 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
 >
@@ -57,7 +57,7 @@ claude
 /plugin install qa-ai-skill@ayodia-qa
 ```
 
-หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 13 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
+หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 14 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
 
 ### เช็คว่าติดตั้งสำเร็จ
 
@@ -83,7 +83,7 @@ claude
 
 ---
 
-## Skills (13 ตัว)
+## Skills (14 ตัว)
 
 ### Pre-Testing — Requirement Readiness (ก่อนเริ่ม SIT)
 
@@ -115,6 +115,13 @@ claude
 | 8 | [bug-report-writer](skills/bug-report-writer/) | Jira/Linear/GitHub issue จาก defect ที่พบ |
 | 9 | [robot-test-generator](skills/robot-test-generator/) | Robot Framework automation (athm_automation pattern) |
 | 10 | [e2e-test-generator](skills/e2e-test-generator/) | Playwright/Cypress/WDIO/Selenium-Java automation |
+
+### QA Lead Workflow Skills
+
+| # | Skill | Use Case |
+|---|-------|---------|
+| 11 | [weekly-update-writer](skills/weekly-update-writer/) | Weekly Update email (C-level / Manager / Team) — distill QA Lead Weekly Review → email ภาษาธรรมชาติ |
+| 12 | [handoff-writer](skills/handoff-writer/) | สร้าง HANDOFF.md ส่งงานข้าม AI session เมื่อใกล้ context limit / สลับ tool |
 
 ---
 
@@ -393,7 +400,9 @@ qa_ai_skill/
     ├── test-matrix-generator/          ← Coverage/Pairwise/Platform
     ├── bug-report-writer/              ← Jira/Linear/GitHub
     ├── robot-test-generator/           ← Robot Framework
-    └── e2e-test-generator/             ← Playwright/Cypress/WDIO/Selenium
+    ├── e2e-test-generator/             ← Playwright/Cypress/WDIO/Selenium
+    ├── weekly-update-writer/           ← Weekly Update email (QA Lead)
+    └── handoff-writer/                 ← Handoff doc ส่งงานข้าม AI session
 ```
 
 ---

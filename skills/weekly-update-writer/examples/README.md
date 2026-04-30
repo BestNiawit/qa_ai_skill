@@ -16,7 +16,7 @@
 ## 1. TL;DR
 - Progress:
   - Test Automation rollout: Athm, dtmu, OIE ISingleForm
-  - QA AI Skill: 11 skill สำหรับเริ่มงาน
+  - QA AI Skill: 14 skill สำหรับเริ่มงาน
   - Automation starter kit (Robot, Playwright, K6)
   - คุยกับ PM ของ 3 โปรเจค
 - Blocker: Timeline ขยับโดยไม่แจ้ง tester ล่วงหน้า
@@ -58,7 +58,7 @@ support จากพี่ชายด้านล่างครับ
 
 สรุปสั้น ๆ
 สัปดาห์นี้ kick off Test Automation กับ 3 โปรเจค (Athm, dtmu, OIE ISingleForm),
-ปล่อย QA AI Skill 11 ตัวให้น้อง ๆ เริ่มใช้จริง, และเตรียม Automation starter kit
+ปล่อย QA AI Skill 14 ตัวให้น้อง ๆ เริ่มใช้จริง, และเตรียม Automation starter kit
 (Robot / Playwright / K6) โดยเริ่มเอาน้อง ๆ เข้ามาใน repo แล้ว สัปดาห์หน้าผมจะ
 โฟกัส Athm มจพ automation เป็น Critical โดยเบสลงไปทำเองในส่วน test case กับ test matrix
 ส่วนเรื่อง executor ถ้าไม่ทันจะรีบแจ้งพี่ชายครับ
