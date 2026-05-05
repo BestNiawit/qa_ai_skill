@@ -141,10 +141,14 @@
         #info-row("Date", date)
         #v(10pt)
         #info-row("Author", author)
-        #v(10pt)
-        #info-row("Reviewer", reviewer)
-        #v(10pt)
-        #info-row("Approver", approver)
+        #if reviewer != "" [
+          #v(10pt)
+          #info-row("Reviewer", reviewer)
+        ]
+        #if approver != "" [
+          #v(10pt)
+          #info-row("Approver", approver)
+        ]
       ]
     )
   ]
