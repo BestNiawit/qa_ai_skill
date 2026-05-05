@@ -2,7 +2,9 @@
 
 รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5
 
-**ครอบคลุม 12 AI-Assisted processes** ใน SDP §5.3.1 (Plan / Test Case / Review / Report / Perf) + skills เสริม (**Requirement Analyzer**, Bug Report, Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
+**14 skills ครอบคลุม 12 AI-Assisted processes ของ SDP §5.3.1** (Plan / Test Case / Review / Report / Perf) + Pre-process gate (**Requirement Analyzer**, Data Type Matrix) + Supporting (Bug Report, Test Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
+
+*6 skills ครอบ 12 SDP processes (skill เดียวใช้ซ้ำหลาย process — เช่น `test-plan-writer` ครอบ P1/P5/P9) + อีก 8 skills สำหรับ pre-process / supporting / utility*
 
 > 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
 >
