@@ -1,6 +1,6 @@
 ---
 name: test-matrix-generator
-description: สร้าง test matrix แบบ compact (CSV) เพื่อครอบคลุม scope เร็วๆ ตอนเขียน full test case ไม่ทัน — รองรับ 3 matrix หลัก Coverage (Requirement × Scenario), Combination (Pairwise input), Platform (Feature × Browser/OS/Device). Trigger เมื่อ user ขอ test matrix, coverage matrix, pairwise matrix, compatibility matrix, "ไม่ทันเขียน test case", "ขอ matrix แทน", "generate test matrix", "pairwise testing". Maps to SDP §5 (ก่อน SIT Test Case — quick coverage check).
+description: สร้าง test matrix แบบ compact ครอบคลุม scope เร็วๆ ตอนเขียน full test case ไม่ทัน — รองรับ 3 matrix หลัก Coverage (Requirement × Scenario), Combination (Pairwise input), Platform (Feature × Browser/OS/Device) — output ได้ทั้ง CSV (ภายใน) และ Typst → PDF branded สำหรับส่งลูกค้า (cover page + TOC + KPI + sign-off). Trigger เมื่อ user ขอ test matrix, coverage matrix, pairwise matrix, compatibility matrix, "ไม่ทันเขียน test case", "ขอ matrix แทน", "generate test matrix", "pairwise testing", "ส่งลูกค้า", "matrix สวยๆ", "PDF report". Maps to SDP §5 (ก่อน SIT Test Case — quick coverage check).
 ---
 
 # Test Matrix Generator
@@ -45,6 +45,8 @@ description: สร้าง test matrix แบบ compact (CSV) เพื่อ
 | Matrix type | ✅ | Coverage / Combination / Platform (เลือกได้หลาย) |
 | Input source | ✅ | requirement file / feature list / input parameters |
 | Scope | ✅ | เฉพาะ flow/feature/release ไหน |
+| Output format | ⬜ | `csv` (default — ทีมใช้ภายใน) / `pdf` (Typst → PDF, สำหรับส่งลูกค้า) / `both` |
+| Project metadata | conditional | ถ้า `pdf` หรือ `both` → ต้องมี: `project`, `customer`, `version`, `date`, `author` |
 | Update mode | ⬜ | new (default) / update existing file |
 
 **Output language rule:**
@@ -55,7 +57,13 @@ description: สร้าง test matrix แบบ compact (CSV) เพื่อ
 
 ## 4. Outputs — สิ่งที่ได้
 
-**Format:** CSV (ใช้ใน Excel/Google Sheets/Jira)
+**Format:** เลือกได้ตาม audience
+
+| Format | ใช้กับใคร | ตอนไหน |
+|--------|----------|--------|
+| **CSV** (default) | ทีม QA / PM ภายใน | Import เข้า Jira/Sheets, edit ต่อง่าย |
+| **Typst → PDF** | ลูกค้า / สรุปส่ง stakeholder | ต้องการเอกสาร branded สวย, sign-off ได้ |
+| **Both** | งานที่ต้องส่งทั้งภายใน+ลูกค้า | Generate ทั้ง CSV (working) + PDF (deliverable) |
 
 ### 4.1 CSV Technical Spec (บังคับ)
 
@@ -78,6 +86,7 @@ description: สร้าง test matrix แบบ compact (CSV) เพื่อ
 - `matrix_coverage_<feature>_<YYYYMMDD>.csv`
 - `matrix_combination_<feature>_<YYYYMMDD>.csv`
 - `matrix_platform_<feature>_<YYYYMMDD>.csv`
+- `matrix_<type>_<feature>_<YYYYMMDD>.pdf` (เมื่อ format = pdf)
 - **Update existing:** เพิ่ม `_v2`, `_v3` ต่อท้าย ไม่ overwrite ของเก่า
 
 ### 4.4 Matrix Types + CSV Sample
@@ -138,6 +147,63 @@ Admin dashboard,High,Medium,-,-,Low
 Push notification,-,-,High,High,-
 ```
 
+### 4.5 Typst PDF Output (สำหรับส่งลูกค้า)
+
+ใช้เมื่อต้องการเอกสาร branded สวย ส่งลูกค้า / sign-off — Compile จาก Typst template เป็น PDF
+
+#### Prerequisites
+- `typst` CLI ≥ 0.13 (Mac: `brew install typst`)
+- Font ไทย: **Sukhumvit Set** (ติดตั้งใน macOS อยู่แล้ว) — fallback `Sarabun`, `Helvetica`
+- Logo: `assets/ayodia-logo.png` (อยู่ใน skill folder แล้ว)
+
+#### Template Files
+- `templates/report-style.typ` — theme/layout (อย่าแก้เว้นแต่จำเป็น)
+- `templates/report.typ` — caller template ที่ AI fill data ลงไป
+
+#### How to Generate
+
+1. Copy `templates/report.typ` → `outputs/matrix/report_<feature>_<YYYYMMDD>.typ`
+2. แก้ค่าใน `#show: report.with(...)` ให้ตรงโปรเจกต์จริง:
+   - `project`, `customer`, `version`, `date`, `author`
+   - `summary` (KPI: requirements, scenarios, coverage %, pass/fail/pending)
+   - `scope-in` / `scope-out` (list of strings)
+   - `test-types` (list of `(name, desc, count)`)
+   - `coverage` / `combination` / `platform` (set ตัวที่ไม่ใช้เป็น `none`)
+   - `notes` (optional, content block)
+3. Compile:
+   ```bash
+   cd skills/test-matrix-generator
+   typst compile --root . <path-to-report.typ> outputs/matrix/<output>.pdf
+   ```
+   `--root .` ต้องชี้ที่ skill folder (เพื่อให้อ่าน `assets/ayodia-logo.png` ได้)
+
+#### File Naming
+- `matrix_<type>_<feature>_<YYYYMMDD>.typ` (source)
+- `matrix_<type>_<feature>_<YYYYMMDD>.pdf` (deliverable)
+- Demo file: `outputs/matrix/sample_login_matrix.pdf`
+
+#### What's in the PDF
+1. **Cover page** — logo Ayodia + project + customer + version + date
+2. **Table of Contents** (auto-generated)
+3. **Executive Summary** — 4 KPI tiles (req, scenario, coverage %, pass/fail/pending)
+4. **Test Scope** — In Scope / Out of Scope
+5. **Test Types** — Positive/Negative/Boundary/Security counts
+6. **Coverage Matrix** — Requirement × Scenario (มี status badge สี)
+7. **Combination Matrix** — Pairwise input (ถ้า provide)
+8. **Platform Matrix** — Feature × Platform (ถ้า provide)
+9. **Notes** — ข้อสังเกต + ขั้นตอนถัดไป
+10. **Sign-off page** — 4 ช่อง: QA Engineer / QA Lead / PM / Customer
+
+#### Status Badge Values (ใช้ใน coverage/platform cell)
+รองรับ string ต่อไปนี้ (case-insensitive) — anything else แสดง raw:
+| Input | Badge | สี |
+|-------|-------|-----|
+| `PASS`, `P`, `✓`, `Y`, `YES` | PASS | เขียว |
+| `FAIL`, `F`, `✗`, `X`, `NO` | FAIL | แดง |
+| `BLOCK`, `BLOCKED`, `B` | BLOCK | ม่วง |
+| `PENDING`, `NOT RUN`, `NR` | PENDING | เทา |
+| `N/A`, `NA`, `-` | N/A | เทาอ่อน |
+
 ---
 
 ## 5. Process — ขั้นตอน
@@ -146,6 +212,8 @@ Push notification,-,-,High,High,-
 - Matrix type?
 - Input source (path of requirement / list of features)?
 - Scope?
+- **Output format?** (`csv` / `pdf` / `both`) — ถ้า `pdf` หรือ `both` ต้องถามต่อ:
+  - Customer name? Project name? Version? Author?
 - Update existing file? (optional)
 
 ### Step 2: อ่าน/รวบรวมข้อมูล
@@ -206,6 +274,14 @@ for i, pairs in enumerate(AllPairs(params), 1):
 - [ ] Platform: combo สมเหตุสมผล (Safari ไม่มีบน Windows) + มี priority
 - [ ] Size ไม่เกิน threshold (ถ้าเกิน → warn + split)
 - [ ] File save ที่ `./outputs/matrix/` + return `computer://` link
+
+### Must Have (PDF format เท่านั้น)
+- [ ] Compile ผ่าน — `typst compile --root .` ไม่มี error
+- [ ] Customer/Project/Version/Date ใส่ครบ ไม่มี placeholder `<...>` หลงเหลือ
+- [ ] Logo render ที่ cover page ถูกต้อง (ตรวจหน้า 1)
+- [ ] TOC แสดงครบทุก section + เลขหน้าตรง (ตรวจหน้า 2)
+- [ ] Status badge สีถูกตาม semantic (PASS=เขียว, FAIL=แดง)
+- [ ] Sign-off page มีครบ 4 ช่อง (QA / Lead / PM / Customer)
 
 ### Red Flags / Anti-patterns
 - ❌ ใส่ steps/expected/actual แบบ full TC ใน cell — ผิด scope (นั่น `test-case-writer`)
