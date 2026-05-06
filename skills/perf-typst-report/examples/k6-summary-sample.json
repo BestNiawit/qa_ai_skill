@@ -1,0 +1,71 @@
+{
+  "_comment": "Sample k6 summary export — produced by: k6 run --summary-export=results-load.json script.js",
+  "_test_metadata": {
+    "test_type": "load",
+    "vus": 500,
+    "duration": "30m",
+    "total_requests": 450000,
+    "scope": "Leave Management API",
+    "ran_at": "2026-04-25T09:00:00+07:00"
+  },
+  "metrics": {
+    "http_req_duration{name:login}": {
+      "type": "trend",
+      "values": {"avg": 118.4, "min": 45, "med": 105, "max": 1287, "p(90)": 320, "p(95)": 450, "p(99)": 803}
+    },
+    "http_req_failed{name:login}": {"type": "rate", "values": {"rate": 0.0031, "passes": 8472, "fails": 26}},
+    "http_reqs{name:login}": {"type": "counter", "values": {"count": 8498, "rate": 85.2}},
+
+    "http_req_duration{name:search_employee}": {
+      "type": "trend",
+      "values": {"avg": 1240, "min": 180, "med": 1050, "max": 5400, "p(90)": 2100, "p(95)": 2800, "p(99)": 4900}
+    },
+    "http_req_failed{name:search_employee}": {"type": "rate", "values": {"rate": 0.0214, "passes": 4380, "fails": 95}},
+    "http_reqs{name:search_employee}": {"type": "counter", "values": {"count": 4475, "rate": 44.8}},
+
+    "http_req_duration{name:create_leave}": {
+      "type": "trend",
+      "values": {"avg": 285, "min": 95, "med": 240, "max": 1102, "p(90)": 520, "p(95)": 600, "p(99)": 950}
+    },
+    "http_req_failed{name:create_leave}": {"type": "rate", "values": {"rate": 0.005, "passes": 2985, "fails": 15}},
+    "http_reqs{name:create_leave}": {"type": "counter", "values": {"count": 3000, "rate": 30.0}},
+
+    "http_req_duration{name:approve_leave}": {
+      "type": "trend",
+      "values": {"avg": 240, "min": 80, "med": 210, "max": 950, "p(90)": 480, "p(95)": 550, "p(99)": 870}
+    },
+    "http_req_failed{name:approve_leave}": {"type": "rate", "values": {"rate": 0.002, "passes": 2495, "fails": 5}},
+    "http_reqs{name:approve_leave}": {"type": "counter", "values": {"count": 2500, "rate": 25.0}},
+
+    "http_req_duration{name:leave_history}": {
+      "type": "trend",
+      "values": {"avg": 380, "min": 120, "med": 340, "max": 1240, "p(90)": 680, "p(95)": 800, "p(99)": 1100}
+    },
+    "http_req_failed{name:leave_history}": {"type": "rate", "values": {"rate": 0.004, "passes": 3984, "fails": 16}},
+    "http_reqs{name:leave_history}": {"type": "counter", "values": {"count": 4000, "rate": 40.0}},
+
+    "http_req_duration{name:report_summary}": {
+      "type": "trend",
+      "values": {"avg": 1820, "min": 350, "med": 1650, "max": 6800, "p(90)": 2900, "p(95)": 3500, "p(99)": 6200}
+    },
+    "http_req_failed{name:report_summary}": {"type": "rate", "values": {"rate": 0.018, "passes": 982, "fails": 18}},
+    "http_reqs{name:report_summary}": {"type": "counter", "values": {"count": 1000, "rate": 10.0}},
+
+    "http_req_duration{name:report_detail}": {
+      "type": "trend",
+      "values": {"avg": 920, "min": 200, "med": 850, "max": 2400, "p(90)": 1500, "p(95)": 1800, "p(99)": 2200}
+    },
+    "http_req_failed{name:report_detail}": {"type": "rate", "values": {"rate": 0.007, "passes": 1191, "fails": 9}},
+    "http_reqs{name:report_detail}": {"type": "counter", "values": {"count": 1200, "rate": 12.0}},
+
+    "http_req_duration{name:dashboard}": {
+      "type": "trend",
+      "values": {"avg": 95, "min": 30, "med": 80, "max": 480, "p(90)": 250, "p(95)": 350, "p(99)": 450}
+    },
+    "http_req_failed{name:dashboard}": {"type": "rate", "values": {"rate": 0.001, "passes": 9990, "fails": 10}},
+    "http_reqs{name:dashboard}": {"type": "counter", "values": {"count": 10000, "rate": 100.0}},
+
+    "vus_max": {"type": "gauge", "values": {"value": 500, "max": 500}},
+    "iterations": {"type": "counter", "values": {"count": 35673, "rate": 19.8}}
+  }
+}

@@ -108,6 +108,7 @@ claude
 | 4 | [test-report-writer](skills/test-report-writer/) | §5.3.1 P4/P8/P12 (SIT/UAT/Perf Report) | ~60-70% |
 | 5 | [perf-test-generator](skills/perf-test-generator/) | §5.3.1 P10 (Perf Script) | ~50% |
 | 6 | [perf-result-analyzer](skills/perf-result-analyzer/) | §5.3.1 P11 (Analyze Perf) | ~50% |
+| 6b | [perf-typst-report](skills/perf-typst-report/) | §5.3.1 P12 (Perf Report — **PDF client-facing** ~5-6 หน้า, typst rendered) | ~70% |
 
 ### Supporting Skills
 
@@ -186,7 +187,8 @@ NFR + API Spec → test-plan-writer (mode=perf)   → Perf Test Plan
               → perf-test-generator              → k6 scripts
               → [Run Load/Stress/Soak/Spike]
               → perf-result-analyzer             → Bottleneck Analysis
-              → test-report-writer (mode=perf)   → Perf Report
+                          ├──→ test-report-writer (mode=perf) → Perf Report (MD, internal)
+                          └──→ perf-typst-report              → Perf Report (PDF, client-facing)
 ```
 
 ---

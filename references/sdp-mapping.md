@@ -42,6 +42,7 @@
 | 10 | เตรียม Perf Script | QC/Dev | [perf-test-generator](../skills/perf-test-generator/) | ~50% |
 | 11 | วิเคราะห์ผล Perf | Dev/TL | [perf-result-analyzer](../skills/perf-result-analyzer/) | ~50% |
 | 12 | เขียน Perf Report | QC/TL | [test-report-writer](../skills/test-report-writer/) (mode=perf) + [perf-result-analyzer](../skills/perf-result-analyzer/) | ~60% |
+| 12b | Perf Report PDF (ส่งลูกค้า) | QC/TL | [perf-typst-report](../skills/perf-typst-report/) — typst-rendered 5-6 หน้า, formal, client-friendly | ~70% |
 
 ---
 
