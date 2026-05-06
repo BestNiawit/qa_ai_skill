@@ -105,13 +105,21 @@ Draft Test Report จาก raw execution data → QC review ตัวเลข 
 9a. User Sign-off (Name, Date, Approval/Reject/Conditional)
 ```
 
-**Perf-specific:**
+**Perf-specific** (layout เทียบเท่า JMeter government-style report — เช่น KMUTNB):
 ```
-2b. Workload Summary (executor, ramp, duration, total requests)
-3a. NFR Evaluation per endpoint
-   | Endpoint | p(95) | p(99) | Throughput | Error Rate | NFR Target | Pass/Fail |
-4a. Bottleneck Analysis (จาก `perf-result-analyzer`)
-7a. Tuning Recommendation
+2.  Test Scenario (VUs / Duration / Time window) + NFR ต้นฉบับ
+3.  Tools Used (k6 + Prometheus/Grafana + node_exporter — หรือ JMeter ถ้าโปรเจกต์ใช้)
+4.  API List under Test (Method / URL / รายละเอียด — ต้องให้ user paste จาก API doc)
+5.  Server Resource Usage per server (IP/OS/CPU/RAM + CPU graph + Memory graph + avg %)
+    ⚠️ AI ไม่ generate ส่วนนี้เอง — ต้อง capture จาก node_exporter/Atop/Performance Monitor
+6.  Test Result — NFR Evaluation per Endpoint
+    | Endpoint | Samples | Avg | Min | Max | p95 | p99 | Std Dev | RPS | Error % | Sent KB/s | Recv KB/s | NFR p95 | Status |
+    + Response Time Graph all endpoints (export จาก Grafana / xk6-dashboard)
+7.  Stress Test — Metric per Load Level
+8.  Soak Test (Memory Leak Check)
+9.  Bottleneck Analysis (จาก `perf-result-analyzer`)
+10. Tuning Recommendation (Must Fix / Should Fix / Nice to Have)
+11. Metric Glossary (ทับศัพท์ k6/JMeter — สำหรับ reader ที่ไม่คุ้น)
 ```
 
 ---
@@ -207,10 +215,16 @@ Derived จาก SDP §5.1.3 (SIT Report) + §5.1.6 (UAT Report) + §5.1.8 (Per
 - [ ] ถ้า Conditional → ระบุเงื่อนไขชัด
 
 ### Perf-specific
-- [ ] Workload Summary (executor, ramp, total requests)
-- [ ] NFR Evaluation per endpoint (Pass/Fail)
+- [ ] Test Scenario (VUs / Duration / Time window) + NFR ต้นฉบับ copy ตรง
+- [ ] **Tools Used** section — ระบุ load tool (k6/JMeter) + monitoring stack (Prometheus/Grafana/Atop/PerfMon)
+- [ ] **API List under Test** — Method/URL/รายละเอียด ครบทุก endpoint (รายละเอียด = paste จาก API doc, ไม่ใช่ AI generate)
+- [ ] **Server Resource Usage** ต่อ server — IP/OS/CPU/RAM table + CPU graph + Memory graph + avg % table
+  - ⚠️ ถ้าไม่มี graph = test ไม่ครบ ต้อง capture ใหม่ก่อน sign-off
+- [ ] NFR Evaluation per endpoint (Pass/Fail) — มี p95 + p99 + Error Rate + RPS อย่างน้อย
+- [ ] Response Time Graph all endpoints (export จาก Grafana / xk6-dashboard)
 - [ ] Bottleneck identified (ถ้ามี)
-- [ ] Tuning Recommendation
+- [ ] Tuning Recommendation (Must Fix / Should Fix / Nice to Have)
+- [ ] **Metric Glossary** ครบทุก column ที่ใช้ (Samples, Avg, p95, p99, Throughput, Error %, ...)
 
 ### Red Flags (Reject)
 - ❌ ตัวเลขไม่ตรงกับ raw data
@@ -221,6 +235,8 @@ Derived จาก SDP §5.1.3 (SIT Report) + §5.1.6 (UAT Report) + §5.1.8 (Per
 - ❌ ใช้ severity scale นอก qa-standards (เช่น S1/S2, Cosmetic — legacy)
 - ❌ UAT: ไม่มี User Sign-off
 - ❌ Perf: Metric ไม่ผ่าน NFR แต่ไม่มี Waiver / explanation
+- ❌ Perf: ไม่มี Server Resource graphs (CPU/Memory) ต่อ server — ไม่รู้ว่า bottleneck อยู่ client หรือ server side
+- ❌ Perf: ตาราง NFR Evaluation ไม่มี p95 (เกณฑ์ NFR ส่วนใหญ่ใช้ p95 ตัดสินใจ)
 
 ---
 
@@ -301,5 +317,6 @@ SIT Phase 1 ผลทดสอบดี
 ## References
 - [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
 - [`references/sdp-mapping.md`](../../references/sdp-mapping.md)
+- [`references/perf-report-kmutnb-template.md`](../../references/perf-report-kmutnb-template.md) — KMUTNB government-style perf report (pre-test setup + section ownership)
 - `templates/` — SIT/UAT/Perf report templates
 - External: IEEE 829 (Test Summary Report), ISTQB Foundation Level Syllabus

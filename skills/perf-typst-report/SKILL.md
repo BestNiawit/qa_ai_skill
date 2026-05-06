@@ -13,6 +13,10 @@ description: สร้าง Performance Test Report แบบ PDF ที่ส�
 
 **Effort savings:** ~70% (เทียบ manual draft + format Word/PowerPoint) — จาก ~6 ชม. → ~1.5 ชม.
 
+**2 mode (เลือก template):**
+- **`mode=client` (default)** — `templates/perf-report.typ` — Ayodia branded 8-page compact (verdict banner / KPI tiles / traffic-light NFR / bottleneck cards) สำหรับลูกค้าเอกชน CTO/PO
+- **`mode=kmutnb`** — `templates/perf-report-kmutnb.typ` — Government-style 14+ pages เลียน format KMUTNB JMeter report สำหรับหน่วยงานราชการ/มหาวิทยาลัย ที่บังคับ layout เฉพาะ (Tools / API List / Server Resource graphs / Glossary / สรุปผลแบบ narrative) ดูคู่มือเตรียม graphs ที่ [`references/perf-report-kmutnb-template.md`](../../references/perf-report-kmutnb-template.md)
+
 **Key rules:**
 - ใช้ภาษาแบบผสม — **คำอธิบาย / bullet / bottleneck = ภาษาไทยธุรกิจ** ("รายงานช้า", "ผู้ใช้รอคอย"), แต่ **KPI labels และ metric headers = ทับศัพท์ industry-standard** (RPS, Response Time, Error Rate, VUs, p95) เพราะคำพวกนี้แม้ลูกค้า non-tech ใน IT context ก็คุ้น
 - **Verdict banner** สีชัด (Pass=เขียว / Conditional=ส้ม / Fail=แดง) อยู่บนสุดของ Exec Summary
@@ -46,9 +50,10 @@ Page 8: Conclusion + Next Steps + Sign-off
 
 **SDP Process:** §5.3.1 Process 12 — Perf Report (client deliverable variant)
 
-| สถานการณ์ | ใช้ skill ไหน |
-|-----------|-------------|
-| ส่ง **PDF ทางการให้ลูกค้า** (ไม่ใช่ tech) | **`perf-typst-report`** (skill นี้) |
+| สถานการณ์ | ใช้ skill ไหน + mode |
+|-----------|---------------------|
+| ส่ง **PDF ลูกค้าเอกชน** (CTO/PO) — compact 8 หน้า | **`perf-typst-report`** mode=client (default) |
+| ส่ง **PDF ราชการ/มหาวิทยาลัย** — KMUTNB government format | **`perf-typst-report`** mode=kmutnb |
 | ส่ง markdown ให้ TL/PM internal | `test-report-writer` (mode=perf) |
 | ยังไม่ได้ analyze raw → bottleneck | `perf-result-analyzer` ก่อน — feed เข้า skill นี้ |
 | ยังไม่ได้ run test | `perf-test-generator` ก่อน |
@@ -100,6 +105,20 @@ Page 8: Conclusion + Next Steps + Sign-off
 | Verdict | ⚠️ | pass / conditional / fail — ถ้าไม่ระบุ AI infer จาก NFR pass rate |
 | Logo path (custom) | ⚠️ | default = Ayodia logo จาก `references/typst-templates/assets/` |
 | `project-context.md` | ⚠️ | NFR override / customer naming convention |
+
+**KMUTNB mode เพิ่มเติม (mode=kmutnb):**
+| Input | Required | หมายเหตุ |
+|-------|:--------:|----------|
+| API list + Thai descriptions | ✅ | paste จาก SRS / OpenAPI — AI ห้าม generate description เอง |
+| Server list (N servers) | ✅ | per server: IP, OS, Time zone, CPU cores, RAM |
+| **CPU graph PNG ต่อ server** | ✅ | export จาก Grafana / Atop / Performance Monitor → วางใน `graphs/cpu-<server>.png` |
+| **Memory graph PNG ต่อ server** | ✅ | เหมือนกัน → `graphs/mem-<server>.png` |
+| Memory % stats ต่อ server | ✅ | Linux: used/free/buffers/cached/dirty/slabmem/swapfree • Windows: available-mb/committed-gb |
+| **Response Time graph PNG (overall)** | ✅ | export จาก Grafana / xk6-dashboard → `graphs/response-time-all-endpoints.png` |
+| Summary Report rows (JMeter schema) | ✅ | per endpoint: Label / Samples / Avg / Min / Max / Std Dev / Err % / Throughput / KB/s / Avg Bytes |
+| Conclusion bullets (4 ข้อตาม KMUTNB) | ✅ | Error %, Response Time avg, Throughput, CPU/Memory observation |
+
+**ดูคู่มือเตรียม graphs (Pre-Test Setup Checklist):** [`references/perf-report-kmutnb-template.md`](../../references/perf-report-kmutnb-template.md) §3 Pre-Test Setup
 
 **Load Model — รองรับทั้ง 2 executor:**
 | k6 executor | Load model string ใน data block |
@@ -156,11 +175,13 @@ k6 run --summary-export=results-load.json script.js
 
 **Format:** Typst source (`.typ`) → compile เป็น PDF
 
-**Template:** [`templates/perf-report.typ`](templates/perf-report.typ)
+**Templates (เลือกตาม mode):**
+- `mode=client` (default) → [`templates/perf-report.typ`](templates/perf-report.typ) — 8 pages Ayodia branded
+- `mode=kmutnb` → [`templates/perf-report-kmutnb.typ`](templates/perf-report-kmutnb.typ) — 14+ pages government format
 
 **File naming:**
-- Source: `perf_report_<scope>_<YYYYMMDD>.typ`
-- PDF: `perf_report_<scope>_<YYYYMMDD>.pdf`
+- Source: `perf_report_<scope>_<YYYYMMDD>.typ` (client mode) / `perf_report_kmutnb_<scope>_<YYYYMMDD>.typ` (kmutnb mode)
+- PDF: เปลี่ยน suffix `.typ` → `.pdf`
 
 **Compile command:**
 ```bash

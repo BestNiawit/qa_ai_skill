@@ -17,7 +17,7 @@ Thumbs.db
 !.env.example
 
 # ── Local Claude config (per-machine) ──────────────
-.claude/settings.local.json
+.claude/
 
 # ── Logs / Temp / Cache ────────────────────────────
 *.log
@@ -39,6 +39,9 @@ _*.pdf
 
 # ── AI-generated workspace (per-user, ไม่ใช่ artifact ของ repo) ──
 outputs
+
+# ── User-supplied raw run data per skill (k6 results, Jira exports, etc.) ──
+skills/*/input/
 
 # ── Sample packs: ignore ทุกไฟล์ใน docs/samples/<pack>/ ยกเว้น README.md (pointer doc) ──
 docs/samples/*/*
