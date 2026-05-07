@@ -80,13 +80,13 @@
 
 #### CPU Usage
 
-![CPU Webserver 1](./graphs/cpu-webserver1.png)
+![CPU Webserver 1](<path-to-graph>/cpu-webserver1.png)
 
 > หมายเหตุ: กราฟแสดง CPU แบบรวมทุก core — เครื่อง 4 cores → max = 400% (100% × 4)
 
 #### Memory Usage
 
-![Memory Webserver 1](./graphs/mem-webserver1.png)
+![Memory Webserver 1](<path-to-graph>/mem-webserver1.png)
 
 | used (%) | free (%) | buffers (%) | cached (%) | dirty (%) | slabmem (%) | swap_free (%) |
 |---------:|---------:|------------:|-----------:|----------:|------------:|--------------:|
@@ -121,7 +121,7 @@
 
 > 📈 **กราฟ Response Time over time per endpoint** (เทียบเท่า JMeter Response Time Graph) — export จาก Grafana / `xk6-dashboard`:
 >
-> ![Response Time Graph](./graphs/response-time-all-endpoints.png)
+> ![Response Time Graph](<path-to-graph>/response-time-all-endpoints.png)
 
 ---
 
