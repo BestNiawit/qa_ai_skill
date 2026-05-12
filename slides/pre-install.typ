@@ -307,39 +307,37 @@ ls
 // Slide 6 — Step 3: Add marketplace + install plugin
 // ================================================================
 
-= Step 3 · Add Marketplace + Install Plugin
+= Step 3 · เปิด Claude ใน repo · คลิก Yes 2 ครั้ง
 
-#v(4pt)
+#text(size: 12pt, fill: ayodia-muted)[
+  ไม่ต้องพิมพ์ slash command · repo มี `.claude/settings.json` ที่ declare marketplace ไว้แล้ว
+]
 
-#step-card("3.1", "เปิด Claude Code",
-  raw(block: true, lang: "bash", "claude"))
+#v(8pt)
 
-#v(6pt)
-
-#step-card("3.2", "Add marketplace (ใน Claude session)",
+#step-card("3.1", "เปิด Claude Code ใน folder repo",
   [
-    #raw(block: true, lang: "text",
-"/plugin marketplace add ~/Documents/GitHub/qa_ai_skill")
+    #raw(block: true, lang: "bash",
+"cd ~/Documents/GitHub/qa_ai_skill
+claude")
     #v(2pt)
     #text(size: 11pt, fill: ayodia-muted)[
-      💡 ใช้ `~/...` ได้ Claude expand path เอง · ที่ถูก: `~/Documents/...` (เป็น 1 token เลย)
-    ]
-    #v(2pt)
-    #text(size: 11pt)[
-      ถ้าสำเร็จเห็น: `Successfully added marketplace: ayodia-qa`
+      สำคัญ: ต้อง `cd` เข้า repo ก่อนเปิด Claude · Claude จะอ่าน `.claude/settings.json` ของ repo
     ]
   ])
 
-#v(6pt)
+#v(8pt)
 
-#step-card("3.3", "Install plugin + reload",
+#step-card("3.2", "คลิก Yes 2 ครั้งตอน popup",
   [
-    #raw(block: true, lang: "text",
-"/plugin install qa-ai-skill@ayodia-qa
-/reload-plugins")
+    #text(size: 11pt)[
+      Claude จะเด้ง popup เอง:
+    ]
+    + *Trust marketplace `ayodia-qa`?* → คลิก *Yes*
+    + *Install plugin `qa-ai-skill`?* → คลิก *Yes*
     #v(2pt)
-    #text(size: 11pt, fill: tier-1, weight: "bold")[
-      ⚠️ อย่าลืม `/reload-plugins` — มีคนพลาดข้อนี้บ่อย ของไม่ขึ้นจน reload
+    #text(size: 11pt, fill: ayodia-accent, weight: "bold")[
+      ✅ เสร็จ · ไม่ต้องพิมพ์อะไรเอง
     ]
   ])
 

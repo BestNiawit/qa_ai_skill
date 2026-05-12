@@ -16,8 +16,11 @@ Thumbs.db
 .env.*
 !.env.example
 
-# ── Local Claude config (per-machine) ──────────────
-.claude/
+# ── Claude config ──────────────────────────────────
+# ignore everything under .claude/ (per-machine state, history, etc.)
+.claude/*
+# ... except team-shared settings.json (marketplace declaration for zero-script install)
+!.claude/settings.json
 
 # ── Logs / Temp / Cache ────────────────────────────
 *.log

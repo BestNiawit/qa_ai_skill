@@ -1236,12 +1236,12 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 = Lab 0 · Install Plugin (5 นาที)
 
 #text(size: 11pt, fill: ayodia-muted)[
-  ของจริงควรเตรียมมาก่อนวันงาน · ใน lab ทำอีกที + verify ให้ทุกคนพร้อมตรงกัน
+  Flow ใหม่ — ไม่ต้องพิมพ์ slash command · repo มี `.claude/settings.json` ที่ declare marketplace ไว้แล้ว
 ]
 
-#v(4pt)
+#v(6pt)
 
-#grid(columns: (auto, 1fr), column-gutter: 12pt, row-gutter: 8pt,
+#grid(columns: (auto, 1fr), column-gutter: 12pt, row-gutter: 10pt,
   align: (left + top, left + top),
 
   text(size: 20pt, weight: "bold", fill: ayodia-accent, "1"),
@@ -1255,14 +1255,14 @@ git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git")
 
   text(size: 20pt, weight: "bold", fill: ayodia-accent, "2"),
   [
-    #text(weight: "bold", size: 12pt)[เปิด Claude → add marketplace → install]
+    #text(weight: "bold", size: 12pt)[เปิด Claude ใน repo → คลิก Yes 2 ครั้ง]
     #raw(block: true, lang: "bash",
-"claude
-> /plugin marketplace add ~/Documents/GitHub/qa_ai_skill
-> /plugin install qa-ai-skill@ayodia-qa
-> /reload-plugins")
-    #text(size: 9pt, fill: ayodia-muted)[
-      💡 path ใช้ `~/...` ได้ Claude expand เอง · หรือใส่ absolute path เต็ม
+"cd ~/Documents/GitHub/qa_ai_skill
+claude")
+    #text(size: 11pt)[
+      Claude จะ popup เอง:
+      - *Trust ayodia-qa marketplace?* → คลิก *Yes*
+      - *Install qa-ai-skill plugin?* → คลิก *Yes*
     ]
   ],
 
