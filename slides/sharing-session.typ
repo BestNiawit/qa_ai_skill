@@ -162,7 +162,7 @@
   #v(6pt)
   #text(size: 22pt, fill: ayodia-muted, "ทำความรู้จัก · ใช้งาน · ปรับแต่ง · contribute")
   #v(40pt)
-  #text(size: 13pt, fill: ayodia-muted)[v1.0 · 8 พฤษภาคม 2569 · QA Tester Lead Team]
+  #text(size: 13pt, fill: ayodia-muted)[v1.0 · 8 พฤษภาคม 2569 · Tester Lead Team]
 ]
 
 #pagebreak()
@@ -359,7 +359,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
   align: (top, top),
   [
     #text(size: 16pt)[
-      *รวม Claude Skills สำหรับทีม QA* — ทุกคนใช้ตัวเดียวกัน ผลลัพธ์มาตรฐานเดียวกัน อัปเดตจุดเดียว
+      *รวม Claude Skills สำหรับทีม Tester* — ทุกคนใช้ตัวเดียวกัน ผลลัพธ์มาตรฐานเดียวกัน อัปเดตจุดเดียว
     ]
     #v(12pt)
 
@@ -372,7 +372,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
     #numbered-row(3, "Knowledge as code",
       [วิธีเขียน TC ที่ดี / วิธีรีวิว / วิธีรายงานผล อยู่ใน git — review ได้ versioning ได้ rollback ได้])
     #v(8pt)
-    #numbered-row(4, "Onboarding QA ใหม่เร็วขึ้น",
+    #numbered-row(4, "Onboarding Tester ใหม่เร็วขึ้น",
       [คนใหม่อ่าน skill + ลองรันได้เลย ไม่ต้องนั่งสอน prompt 1-1])
   ],
   [
@@ -407,8 +407,8 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
     "bug-report-writer ใส่ครบ — repro steps + env + Severity×Priority"),
   pain-card("📊", "สรุป Test Report ตอน sprint จบ ใช้เวลาทั้งวัน",
     "test-report-writer สรุปจาก Jira export ได้ใน 10 นาที"),
-  pain-card("🤝", "QA ใหม่ onboarding 2 อาทิตย์ยังเขียน TC ไม่ได้คุณภาพทีม",
-    "skill ทำหน้าที่ \"senior QA ข้างๆ\" — สอน + draft ไปพร้อมกัน"),
+  pain-card("🤝", "Tester ใหม่ onboarding 2 อาทิตย์ยังเขียน TC ไม่ได้คุณภาพทีม",
+    "skill ทำหน้าที่ \"senior Tester ข้างๆ\" — สอน + draft ไปพร้อมกัน"),
 )
 
 #pagebreak()
@@ -426,12 +426,12 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
     inset: 14pt, radius: 4pt, [
     #text(weight: "bold", size: 14pt, fill: tier-1, "❌ Before — ไม่มี Skill")
     #v(6pt)
-    - PM ส่ง BRD มา → QA เปิด Word เริ่มเขียน TC จากศูนย์
+    - PM ส่ง BRD มา → Tester เปิด Word เริ่มเขียน TC จากศูนย์
     - แต่ละคน prompt ChatGPT ต่างกัน ผลคนละแบบ
     - Severity 1-5 หรือ Critical/High/Medium? คนละความเข้าใจ
     - Bug Report บางใบไม่มี repro step ต้องไล่ถาม
     - Test Report ตอน UAT จบ — ใช้เวลา 1 วัน copy-paste
-    - QA ใหม่: \"พี่ TC แบบนี้โอเคมั้ย?\" ทุกครั้ง
+    - Tester ใหม่: \"พี่ TC แบบนี้โอเคมั้ย?\" ทุกครั้ง
     - knowledge อยู่ในหัวคน — ลาออก = หาย
   ]),
   block(fill: ayodia-accent.lighten(90%), stroke: (left: 4pt + ayodia-accent),
@@ -443,7 +443,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
     - Severity = Critical/Major/Minor/Trivial — บังคับใน qa-standards
     - `/bug-report-writer` field ครบทุกใบ → Dev reproduce ได้ทันที
     - `/test-report-writer` สรุปจาก Jira export → 10 นาที
-    - QA ใหม่: รัน skill เห็น output มาตรฐานทีมเลย
+    - Tester ใหม่: รัน skill เห็น output มาตรฐานทีมเลย
     - knowledge อยู่ใน git — รีวิวได้ versioning ได้
   ]),
 )
@@ -1051,7 +1051,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 = AI Guardrails · 5 ข้อ (อิง SDP §5.3.3)
 
 #text(size: 12pt, fill: ayodia-muted)[
-  *หลักการ:* AI = Draft & Assist · QC = Review & Approve
+  *หลักการ:* AI = Draft & Assist · Tester = Review & Approve
 ]
 
 #v(8pt)
@@ -1060,7 +1060,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
   numbered-row(1, "AI Hallucinate Requirement",
     [AI อาจสร้าง TC จาก requirement ที่ไม่มีในเอกสาร · *ป้องกัน:* Cross-check ทุก output กับ SRS/PRD ผ่าน Traceability Matrix]),
   numbered-row(2, "ไม่รู้ Business Context เฉพาะ",
-    [AI ไม่รู้ business rule เฉพาะลูกค้า (tax, discount logic) · *ป้องกัน:* QC/BA เพิ่ม TC เฉพาะทางหลัง AI draft]),
+    [AI ไม่รู้ business rule เฉพาะลูกค้า (tax, discount logic) · *ป้องกัน:* Tester/BA เพิ่ม TC เฉพาะทางหลัง AI draft]),
   numbered-row(3, "ไม่รู้ Environment จริง",
     [AI อาจระบุ Server/DB/URL ผิด · *ป้องกัน:* update environment ผ่าน `project-context.md`]),
   numbered-row(4, "อาจสรุปตัวเลขผิด",
@@ -1124,11 +1124,11 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
     inset: 10pt, radius: 4pt, [
     #text(weight: "bold", size: 11pt, fill: tier-1, "❌ ส่ง AI output ตรงไป User")
     #v(2pt)
-    #text(size: 10pt)[ส่งให้ stakeholder โดยไม่ผ่าน QC review]
+    #text(size: 10pt)[ส่งให้ stakeholder โดยไม่ผ่าน Tester review]
     #v(3pt)
     #text(weight: "bold", size: 11pt, fill: ayodia-accent, "✅ ใช้แบบนี้")
     #v(2pt)
-    #text(size: 10pt)[AI draft → QC review → fix gap → approve → ส่ง]
+    #text(size: 10pt)[AI draft → Tester review → fix gap → approve → ส่ง]
   ]),
 )
 
@@ -1383,41 +1383,36 @@ combo username/password
 = Lab 3 · project-context.md (5 นาที)
 
 #text(size: 12pt, fill: ayodia-muted)[
-  *Goal:* ลอง Tuning Level 2 · skill อ่าน context project ของเราอัตโนมัติ
+  *Goal:* ใส่ context ของ project ใน 1 ไฟล์ → skill ใช้อัตโนมัติ ไม่ต้องบอกซ้ำ
 ]
 
-#v(6pt)
+#v(8pt)
 
 #grid(columns: (1fr, 1fr), column-gutter: 16pt, align: (top, top),
   [
-    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "📋 ขั้นตอน")
-    #v(4pt)
-    + ใน working dir: สร้างไฟล์ `project-context.md`
-    + Copy template ฝั่งขวา · แก้ค่าให้ตรง project สมมุติ
-    + รัน #kbd("/test-case-writer") รอบใหม่
-    + ดูว่า output ใช้ Environment + Glossary ที่ใส่ในไฟล์มั้ย
-    + ทดลองแก้ NFR แล้วรันใหม่ — เห็นการเปลี่ยน?
+    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "📋 ขั้นตอน · 3 ข้อ")
+    #v(6pt)
+    #text(size: 12pt)[
+      + ใน working dir → สร้างไฟล์ `project-context.md` แล้ว copy template ฝั่งขวา
+      + รัน #kbd("/test-case-writer") กับ SRS เดิม (จาก Lab 2)
+      + ดู output → ควรมี *URL ของ SIT* + *คำย่อ AT* ปรากฏ (ไม่ต้องบอก skill ซ้ำ)
+    ]
+    #v(10pt)
+    #info-box("💡 Tip", tier-3, text(size: 11pt)[
+      เพิ่ม section อื่น (Business Rules / NFR / Severity) ได้ทีหลังเมื่อต้องใช้จริง · เริ่มเล็กๆ ก่อน
+    ])
   ],
   [
-    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "📄 Template")
-    #v(4pt)
+    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "📄 Template (เริ่มแค่ 2 section)")
+    #v(6pt)
     #raw(block: true, lang: "markdown",
 "# project-context.md
 
 ## Environment
 - SIT URL: https://sit.demo.com
-- DB: Oracle 19c
-
-## NFR (perf skills)
-- p95 ≤ 3s
-- Error Rate ≤ 1%
 
 ## Glossary
-- AT = Assessment Tax
-- PMS = Property Mgmt
-
-## Severity Scale
-- ตาม qa-standards §2")
+- AT = Assessment Tax")
   ],
 )
 
@@ -1430,7 +1425,7 @@ combo username/password
 = Lab 4 · แก้ Skill + เปิด PR (15 นาที)
 
 #text(size: 12pt, fill: ayodia-muted)[
-  *Goal:* ลอง full flow · แก้ skill → validate → เปิด MR
+  *Goal:* ลอง full flow · แก้ skill → validate → เปิด PR
 ]
 
 #v(6pt)
@@ -1441,10 +1436,13 @@ combo username/password
     เพิ่ม example ใน `skills/bug-report-writer/examples/` · หรือเพิ่มประโยคใน trigger description
   ]),
 
-  step-card("2", "Branch + แก้",
-    raw(block: true, lang: "bash",
-"git checkout -b docs/bug-report-example
-# แก้ไฟล์ตามที่เลือก")),
+  step-card("2", "Branch + แก้ (GitHub Desktop)", [
+    #set text(size: 11pt)
+    + GitHub Desktop → *Current Branch* → *New Branch*
+    + ชื่อ: `docs/bug-report-example`
+    + ปุ่ม *Publish branch*
+    + แก้ไฟล์ตามที่เลือก ใน editor
+  ]),
 
   step-card("3", "Validate",
     raw(block: true, lang: "bash",
@@ -1456,14 +1454,17 @@ combo username/password
     + รัน skill อีกรอบ — ของใหม่ขึ้นมั้ย?
   ]),
 
-  step-card("5", "Commit + push",
-    raw(block: true, lang: "bash",
-"git add skills/bug-report-writer/
-git commit -m \"docs: ...\"
-git push -u origin <branch>")),
+  step-card("5", "Commit + Push (GitHub Desktop)", [
+    #set text(size: 11pt)
+    + tab *Changes* → เห็นไฟล์ที่แก้
+    + Summary: `docs: ...` + Description
+    + ปุ่ม *Commit to <branch>* → *Push origin*
+  ]),
 
-  step-card("6", "เปิด MR + ขอ review", text(size: 11pt)[
-    + GitLab → New MR · target = `master`
+  step-card("6", "เปิด PR + ขอ review (GitLab web)", [
+    #set text(size: 11pt)
+    + browser → GitLab → *Merge Requests* → *New*
+    + target = `master`
     + ใส่ PR description ตาม template
     + ขอ Tester Lead review
   ]),
@@ -1560,10 +1561,15 @@ AT = Assess Tax")
 
 #grid(columns: (1fr, 1fr), column-gutter: 16pt, row-gutter: 10pt,
 
-  step-card("1", "สร้าง branch", raw(block: true, lang: "bash",
-"cd qa_ai_skill
-git checkout -b fix/test-case-writer-bva"),
-    hint: "ตั้งชื่อแบบ <type>/<skill>-<short> · type = fix/feat/docs/refactor"),
+  step-card("1", "สร้าง branch (GitHub Desktop)", [
+    #set text(size: 11pt)
+    + เปิด GitHub Desktop → repo `qa_ai_skill`
+    + ปุ่ม *Current Branch* (ด้านบน) → *New Branch*
+    + ตั้งชื่อ เช่น `fix/test-case-writer-bva` → *Create Branch*
+    + ปุ่ม *Publish branch*
+    #v(2pt)
+    #text(size: 9pt, fill: ayodia-muted)[ชื่อ branch: `<type>/<skill>-<short>` · type = fix/feat/docs/refactor]
+  ]),
 
   step-card("2", "หาไฟล์ที่ต้องแก้", [
     #set text(size: 11pt)
@@ -1585,16 +1591,20 @@ git checkout -b fix/test-case-writer-bva"),
     raw(block: true, lang: "bash", "python3 scripts/validate_skills.py"),
     hint: "เช็ค frontmatter / 8 sections / dead links / deprecated codes"),
 
-  step-card("5", "Commit + push", raw(block: true, lang: "bash",
-"git add skills/<name>/
-git commit -m \"fix: ...\"
-git push -u origin <branch>")),
-
-  step-card("6", "เปิด PR", [
+  step-card("5", "Commit + Push (GitHub Desktop)", [
     #set text(size: 11pt)
-    GitLab UI → New Merge Request \
-    fill template (ดู slide ถัดไป) \
-    request review จาก *Tester Lead* + 1 peer
+    + tab *Changes* → ตรวจไฟล์ที่จะ commit
+    + ใส่ Summary + Description ช่องล่างซ้าย
+    + ปุ่ม *Commit to <branch>*
+    + ปุ่ม *Push origin* (toolbar บน)
+  ]),
+
+  step-card("6", "เปิด PR (GitLab web)", [
+    #set text(size: 11pt)
+    + เปิด browser → GitLab repo
+    + menu *Merge Requests* → *New*
+    + fill template (ดู slide ถัดไป)
+    + request review *Tester Lead* + 1 peer
   ]),
 )
 
@@ -1623,7 +1633,7 @@ git push -u origin <branch>")),
     #v(4pt)
     + Claude Code CLI (#kbd("npm i -g @anthropic-ai/claude-code"))
     + Python 3 (#kbd("validate_skills.py"))
-    + Git + GitLab access
+    + GitHub Desktop + GitLab access (sign in ค่า remote ของ repo)
   ],
   [
     #text(weight: "bold", size: 13pt, fill: ayodia-accent, "🤔 ถามตัวเองก่อน")
@@ -1697,23 +1707,37 @@ git push -u origin <branch>")),
 // Slide 17 — เปิด PR ยังไง
 // ================================================================
 
-= วิธีเปิด PR · GitLab Merge Request
+= วิธีเปิด PR · ผ่าน GitHub Desktop + GitLab web
+
+#text(size: 11pt, fill: ayodia-muted)[
+  *Note:* repo อยู่บน GitLab → "PR" ในที่นี้ = GitLab Merge Request · GitHub Desktop ใช้ commit/push เสร็จแล้วเปิด PR ใน GitLab web เอง
+]
 
 #v(4pt)
 
-#grid(columns: (auto, 1fr), column-gutter: 14pt, row-gutter: 12pt, align: (left + top, left + top),
+#grid(columns: (auto, 1fr), column-gutter: 14pt, row-gutter: 10pt, align: (left + top, left + top),
 
   text(size: 22pt, weight: "bold", fill: ayodia-accent, "1"),
   [
-    #text(weight: "bold", size: 13pt)[Push branch ขึ้น GitLab]
-    #raw(block: true, lang: "bash", "git push -u origin fix/test-case-writer-bva")
+    #text(weight: "bold", size: 13pt)[Commit + Push ใน GitHub Desktop]
+    #v(2pt)
+    #text(size: 11pt)[
+      - tab *Changes* → เห็นไฟล์ที่แก้
+      - ใส่ commit message ช่องล่าง (Summary + Description)
+      - กดปุ่ม *Commit to <branch>*
+      - กดปุ่ม *Push origin* (toolbar ด้านบน)
+    ]
   ],
 
   text(size: 22pt, weight: "bold", fill: ayodia-accent, "2"),
   [
-    #text(weight: "bold", size: 13pt)[เปิด GitLab → New Merge Request]
+    #text(weight: "bold", size: 13pt)[เปิด GitLab web → New Merge Request]
     #v(2pt)
-    #text(size: 11pt)[Source = branch ของเรา · Target = `master`]
+    #text(size: 11pt)[
+      - เปิด browser ไป `gitlab.ayodiacompany.com/.../qa_ai_skill`
+      - menu *Merge Requests* → *New merge request*
+      - Source = branch ของเรา · Target = `master`
+    ]
   ],
 
   text(size: 22pt, weight: "bold", fill: ayodia-accent, "3"),
@@ -1745,7 +1769,7 @@ git push -u origin <branch>")),
 = PR Description Template
 
 #text(size: 11pt, fill: ayodia-muted)[
-  Copy template นี้ใส่ใน MR description — กรอกตามหัวข้อ
+  Copy template นี้ใส่ใน PR description (GitLab → Merge Request description box) — กรอกตามหัวข้อ
 ]
 
 #v(6pt)
@@ -1810,7 +1834,7 @@ git push -u origin <branch>")),
     #text(size: 11pt)[
       - ห้าม hardcode company-specific (URL/IP/DB) ใน SKILL.md
       - ห้าม commit credential / token / PII (ใช้ `[REDACTED]`)
-      - ห้าม push ตรงเข้า `master` — ทุกอย่างผ่าน MR
+      - ห้าม push ตรงเข้า `master` — ทุกอย่างผ่าน PR
       - ห้ามแก้ Severity/Priority scale โดยไม่ update qa-standards
       - ห้าม merge เอง — ต้องรอ Tester Lead approve
       - ห้าม skip CI · ห้าม `--no-verify`
@@ -1844,19 +1868,19 @@ git log -p -1 skills/test-case-writer/SKILL.md
 git blame skills/test-case-writer/SKILL.md")
     #v(8pt)
     #text(size: 11pt, fill: ayodia-muted)[
-      ทุกการแก้ผ่าน MR → อยู่ใน git history → reverse engineer ได้ตลอด
+      ทุกการแก้ผ่าน PR → อยู่ใน git history → reverse engineer ได้ตลอด
     ]
   ],
   [
     #text(weight: "bold", size: 13pt, fill: ayodia-accent, "🔔 รู้ได้ไงว่ามีของใหม่")
     #v(4pt)
-    + Watch repo ใน GitLab — get notify ทุก MR
+    + Watch repo ใน GitLab — get notify ทุก PR (Merge Request)
     + อ่าน CHANGELOG.md (เพิ่มเข้า repo เร็วๆ นี้)
     + Weekly Update email — Tester Lead สรุป skill ที่อัปเดต
     + #kbd("git pull") + #kbd("/plugin marketplace update ayodia-qa") ทุกต้นสัปดาห์
     #v(8pt)
     #info-box("💡 Tip", tier-3, text(size: 11pt)[
-      ถ้าแก้ skill แล้ว breaking — โพสต์ Slack QA channel + tag ทุกคนที่ใช้ skill นั้นบ่อย
+      ถ้าแก้ skill แล้ว breaking — โพสต์ Slack Tester channel + tag ทุกคนที่ใช้ skill นั้นบ่อย
     ])
   ],
 )
@@ -1885,7 +1909,7 @@ git blame skills/test-case-writer/SKILL.md")
     #v(6pt)
     + ใช้ skill ใน sprint จริง — เก็บตัวเลข effort saving
     + เจอจุดที่ output ไม่ตรง standard → แจ้งใน Slack
-    + ถ้าอยากเพิ่ม feature เล็กๆ → ลองเปิด MR แรก (`docs:` หรือ `fix:`)
+    + ถ้าอยากเพิ่ม feature เล็กๆ → ลองเปิด PR แรก (`docs:` หรือ `fix:`)
     + Pair กับ Tester Lead ทำ PR ตัวแรกของตัวเอง
   ],
 )
@@ -1896,7 +1920,7 @@ git blame skills/test-case-writer/SKILL.md")
   fill: ayodia-bg, stroke: 0.5pt + ayodia-border, radius: 5pt,
   inset: 14pt, width: 85%,
   text(size: 12pt)[
-    *เป้าหมาย sprint หน้า:* ทุกคนเปิด MR แรกของตัวเอง · จุดเริ่มที่ดี = แก้ typo / เพิ่ม example / ปรับ wording
+    *เป้าหมาย sprint หน้า:* ทุกคนเปิด PR แรกของตัวเอง · จุดเริ่มที่ดี = แก้ typo / เพิ่ม example / ปรับ wording
   ],
 ))
 
