@@ -198,10 +198,11 @@
     #v(2pt)
     #text(size: 11pt)[
       - *(5')* Lab 0 — Install plugin
-      - *(10')* Lab 1 — รัน `bug-report-writer`
-      - *(15')* Lab 2 — เขียน TC จาก SRS + tuning
+      - *(5')* Lab 1 — รัน `bug-report-writer`
+      - *(10')* Lab 2 — เขียน TC จาก SRS + tuning
       - *(5')* Lab 3 — สร้าง `project-context.md`
-      - *(15')* Lab 4 — แก้ skill + validate + PR
+      - *(10')* Lab 4 — แก้ skill + validate + PR
+      - *(15')* Free Play — ลองใช้ skill อิสระ
     ]
     #v(6pt)
     #text(weight: "bold", fill: ayodia-accent, size: 12pt, "🎯 Wrap-up + Q&A · 10 นาที")
@@ -1282,7 +1283,7 @@ git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git")
 // Slide — Lab 1 first skill
 // ================================================================
 
-= Lab 1 · รัน Skill ตัวแรก (10 นาที)
+= Lab 1 · รัน Skill ตัวแรก (5 นาที)
 
 #text(size: 12pt, fill: ayodia-muted)[
   *Skill:* `bug-report-writer` · *Goal:* เขียน bug ตัวแรกผ่าน skill
@@ -1331,7 +1332,7 @@ git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git")
 // Slide — Lab 2 write TC + tuning
 // ================================================================
 
-= Lab 2 · เขียน TC + Tuning (15 นาที)
+= Lab 2 · เขียน TC + Tuning (10 นาที)
 
 #text(size: 12pt, fill: ayodia-muted)[
   *Skill:* `test-case-writer` · *Goal:* เขียน TC + ลอง tuning per-run
@@ -1422,7 +1423,7 @@ combo username/password
 // Slide — Lab 4 tune skill + PR
 // ================================================================
 
-= Lab 4 · แก้ Skill + เปิด PR (15 นาที)
+= Lab 4 · แก้ Skill + เปิด PR (10 นาที)
 
 #text(size: 12pt, fill: ayodia-muted)[
   *Goal:* ลอง full flow · แก้ skill → validate → เปิด PR
@@ -1469,6 +1470,54 @@ combo username/password
     + ขอ Tester Lead review
   ]),
 )
+
+#pagebreak()
+
+// ================================================================
+// Slide — Free Play
+// ================================================================
+
+= Free Play · ลองใช้เอง (15 นาที)
+
+#text(size: 12pt, fill: ayodia-muted)[
+  *Goal:* เลือก skill ที่อยากใช้จริง · ลองรันกับงานของตัวเอง · ติดตรงไหน Lead เดินดูช่วย
+]
+
+#v(10pt)
+
+#grid(columns: (1fr, 1fr), column-gutter: 22pt, align: (top, top),
+  [
+    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "💡 ไอเดียลอง")
+    #v(6pt)
+    #text(size: 12pt)[
+      - เอา BRD/SRS งานจริงมา → `/test-case-writer`
+      - เอา bug ค้างใน Jira → `/bug-report-writer`
+      - มี TC เดิม → `/test-case-reviewer` หา gap
+      - ทดลอง `/requirement-analyzer` กับ spec ที่ยังไม่ชัด
+      - สลับ language TH/EN ดู
+    ]
+  ],
+  [
+    #text(weight: "bold", size: 13pt, fill: ayodia-accent, "🛟 ระหว่างเล่น")
+    #v(6pt)
+    #text(size: 12pt)[
+      - Lead เดินดูช่วยตามจุด
+      - สงสัยไหม → ถามได้ทันที (ไม่ต้องรอ Q&A)
+      - เจอ output แปลก → screenshot เก็บไว้แชร์ใน Wrap-up
+      - ติดยาว → ขอ pair กับเพื่อนข้างๆ
+    ]
+  ],
+)
+
+#v(14pt)
+
+#align(center, block(
+  fill: ayodia-bg, stroke: 0.5pt + ayodia-border, radius: 5pt,
+  inset: 12pt, width: 85%,
+  text(size: 11pt)[
+    *ไม่มีถูกผิด* — เป้าหมายช่วงนี้คือให้คุ้นมือ · ของจริงเริ่มใช้ใน sprint หน้า
+  ],
+))
 
 #pagebreak()
 
