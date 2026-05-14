@@ -22,6 +22,20 @@ description: <ทำอะไร> — <input> → <output> — <key features>.
 - ใส่ trigger keywords ทั้ง TH + EN (คั่นด้วย comma)
 - ลงท้ายด้วย "Maps to SDP §X" ถ้ามี mapping กับ Software Development Process
 
+**ตัวอย่างที่ดี (อ้างอิง requirement-analyzer):**
+```yaml
+description: วิเคราะห์ BRD/PRD/SRS/user story ดิบ → ประเมินความพร้อมสำหรับ AI
+  (Readiness Score) + แปลงเป็น Normalized Requirement Template + สร้าง PM/BA
+  Confirmation Doc ส่ง review ก่อนเขียน test case — ป้องกัน garbage-in/garbage-out
+  และ rework รอบใหญ่ตอน PM บอก "เข้าใจผิด". Trigger เมื่อ user ส่ง BRD/PRD/SRS/
+  user story แล้วขอให้ "วิเคราะห์ requirement", "เช็ค BRD พร้อมทำ test case ไหม",
+  "แปลง requirement เป็น template", "ส่ง PM review ก่อน", "requirement readiness",
+  "analyze requirement", "normalize requirement", "pre-TC review".
+  Pre-SDP §5.3.1 (ก่อน Process 2 SIT Test Case).
+```
+
+จุดที่ดี: action ชัด (วิเคราะห์ → output 3 อย่าง) · pain ที่แก้ระบุ ("rework รอบใหญ่ตอน PM บอก เข้าใจผิด") · trigger TH+EN รวม 8 phrase · ลงท้ายด้วย SDP mapping
+
 ---
 
 ## 8 Sections (ลำดับคงที่ทุก skill)
@@ -87,20 +101,31 @@ description: <ทำอะไร> — <input> → <output> — <key features>.
 
 ```
 skills/<skill-name>/
-├── SKILL.md              ← 8 sections ด้านบน
-├── templates/            ← output templates (TH/EN, multiple formats)
+├── SKILL.md              ← 8 sections ด้านบน (บังคับ)
+├── templates/            ← output templates (optional — บังคับถ้า skill generate file)
 │   ├── <name>-th.md
 │   ├── <name>-en.md
 │   └── <name>.csv
-├── references/           ← skill-specific reference (ถ้ามี content ยาวเกิน SKILL.md)
+├── references/           ← skill-specific reference (optional — content ยาวเกิน SKILL.md)
 │   └── <topic>.md
-├── examples/             ← sample input → output
+├── examples/             ← sample input → output (optional แต่แนะนำสำหรับ contributor)
 │   └── README.md
-└── frameworks/           ← เฉพาะ generator skills ที่รองรับหลาย framework
-    └── <framework>.md
+└── frameworks/           ← optional — เฉพาะ generator skills ที่รองรับหลาย framework
+    └── <framework>.md      (เช่น e2e-test-generator: playwright-ts.md, cypress-ts.md, ...)
 ```
 
-**Shared references** อยู่ที่ repo root (`/references/`) — ไม่ต้อง copy เข้าแต่ละ skill
+**Shared references** ที่ repo root (`/references/`) — ทุก skill อ้างถึงได้ ไม่ต้อง copy:
+
+| File | ใช้สำหรับ |
+|------|-----------|
+| [`references/ai-guardrails.md`](references/ai-guardrails.md) | 5 universal guardrails (SDP §5.3.3) — ทุก skill **บังคับ** link ถึง |
+| [`references/qa-standards.md`](references/qa-standards.md) | Severity / Priority / Sizing / Buffer / KPI — skill ที่ touch standards ห้าม duplicate, ให้ pointer |
+| [`references/sdp-mapping.md`](references/sdp-mapping.md) | SDP process → skill mapping — update เมื่อเพิ่ม skill ใหม่ |
+| [`references/brd-readiness-guide.md`](references/brd-readiness-guide.md) | "BRD แบบไหนพร้อมทำ TC" สำหรับ PM/BA — ใช้โดย requirement-analyzer |
+| [`references/handoff-guide.md`](references/handoff-guide.md) | Handoff template + checklist — ใช้โดย handoff-writer |
+| [`references/perf-report-kmutnb-template.md`](references/perf-report-kmutnb-template.md) | Reference template — ใช้โดย perf-typst-report |
+
+> Acronyms (TC/SRS/SIT/QC/SDP/...) → ใช้ pointer ไป [`docs/qa-onboarding.md §Glossary`](docs/qa-onboarding.md#-คำย่อ-glossary--เช็คก่อนอ่าน-skillmd) ห้าม inline-expand ใน SKILL.md (drift เร็ว + ขยาย token เปล่า)
 
 ---
 

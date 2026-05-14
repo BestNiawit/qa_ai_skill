@@ -8,9 +8,16 @@ Checks performed:
   B. 8 sections       — Purpose / When to Use / Inputs / Outputs / Process /
                         Quality Gate / AI Guardrails / Chain in order.
   C. Guardrails link  — each skill must link to references/ai-guardrails.md.
-  D. Consistency      — deprecated severity/priority codes (P0-P3, Sev1-4) are
+  D. Glossary link    — each skill must point to docs/qa-onboarding.md#glossary
+                        instead of inline-expanding acronyms.
+  E. Skill cross-refs — backtick `<name>-(writer|generator|analyzer|reviewer|
+                        report)` references inside skill markdown must resolve
+                        to an existing skills/<name>/ folder.
+  F. README parity    — every skill folder must appear linked from README.md;
+                        every skill linked in README must exist as a folder.
+  G. Consistency      — deprecated severity/priority codes (P0-P3, Sev1-4) are
                         forbidden outside references/qa-standards.md.
-  E. Dead links       — relative markdown links in skills/ + docs/ + references/
+  H. Dead links       — relative markdown links in skills/ + docs/ + references/
                         must resolve.
 
 Exit 0 on success, 1 on any error. Warnings do not fail the build.
@@ -55,6 +62,18 @@ DEPRECATED_LINE_EXEMPT = re.compile(
 LINK_RE = re.compile(r"\[([^\]]+)\]\(([^)]+)\)")
 FRONTMATTER_RE = re.compile(r"\A---\n(.*?)\n---\n", re.DOTALL)
 KEBAB_RE = re.compile(r"^[a-z][a-z0-9]*(-[a-z0-9]+)*$")
+
+# Backtick-wrapped tokens that look like skill names (suffix-based heuristic).
+# Examples that should match: `test-case-writer`, `perf-typst-report`
+SKILL_REF_RE = re.compile(
+    r"`([a-z][a-z0-9]*(?:-[a-z0-9]+)*-(?:writer|generator|analyzer|reviewer|report))`"
+)
+
+# Glossary pointer — any link or text that references the qa-onboarding glossary anchor.
+GLOSSARY_POINTER_RE = re.compile(r"docs/qa-onboarding\.md#|qa-onboarding\.md#-?คำย่อ|qa-onboarding\s*§\s*Glossary", re.IGNORECASE)
+
+# README skill-table row pattern: `[skill-name](skills/skill-name/)` (link target points to a skills/ folder).
+README_SKILL_LINK_RE = re.compile(r"\[([a-z][a-z0-9-]*)\]\(skills/\1/?\)")
 
 
 @dataclass
@@ -128,6 +147,39 @@ def check_skill(skill_md: Path, seen_names: dict[str, Path], report: Report) -> 
     if "references/ai-guardrails.md" not in text:
         report.warn(skill_md, "no link to references/ai-guardrails.md (per SKILL-TEMPLATE checklist)")
 
+    # D. Glossary pointer
+    if not GLOSSARY_POINTER_RE.search(text):
+        report.warn(skill_md, "no pointer to docs/qa-onboarding.md §Glossary — acronyms may be inline-expanded (drift risk)")
+
+
+def check_skill_cross_refs(path: Path, known_skills: set[str], report: Report) -> None:
+    """Flag backtick-wrapped tokens that look like skill names but don't exist as folders."""
+    if path.name == "SKILL-TEMPLATE.md":
+        return
+    # qa-standards.md and other references may legitimately discuss skill-like tokens generically.
+    if path.resolve() == (ROOT / "README.md").resolve():
+        return
+    text = path.read_text(encoding="utf-8", errors="ignore")
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        for m in SKILL_REF_RE.finditer(line):
+            name = m.group(1)
+            if name in known_skills:
+                continue
+            report.err(path, f"line {lineno}: references unknown skill `{name}` (no skills/{name}/ folder)")
+
+
+def check_readme_parity(known_skills: set[str], report: Report) -> None:
+    """Every skill folder must be linked from README; every README skill link must exist."""
+    readme = ROOT / "README.md"
+    text = readme.read_text(encoding="utf-8")
+    in_readme = set(README_SKILL_LINK_RE.findall(text))
+    missing_from_readme = known_skills - in_readme
+    for name in sorted(missing_from_readme):
+        report.err(readme, f"skills/{name}/ exists but is not linked in README.md (skill table)")
+    unknown_in_readme = in_readme - known_skills
+    for name in sorted(unknown_in_readme):
+        report.err(readme, f"README.md links to skills/{name}/ but no such folder exists")
+
 
 def check_deprecated_terms(path: Path, report: Report) -> None:
     # qa-standards.md is the glossary and may mention deprecated terms as examples.
@@ -188,9 +240,12 @@ def main() -> int:
         md_files.extend(d.rglob("*.md"))
     md_files.extend(ROOT.glob("*.md"))
 
+    known_skills = set(seen.keys())
+    check_readme_parity(known_skills, report)
     for md in md_files:
         check_deprecated_terms(md, report)
         check_links(md, report)
+        check_skill_cross_refs(md, known_skills, report)
 
     # Output
     if report.warnings:

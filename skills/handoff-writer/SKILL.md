@@ -152,6 +152,13 @@ AI ดึง context จาก conversation history เองได้ — ไ�
 
 **Upstream:** ใช้ได้หลัง **ทุก skill** — เป็น utility ที่ไม่ขึ้นกับ skill ใดเฉพาะ
 
+**เจอบ่อยที่สุด (typical triggering trio — long-running sessions):**
+- [`e2e-test-generator`](../e2e-test-generator/) — generate POM + multiple test files หลาย iteration
+- [`robot-test-generator`](../robot-test-generator/) — Robot test + locator + translation YAML, มัก context ยาว
+- [`data-type-matrix-generator`](../data-type-matrix-generator/) — multi-file pack + assumption iteration กับ PM
+
+ส่ง [`test-case-writer`](../test-case-writer/) batch 200+ TC ก็มี chance เจอ context limit เช่นกัน
+
 **Downstream:** AI ตัวใหม่อ่าน HANDOFF.md → ทำงาน skill เดิมต่อ
 
 **Workflow:**
@@ -163,3 +170,5 @@ AI ดึง context จาก conversation history เองได้ — ไ�
                                                             ↓
                                                    อ่าน HANDOFF.md → ทำต่อ
 ```
+
+ตัวอย่าง HANDOFF ที่ใช้งานจริง → ดู [`examples/HANDOFF-example.md`](examples/HANDOFF-example.md)

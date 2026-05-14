@@ -52,3 +52,5 @@ docs/samples/*/*
 
 # ── Excel exports (Jira / test data ที่อาจมี PII) ──
 *.xlsx
+# ... ยกเว้น sanitized sample ที่จงใจ commit (เช่น demo TC pack)
+!docs/samples/**/*.xlsx
