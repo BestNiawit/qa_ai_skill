@@ -1,5 +1,5 @@
 """
-Generate 4 PNG images for EP4 (Inside a skill).
+Generate 5 PNG images for EP4 (Inside a skill).
 Style: matches EP2/EP3 (clean, light, Medium-friendly). No emojis. No em dashes.
 
 Images
@@ -7,6 +7,7 @@ Images
   2. img_lazy_load.png          -- 3-phase loading timeline
   3. img_filename_chain.png     -- skill A -> file -> user -> skill B (no API)
   4. img_3_layer_override.png   -- stacked layers: skill / standards / project
+  5. img_improve.png            -- 3 known limitations + current workarounds
 """
 
 from pathlib import Path
@@ -421,5 +422,118 @@ plt.tight_layout()
 plt.savefig(OUT_DIR / "img_3_layer_override.png", dpi=160, bbox_inches="tight", facecolor=BG)
 plt.close()
 print("saved img_3_layer_override.png")
+
+
+# ============================================================
+# IMAGE 5: 3 known limitations + workarounds
+# ============================================================
+fig, ax = plt.subplots(figsize=(13, 8), dpi=160)
+ax.set_xlim(0, 26)
+ax.set_ylim(0, 16)
+ax.set_aspect("equal")
+ax.axis("off")
+fig.patch.set_facecolor(BG)
+
+ax.text(13, 15.3, "ของที่ยังต้องแก้ (ณ วันนี้)",
+        ha="center", fontsize=17, color=INK, weight="bold")
+ax.text(13, 14.5,
+        "3 เรื่องที่ระบบยังไม่ได้แก้จริงๆ พร้อม workaround ชั่วคราวที่ใช้อยู่.",
+        ha="center", fontsize=10.5, color=SUB, style="italic")
+
+issues = [
+    {
+        "x": 0.6,
+        "title": "Context Overflow",
+        "sub": "เมื่อ TC file ใหญ่เกิน",
+        "problem_lines": [
+            "50-80 TC: ทำงานปกติ",
+            "200+ TC: attention กระจาย",
+            "output คุณภาพตกชัดเจน",
+        ],
+        "fix": "Workaround: ตัด TC เป็น batch",
+        "status": "ยังไม่ได้แก้",
+        "color_bg": RED_BG,
+        "color_line": RED_LINE,
+        "status_color": RED_LINE,
+    },
+    {
+        "x": 9.1,
+        "title": "Trust Gap",
+        "sub": "ทีมบางส่วนยังไม่เชื่อ output",
+        "problem_lines": [
+            "ไม่แน่ใจว่า AI เข้าใจ",
+            "business context จริงๆ",
+            "skill universal ไม่รู้ edge case",
+        ],
+        "fix": "Workaround: เขียน project-context.md\n(แต่คนที่ไม่ trust ยังไม่ทำ)",
+        "status": "วงจรยังแก้ไม่ได้",
+        "color_bg": RED_BG,
+        "color_line": RED_LINE,
+        "status_color": RED_LINE,
+    },
+    {
+        "x": 17.6,
+        "title": "Onboarding ช้า",
+        "sub": "14 skill เยอะเกินจะจำหมด",
+        "problem_lines": [
+            "ต้องรู้ว่า skill ไหนทำอะไร",
+            "naming convention ของไฟล์",
+            "ใช้เวลา 2-3 สัปดาห์",
+        ],
+        "fix": "Workaround: qa-onboarding.md\n(แต่ยาวเกิน คนอ่านน้อย)",
+        "status": "กำลังปรับปรุง",
+        "color_bg": YELLOW_BG,
+        "color_line": YELLOW_LINE,
+        "status_color": YELLOW_LINE,
+    },
+]
+
+for issue in issues:
+    card(ax, issue["x"], 1.2, 8.2, 12.6, issue["color_bg"], issue["color_line"])
+
+    # Status pill
+    card(ax, issue["x"] + 0.35, 12.7, 7.5, 0.75,
+         issue["color_line"], issue["color_line"], lw=0, rounding=0.15)
+    ax.text(issue["x"] + 4.1, 13.07, issue["status"],
+            ha="center", va="center", fontsize=9.5,
+            color="#ffffff", weight="bold")
+
+    # Title + sub
+    ax.text(issue["x"] + 4.1, 11.85, issue["title"],
+            ha="center", fontsize=14, color=INK, weight="bold")
+    ax.text(issue["x"] + 4.1, 11.15, issue["sub"],
+            ha="center", fontsize=10, color=SUB, style="italic")
+
+    # Problem box
+    card(ax, issue["x"] + 0.35, 7.8, 7.5, 2.9,
+         "#ffffff", issue["color_line"], lw=1.0, rounding=0.2)
+    ax.text(issue["x"] + 4.1, 10.3, "ปัญหา", ha="center",
+            fontsize=9.5, color=SUB, weight="bold")
+    for i, line in enumerate(issue["problem_lines"]):
+        ax.text(issue["x"] + 4.1, 9.8 - i * 0.57, line,
+                ha="center", fontsize=10, color=INK)
+
+    # Workaround box
+    card(ax, issue["x"] + 0.35, 3.8, 7.5, 3.5,
+         "#ffffff", GRAY_LINE, lw=1.0, rounding=0.2)
+    ax.text(issue["x"] + 4.1, 6.95, "workaround ตอนนี้",
+            ha="center", fontsize=9.5, color=SUB, weight="bold")
+    for i, line in enumerate(issue["fix"].split("\n")):
+        ax.text(issue["x"] + 4.1, 6.35 - i * 0.6, line,
+                ha="center", fontsize=10, color=INK)
+
+    # Not a solution note
+    ax.text(issue["x"] + 4.1, 1.65, "ยังไม่ใช่ solution ที่แท้จริง",
+            ha="center", fontsize=9, color=issue["color_line"], style="italic")
+
+# Bottom caption
+ax.text(13, 0.45,
+        "เล่าตรงๆ เพราะระบบจริงๆ ไม่ได้ perfect. รู้ว่าอะไรพังอยู่ดีกว่าแกล้งทำเป็นว่าทุกอย่างเรียบร้อย.",
+        ha="center", fontsize=10.5, color=SUB, style="italic")
+
+plt.tight_layout()
+plt.savefig(OUT_DIR / "img_improve.png", dpi=160, bbox_inches="tight", facecolor=BG)
+plt.close()
+print("saved img_improve.png")
 
 print("done.")
