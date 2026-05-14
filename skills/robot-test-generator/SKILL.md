@@ -41,7 +41,7 @@ description: สร้าง Robot Framework automation test + Page Object + Loc
 | Locator ของ element | ⚠️ | ถ้าไม่มี → แนะนำใช้ `data-test-id` |
 | `project-context.md` | ⚠️ | base URL, env, translation schema |
 
-**Canonical Reference Repo:** `/Users/nirawit/Documents/GitHub/athm_automation`
+**Canonical Reference Repo:** `athm_automation` — ดู `project-context.md` key `reference_repo` หรือถาม TL สำหรับ URL/path
 
 Best practice: ถ้าอยู่ใน repo นั้น ให้อ่านไฟล์ใกล้เคียง (เช่น `login_page.robot` ก่อน generate `assessment_year_page.robot`)
 

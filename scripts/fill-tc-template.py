@@ -2,6 +2,16 @@
 """
 Fill Ayodia central Test Case Excel template from test-case-writer CSV output.
 
+Usage:
+    python scripts/fill-tc-template.py --template <path-to-ayodia.xlsx>
+    python scripts/fill-tc-template.py --template T.xlsx --source-csv my.csv --output out.xlsx
+
+The Ayodia template xlsx ("Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx")
+is NOT shipped in this repo — ask TL / previous maintainer for the current copy.
+
+The META and EXEC_DATA blocks below are PEA-LV demo data used by docs/samples/leave-management.
+For a real project, edit those dicts (or fork this script) before running.
+
 Strategy:
 - openpyxl writes only cell VALUES (never modifies styles/fonts)
 - After save, zipfile post-processing:
@@ -11,6 +21,7 @@ Strategy:
       blue-bold style index (looked up from original sheet5 row 7)
     * Re-attaches `<drawing r:id="..."/>` references on each worksheet
 """
+import argparse
 import openpyxl
 import csv
 import re
@@ -19,10 +30,9 @@ import zipfile
 import tempfile
 from pathlib import Path
 
-# === Config ===
-TEMPLATE = "/Users/nirawit/Downloads/Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx"
-SOURCE_CSV = "/Users/nirawit/Documents/GitHub/qa_ai_skill/docs/samples/leave-management/03_sit_testcases.csv"
-OUTPUT = "/Users/nirawit/Documents/GitHub/qa_ai_skill/outputs/PEA-LV_Test_Case_V.1.0.0_Leave_Management.xlsx"
+REPO_ROOT = Path(__file__).resolve().parent.parent
+DEFAULT_SOURCE_CSV = REPO_ROOT / "docs" / "samples" / "leave-management" / "03_sit_testcases.csv"
+DEFAULT_OUTPUT = REPO_ROOT / "outputs" / "PEA-LV_Test_Case_V.1.0.0_Leave_Management.xlsx"
 
 META = {
     "project_code": "PEA-LV",
@@ -105,9 +115,44 @@ NUM_COLS = 22
 NS_MAIN = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
 
+def parse_args():
+    p = argparse.ArgumentParser(
+        description="Fill Ayodia central Test Case Excel template from test-case-writer CSV output.",
+    )
+    p.add_argument(
+        "--template",
+        required=True,
+        type=Path,
+        help="Path to Ayodia 'Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx' template (ask TL — not shipped in this repo)",
+    )
+    p.add_argument(
+        "--source-csv",
+        type=Path,
+        default=DEFAULT_SOURCE_CSV,
+        help=f"Path to test-case-writer CSV output (default: {DEFAULT_SOURCE_CSV.relative_to(REPO_ROOT)})",
+    )
+    p.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help=f"Path to write filled xlsx (default: {DEFAULT_OUTPUT.relative_to(REPO_ROOT)})",
+    )
+    return p.parse_args()
+
+
 def main():
-    print(f"Loading template: {TEMPLATE}")
-    wb = openpyxl.load_workbook(TEMPLATE)
+    args = parse_args()
+    template = args.template
+    source_csv = args.source_csv
+    output = args.output
+
+    if not template.exists():
+        sys.exit(f"ERROR: template not found: {template}")
+    if not source_csv.exists():
+        sys.exit(f"ERROR: source CSV not found: {source_csv}")
+
+    print(f"Loading template: {template}")
+    wb = openpyxl.load_workbook(template)
 
     cover = wb["Cover"]
     cover["D16"] = META["project_full_th"]
@@ -130,7 +175,7 @@ def main():
     tc["B3"] = META["module_title"]
 
     # Parse CSV
-    with open(SOURCE_CSV, encoding="utf-8") as f:
+    with open(source_csv, encoding="utf-8") as f:
         rows = list(csv.reader(f))
     header_idx = next((i for i, r in enumerate(rows) if r and r[0] == "TC ID*"), None)
     if header_idx is None:
@@ -215,15 +260,15 @@ def main():
     rebuild_dropdowns(tc, tc_rows)
 
     # Save openpyxl version → temp, then post-process
-    Path(OUTPUT).parent.mkdir(parents=True, exist_ok=True)
+    output.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(suffix=".xlsx", delete=False) as tmp:
         TEMP = tmp.name
     wb.save(TEMP)
-    merge_with_original(TEMPLATE, TEMP, OUTPUT, sc_rows)
+    merge_with_original(template, TEMP, output, sc_rows)
     Path(TEMP).unlink(missing_ok=True)
 
-    print(f"Saved: {OUTPUT}")
-    print(f"Size: {Path(OUTPUT).stat().st_size / 1024:.1f} KB")
+    print(f"Saved: {output}")
+    print(f"Size: {output.stat().st_size / 1024:.1f} KB")
 
 
 def rows_to_range(col, rows):

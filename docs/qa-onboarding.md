@@ -8,7 +8,7 @@
 ## ✅ Day 1 Checklist — อ่านตามนี้ (~30 นาที)
 
 - [ ] **1. [README.md](../README.md)** — 3 นาที
-  รู้ว่า repo นี้คืออะไร, มี 14 skills อะไรบ้าง, install ยังไง
+  รู้ว่า repo นี้คืออะไร, มี 15 skills อะไรบ้าง, install ยังไง
 
 - [ ] **2. [docs/qa-onboarding.md](qa-onboarding.md)** (ไฟล์นี้) — 10 นาที
   คู่มือหลัก — Quick Start + Decision Tree + End-to-End walkthrough
@@ -221,8 +221,9 @@ feature: login, prefix: AUTH
 
 ### ถ้าคุณเป็น **QC Lead**
 - Daily: [test-plan-writer](../skills/test-plan-writer/) → [test-report-writer](../skills/test-report-writer/) → [test-case-reviewer](../skills/test-case-reviewer/)
-- Weekly: review sprint-tracking.csv + update qa-standards velocity ถ้า actual ต่างจาก plan เยอะ
+- Weekly: review sprint-tracking.csv + update qa-standards velocity ถ้า actual ต่างจาก plan เยอะ + [weekly-update-writer](../skills/weekly-update-writer/) ส่งอีเมล (C-level / Manager / Team)
 - Monthly: รวบ AI Effort Savings KPI ต่อโปรเจค report ให้ management
+- When AI session ใกล้ context limit / สลับ tool: [handoff-writer](../skills/handoff-writer/) → HANDOFF.md
 
 ### ถ้าคุณเป็น **Tester (Mid-level)**
 - Main: [test-case-writer](../skills/test-case-writer/) → execute → [bug-report-writer](../skills/bug-report-writer/)
@@ -233,7 +234,8 @@ feature: login, prefix: AUTH
 - [test-report-writer](../skills/test-report-writer/) `mode=uat` — เก็บ User Sign-off
 
 ### ถ้าคุณเป็น **Perf Tester / TL**
-- [test-plan-writer](../skills/test-plan-writer/) `mode=perf` → [perf-test-generator](../skills/perf-test-generator/) → k6 run → [perf-result-analyzer](../skills/perf-result-analyzer/) → [test-report-writer](../skills/test-report-writer/) `mode=perf`
+- [test-plan-writer](../skills/test-plan-writer/) `mode=perf` → [perf-test-generator](../skills/perf-test-generator/) → k6 run → [perf-result-analyzer](../skills/perf-result-analyzer/) → [test-report-writer](../skills/test-report-writer/) `mode=perf` (MD, internal)
+- ส่งลูกค้า / ผู้บริหาร: [perf-typst-report](../skills/perf-typst-report/) → PDF ~5-6 หน้า (Ayodia branding)
 
 ---
 
@@ -268,7 +270,8 @@ feature: login, prefix: AUTH
 4. Smoke test ก่อน (1 VU × 30s) — ตรวจว่า script ถูก
 5. Load / Stress / Soak ตาม Plan
 6. perf-result-analyzer → หา bottleneck
-7. test-report-writer mode=perf → Perf Report + Tuning Recommendation
+7. test-report-writer mode=perf → Perf Report MD (internal)
+8. (optional) perf-typst-report → Perf Report PDF ~5-6 หน้า สำหรับส่งลูกค้า / ผู้บริหาร
 ```
 
 ### Scenario 4 — เจอ bug ระหว่าง execute

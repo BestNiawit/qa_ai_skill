@@ -63,7 +63,7 @@ description: สร้าง E2E web automation test ตาม Page Object Model
 
 **Format:** TypeScript / Java source files ตาม framework
 
-**Canonical Reference Repo (Playwright):** `/Users/nirawit/Documents/GitHub/automation-starter-kit-playwright`
+**Canonical Reference Repo (Playwright):** `automation-starter-kit-playwright` — ดู `project-context.md` key `reference_repo` หรือถาม TL / previous maintainer สำหรับ URL/path
 
 **โครงสร้างไฟล์ (Playwright ตัวอย่าง):**
 ```

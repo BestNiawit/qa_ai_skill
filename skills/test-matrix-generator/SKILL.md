@@ -16,10 +16,10 @@ description: สร้าง test matrix แบบ compact ครอบคลุ
 
 **Effort savings:** เหมาะสำหรับ time-crunch — ได้ matrix 10-15 นาที vs full TC 1-3 วัน
 
-**Not in scope (ใช้ skill อื่น):**
-- Risk-based matrix (Risk × Severity × Likelihood) → ใช้ `risk-assessment-writer`
+**Not in scope (ใช้ skill อื่น / manual):**
+- Risk-based matrix (Risk × Severity × Likelihood) → ทำ manual + ดู [references/qa-standards.md §2](../../references/qa-standards.md) สำหรับ Severity scale
 - Full test case with steps/expected → ใช้ `test-case-writer`
-- State transition table / Decision table → ใช้ `test-design-technique`
+- State transition table / Decision table → ใช้ `test-case-writer` (รองรับ techniques: ECP / BVA / Decision Table / State Transition / Use Case / Error Guessing)
 
 ---
 
@@ -34,7 +34,7 @@ description: สร้าง test matrix แบบ compact ครอบคลุ
 | ดู combination ของ input ครบมั้ย | **`test-matrix-generator`** (Combination mode) |
 | Cross-browser/cross-device testing | **`test-matrix-generator`** (Platform mode) |
 | Requirement เยอะ อยากเช็ค coverage | **`test-matrix-generator`** (Coverage mode) |
-| วิเคราะห์ risk / severity | `risk-assessment-writer` (ไม่ใช่ skill นี้) |
+| วิเคราะห์ risk / severity | manual + ดู `qa-standards.md §2` (Severity scale) |
 
 ---
 
@@ -319,7 +319,7 @@ for i, pairs in enumerate(AllPairs(params), 1):
 **Downstream:**
 - `test-case-writer` — matrix → ขยายเป็น full 23-col TC
 - `test-plan-writer` — matrix = ส่วนหนึ่งของ Test Approach ใน Plan
-- `traceability-matrix-writer` — coverage matrix → full RTM
+- `test-case-writer` — รวม Traceability Matrix (Requirement ↔ TC) ใน output อยู่แล้ว
 
 **Workflow ตัวอย่าง:**
 ```

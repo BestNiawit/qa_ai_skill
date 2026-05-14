@@ -1,6 +1,6 @@
 # Framework Pattern — Playwright + TypeScript (Primary)
 
-Reference repo: `/Users/nirawit/Documents/GitHub/automation-starter-kit-playwright`
+Reference repo: `automation-starter-kit-playwright` — ดู `project-context.md` key `reference_repo` หรือถาม TL สำหรับ URL/path
 Working example: [`../examples/playwright-ts/`](../examples/playwright-ts/)
 
 ---

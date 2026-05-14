@@ -2,9 +2,9 @@
 
 รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5
 
-**14 skills ครอบคลุม 12 AI-Assisted processes ของ SDP §5.3.1** (Plan / Test Case / Review / Report / Perf) + Pre-process gate (**Requirement Analyzer**, Data Type Matrix) + Supporting (Bug Report, Test Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
+**15 skills ครอบคลุม 12 AI-Assisted processes ของ SDP §5.3.1** (Plan / Test Case / Review / Report / Perf) + Pre-process gate (**Requirement Analyzer**, Data Type Matrix) + Supporting (Bug Report, Test Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
 
-*6 skills ครอบ 12 SDP processes (skill เดียวใช้ซ้ำหลาย process — เช่น `test-plan-writer` ครอบ P1/P5/P9) + อีก 8 skills สำหรับ pre-process / supporting / utility*
+*7 skills ครอบ 12 SDP processes (skill เดียวใช้ซ้ำหลาย process — เช่น `test-plan-writer` ครอบ P1/P5/P9; `perf-typst-report` เป็น client-facing variant ของ P12) + อีก 8 skills สำหรับ pre-process / supporting / utility*
 
 > 🆕 **QA มาใหม่? เริ่มที่ [docs/qa-onboarding.md](docs/qa-onboarding.md)** — Quick Start 5 นาที + Decision Tree + End-to-End walkthrough
 >
@@ -59,7 +59,7 @@ claude
 /plugin install qa-ai-skill@ayodia-qa
 ```
 
-หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 14 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
+หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 15 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
 
 ### เช็คว่าติดตั้งสำเร็จ
 
@@ -85,7 +85,7 @@ claude
 
 ---
 
-## Skills (14 ตัว)
+## Skills (15 ตัว)
 
 ### Pre-Testing — Requirement Readiness (ก่อนเริ่ม SIT)
 
@@ -384,23 +384,40 @@ feature: login, prefix: AUTH
 qa_ai_skill/
 ├── README.md                          ← คุณอยู่ตรงนี้
 ├── SKILL-TEMPLATE.md                  ← template สำหรับสร้าง skill ใหม่
+├── .claude-plugin/                    ← Claude Code plugin manifest (plugin.json + marketplace.json)
 ├── docs/
-│   ├── qa-onboarding.md               ← เริ่มต้นสำหรับ QA ใหม่
-│   └── work-product-flow.md           ← NEW — IPO diagrams + token economy
-├── references/                         ← Shared (linked by all skills)
+│   ├── qa-onboarding.md               ← เริ่มต้นสำหรับ QA ใหม่ (Day-1 checklist + Glossary)
+│   ├── how-to-sit-uat.md              ← 10 steps prompt copy-paste สำหรับ SIT → UAT
+│   ├── work-product-flow.md           ← IPO diagrams + token economy
+│   ├── workflow-io-summary.md         ← Executive view — Input/Output 3 chains ใน 1 หน้า
+│   ├── windows-install-troubleshoot.md
+│   └── samples/                        ← Sample artifacts (leave-management/, etc.)
+├── references/                        ← Shared (linked by all skills)
 │   ├── ai-guardrails.md                ← จาก SDP §5.3.3
-│   ├── brd-readiness-guide.md          ← NEW — "BRD แบบไหนพร้อมทำ TC" สำหรับ PM/BA
-│   ├── qa-standards.md                 ← Severity/Priority/Sizing/Buffer/KPI
+│   ├── brd-readiness-guide.md          ← "BRD แบบไหนพร้อมทำ TC" สำหรับ PM/BA
+│   ├── handoff-guide.md                ← shared template + checklist สำหรับ handoff-writer
+│   ├── perf-report-kmutnb-template.md  ← reference template สำหรับ perf-typst-report
+│   ├── qa-standards.md                 ← Severity/Priority/Sizing/Buffer/KPI (single source of truth)
 │   └── sdp-mapping.md                  ← process → skill mapping
-└── skills/
-    ├── requirement-analyzer/           ← NEW — Pre-Testing gate (BRD → Normalized + PM Confirmation)
-    ├── data-type-matrix-generator/     ← NEW — fallback เมื่อ req ไม่ชัด (Data Type Matrix + Happy Path + Integration + Assumption Checklist)
+├── scripts/                           ← Utility scripts (validate, template-fill) — ดู scripts/README.md
+│   ├── README.md
+│   ├── validate_skills.py              ← structure + consistency validator (รันก่อน commit / CI)
+│   └── fill-tc-template.py             ← TC CSV → Ayodia central xlsx template
+├── slides/                            ← Sharing/onboarding decks (typst → PDF)
+│   ├── pre-install.{typ,pdf}           ← install guide for non-tech team
+│   ├── qa-skills-overview{,-en}.{typ,pdf}
+│   ├── sharing-session.{typ,pdf}       ← 2-hour internal workshop
+│   └── team-onboarding.{typ,pdf}
+└── skills/                            ← 15 skills (ดูตาราง "Skills (15 ตัว)" ด้านบน)
+    ├── requirement-analyzer/           ← Pre-Testing gate (BRD → Normalized + PM Confirmation)
+    ├── data-type-matrix-generator/     ← Fallback เมื่อ req ไม่ชัด (Matrix + Happy Path + Assumption Checklist)
     ├── test-plan-writer/               ← SIT/UAT/Perf Plan
-    ├── test-case-writer/               ← SIT + UAT mode
-    ├── test-case-reviewer/             ← NEW — Peer Review
-    ├── test-report-writer/             ← NEW — SIT/UAT/Perf Report
+    ├── test-case-writer/               ← SIT + UAT mode (TC / Checklist)
+    ├── test-case-reviewer/             ← Peer Review
+    ├── test-report-writer/             ← SIT/UAT/Perf Report (Markdown)
     ├── perf-test-generator/            ← k6
-    ├── perf-result-analyzer/           ← NEW — Bottleneck Analysis
+    ├── perf-result-analyzer/           ← Bottleneck Analysis
+    ├── perf-typst-report/              ← Perf Report PDF (client-facing, Ayodia branding)
     ├── test-matrix-generator/          ← Coverage/Pairwise/Platform
     ├── bug-report-writer/              ← Jira/Linear/GitHub
     ├── robot-test-generator/           ← Robot Framework

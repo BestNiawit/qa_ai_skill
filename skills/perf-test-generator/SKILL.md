@@ -44,7 +44,7 @@ description: สร้าง k6 performance test (smoke / load / stress / soak /
 | Test data | ⚠️ | users, products, IDs (fixture) |
 | `project-context.md` | ⚠️ | NFR, SLO, Workload Model |
 
-**Canonical Reference Repo:** `/Users/nirawit/Documents/GitHub/k6-perf-test-ayodia`
+**Canonical Reference Repo:** `k6-perf-test-ayodia` — ดู `project-context.md` key `reference_repo` หรือถาม TL สำหรับ URL/path
 
 ---
 
