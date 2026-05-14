@@ -101,22 +101,27 @@
 
 ---
 
-## 2. IPO Summary Table — 10 Skills ในหน้าเดียว
+## 2. IPO Summary Table — 15 Skills ในหน้าเดียว
 
 > Token/Time estimates เป็นค่าเฉลี่ยต่อ 1 module (~20 requirements). "Verify" = สิ่งที่ QC **ต้องตรวจ manually** ก่อน approve
 
 | # | Skill | Input | Output (Work Product) | Token In/Out | AI Time | QC Verify (ก่อน approve) |
 |---|-------|-------|----------------------|:------------:|:-------:|-------------------------|
+| 0 | [requirement-analyzer](../skills/requirement-analyzer/) | BRD/PRD/SRS ดิบ + module + project | **Readiness Score** + Normalized Requirement + **PM Confirmation Doc** | 8k/6k | 30 sec | Score ตรงเหตุผล, Open Question คมจริง, PM Confirmation ส่ง review ได้ทันที |
+| 0b | [data-type-matrix-generator](../skills/data-type-matrix-generator/) | Field list + base feature reference (fallback เมื่อ req ไม่ชัด) | **Data Type Matrix** + Happy Path + Integration Points + **Assumption Checklist** | 4k/8k | 30 sec | Field type ตรงระบบจริง, Assumption ครอบประเด็นที่ PM ต้อง tick |
 | 1 | [test-plan-writer](../skills/test-plan-writer/) | SRS/NFR, scope, TC file (for Schedule), testers, mode | **Test Plan** (MD) — Objective, Scope, Entry/Exit, Env, Schedule+Effort, Risk, Defect Mgmt, Traceability, Sign-off | 5k/8k | 30 sec | Scope ตรง Contract, Exit Criteria ≠ "ผ่านทั้งหมด", Schedule = สูตร qa-standards |
 | 2 | [test-case-writer](../skills/test-case-writer/) | SRS/PRD, Module ID, mode (sit/uat), UAT format (tc/checklist), lang, format | **Test Cases** (MD/CSV) — 23 cols + Traceability Matrix + **Sizing Summary Block** / **UAT Checklist** (multi-role workflow + C1/C2 categories + 3-way status) | 10k/25k | 1-2 min | ทุก req มี TC, Expected วัดได้, ไม่มี PII, Sizing Summary ครบ / checklist: ทุก role handoff มีสถานะคำขอ |
 | 3 | [test-case-reviewer](../skills/test-case-reviewer/) | TC file, SRS, mode | **Peer Review Report** (MD) — Must Fix / Should Fix / OK + Coverage Gap | 15k/5k | 30 sec | Must Fix ถูก category, Coverage Gap ตรง SRS |
-| 4 | [test-report-writer](../skills/test-report-writer/) | TC with actual results, Test Plan, Defects, AI Usage Log, mode | **Test Report** (MD) — Summary, Exit Criteria, Defect, **Estimate vs Actual**, **AI Savings KPI**, Conclusion | 20k/8k | 1 min | ตัวเลขตรง raw, Go/No-Go ตรง criteria, variance >30% flag |
+| 4a | [test-report-writer](../skills/test-report-writer/) | TC with actual results, Test Plan, Defects, AI Usage Log, mode | **Test Report** (MD) — Summary, Exit Criteria, Defect, **Estimate vs Actual**, **AI Savings KPI**, Conclusion | 20k/8k | 1 min | ตัวเลขตรง raw, Go/No-Go ตรง criteria, variance >30% flag |
+| 4b | [perf-typst-report](../skills/perf-typst-report/) | k6 JSON summary + NFR + customer info | **Perf Report PDF** (~5-6 หน้า, Ayodia branding) — Exec Summary + NFR traffic-light + Bottleneck cards + Sign-off | 10k/4k | 1 min | Verdict ตรง raw, ภาษาผู้บริหารเข้าใจได้, ไม่มี jargon ค้าง |
 | 5 | [test-matrix-generator](../skills/test-matrix-generator/) | Req file + scope, matrix type (Coverage/Combination/Platform) | **Test Matrix** (CSV, UTF-8 BOM) — compact, ~10-15 min to generate | 3k/3k | 15 sec | pairwise algorithm ถูก, ไม่มี platform combo เพี้ยน (Safari/Win) |
 | 6 | [bug-report-writer](../skills/bug-report-writer/) | Symptom, Steps, Env, Severity, Priority, attachments | **Bug Report** (MD) — Title+Module+Condition, Env, Steps, Expected vs Actual, Severity (Critical/Major/Minor/Trivial) + Priority (Critical/High/Medium/Low) + Action Label | 2k/2k | 15 sec | Steps reproduce ได้, ไม่มี PII, title มี module+symptom+condition |
 | 7 | [robot-test-generator](../skills/robot-test-generator/) | TC file, feature, prefix, locator ref | **Robot Files** — `*.robot`, `keywords.robot`, `locators.yml`, `translations.yml` | 10k/15k | 1 min | Locator UPPER_SNAKE_CASE, keyword ไม่มี assertion, bilingual EN/TH |
 | 8 | [e2e-test-generator](../skills/e2e-test-generator/) | TC file, framework (Playwright/Cypress/WDIO/Selenium), feature, prefix | **E2E Files** — `*.spec.ts`, `locators/*.ts` (POM), `pages/*.ts`, config | 10k/20k | 1-2 min | Advanced XPath, unique/shared locators, text-as-constants |
 | 9 | [perf-test-generator](../skills/perf-test-generator/) | API spec, NFR, workload mode (RPS/VUs), scenarios | **k6 Files** — `tests/*.js`, `config/<env>.js`, `data/*.json`, threshold config | 5k/10k | 1 min | HttpClient wrapper, tag-based threshold, sleep/think time |
 | 10 | [perf-result-analyzer](../skills/perf-result-analyzer/) | Raw result (CSV/JSON จาก k6/JMeter), NFR | **Analysis Report** (MD) — Bottleneck + NFR evaluation per endpoint + Tuning Recommendation | 30k/5k | 1 min | ตัวเลขตรง raw, ระบุ hypothesis ได้ (DB/cache/upstream) |
+| 11 | [weekly-update-writer](../skills/weekly-update-writer/) | QA Lead Weekly Review (markdown/note) + audience + tone | **Weekly Update Email** ภาษาธรรมชาติ — Progress, AI Savings KPI, Blockers, Next-week Plan | 6k/3k | 20 sec | ไม่เป็น AI-speak, ตัวเลข KPI ตรง weekly review, blocker มี ask ชัด |
+| 12 | [handoff-writer](../skills/handoff-writer/) | สถานะงาน + files ที่แก้ + decisions + next steps | **HANDOFF.md** — สำหรับส่งงานข้าม AI session | 4k/3k | 15 sec | next step actionable, decisions มี rationale, files list ครบ |
 
 > **หมายเหตุ Token:** `Input` นับ file ที่ upload + prompt; `Output` นับ markdown ที่ AI generate. Claude Opus pricing: ~$15/M in, ~$75/M out (2026) — 1 module ≈ $0.5-2
 

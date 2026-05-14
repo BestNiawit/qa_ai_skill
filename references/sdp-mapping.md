@@ -48,6 +48,8 @@
 
 ## Skills เสริม (นอกตาราง SDP แต่เสริม Testing phase)
 
+> See [README §Skills](../README.md#skills-15-ตัว) for canonical skill list and ordering.
+
 | Skill | ใช้เมื่อ | เชื่อมกับ SDP |
 |-------|---------|-------------|
 | [requirement-analyzer](../skills/requirement-analyzer/) | BRD/PRD/SRS ยังไม่แน่ใจว่าพร้อมทำ TC ไหม + ต้องการให้ PM review ความเข้าใจก่อน | **Pre-§5.3.1** — gate ก่อนขั้น 1 (SIT Plan) และขั้น 2 (SIT TC) |
@@ -56,6 +58,8 @@
 | [bug-report-writer](../skills/bug-report-writer/) | เจอ defect ระหว่าง SIT/UAT | ระหว่าง "ทดสอบ SIT/UAT" → Jira Card |
 | [robot-test-generator](../skills/robot-test-generator/) | Automation Robot Framework | ขยาย "ทดสอบ SIT" → automate |
 | [e2e-test-generator](../skills/e2e-test-generator/) | Automation Playwright/Cypress/WDIO/Selenium | ขยาย "ทดสอบ SIT" → automate |
+| [weekly-update-writer](../skills/weekly-update-writer/) | QA Lead ส่ง Weekly Update email (C-level / Manager / Team) ทุกวัน Friday | **Non-SDP utility** — ใช้ใน QA Lead workflow รายสัปดาห์ |
+| [handoff-writer](../skills/handoff-writer/) | ส่งงานข้าม AI session เมื่อใกล้ context limit / สลับ tool / cooldown | **Non-SDP utility** — ใช้ระหว่าง long-running session (e2e generation, data-type-matrix) |
 
 ---
 
@@ -96,7 +100,8 @@ NFR + API Spec
   ├→ perf-test-generator              → k6 scripts + config
   └→ [Run Load/Stress/Soak/Spike]
         └→ perf-result-analyzer       → Bottleneck + NFR evaluation
-              └→ test-report-writer (mode=perf) → Perf Report
+              ├→ test-report-writer (mode=perf) → Perf Report (MD, internal)
+              └→ perf-typst-report              → Perf Report (PDF, client-facing)
 ```
 
 ---

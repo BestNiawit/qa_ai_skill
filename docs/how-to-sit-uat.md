@@ -243,3 +243,9 @@ User Sign-off: <ชื่อ user> (<วันที่>, Approved/Rejected)
 - [docs/qa-onboarding.md](qa-onboarding.md) — Day 1 onboarding + Decision Tree + Role-based shortcut
 - [docs/work-product-flow.md](work-product-flow.md) — IPO diagram ทุก skill
 - [references/qa-standards.md](../references/qa-standards.md) — Severity/Priority/Sizing/Buffer/KPI
+
+### ไม่อยู่ใน SIT→UAT flow (Perf + QA Lead utilities)
+
+- **Performance:** [test-plan-writer](../skills/test-plan-writer/) `mode=perf` → [perf-test-generator](../skills/perf-test-generator/) → [perf-result-analyzer](../skills/perf-result-analyzer/) → [test-report-writer](../skills/test-report-writer/) `mode=perf` (MD, internal) หรือ [perf-typst-report](../skills/perf-typst-report/) (PDF, client-facing)
+- **Weekly Update Email:** [weekly-update-writer](../skills/weekly-update-writer/) — ส่ง C-level / Manager / Team
+- **Handoff ข้าม AI session:** [handoff-writer](../skills/handoff-writer/) — สร้าง HANDOFF.md เมื่อใกล้ context limit / สลับ tool

@@ -93,7 +93,8 @@ SIT TC approved ──► [1] test-case-writer (mode=uat) ──► [2] test-cas
 NFR + API Spec ──► [1] test-plan-writer (mode=perf) ──► [2] perf-test-generator
                                                        ──► [Run Load/Stress/Soak/Spike]
                                                        ──► [3] perf-result-analyzer
-                                                       ──► [4] test-report-writer (mode=perf)
+                                                       ──► [4a] test-report-writer (mode=perf)  — internal MD
+                                                       └─► [4b] perf-typst-report               — client-facing PDF
 ```
 
 | # | Step (Skill) | Input | Output (Work Product) | Owner | Manual → AI-Assisted | Savings |
@@ -102,12 +103,25 @@ NFR + API Spec ──► [1] test-plan-writer (mode=perf) ──► [2] perf-tes
 | 2 | **perf-test-generator**<br>(k6) | API Spec + NFR + Workload mode + Scenarios (smoke/load/stress/soak/spike) | **k6 Scripts** (`tests/*.js`) + Config per env + Test Data + Threshold (tag-based) | QA Perf | 6h → 3h | ~50% |
 | — | **[Execute Perf]** | k6 scripts + dedicated perf env | Raw results (CSV/JSON, k6/JMeter format) | QA Perf | manual run | — |
 | 3 | **perf-result-analyzer** | Raw result + NFR | **Bottleneck Analysis** — per endpoint Avg/p95/p99/TPS/Error + NFR Pass/Fail + Tuning Recommendation (DB/cache/infra) | QA Perf | 4h → 2h | ~50% |
-| 4 | **test-report-writer**<br>(mode=perf) | Perf Plan + Analysis + raw result | **Perf Test Report** + Capacity Recommendation | QA Perf Lead | 8h → 4h | ~50% |
+| 4a | **test-report-writer**<br>(mode=perf) | Perf Plan + Analysis + raw result | **Perf Test Report** (Markdown, internal) + Capacity Recommendation | QA Perf Lead | 8h → 4h | ~50% |
+| 4b | **perf-typst-report**<br>(client-facing) | k6 JSON summary + NFR + customer info | **Perf Test Report PDF** (~5-6 หน้า, Ayodia branding, exec summary + NFR traffic-light + bottleneck cards + sign-off) — สำหรับ stakeholder non-technical | QA Perf Lead | 8h → 2.5h | ~70% |
 
 **🎯 Final Perf Deliverables:**
 - **Perf Test Plan + Workload Model** (sign-off ก่อน execute)
 - **Perf Test Scripts (k6)** (commit ลง repo, run ซ้ำได้)
-- **Perf Test Report + Bottleneck + Tuning Recommendation** (ส่ง Dev/Architect)
+- **Perf Test Report (MD)** — สำหรับทีมภายใน (technical detail ครบ)
+- **Perf Test Report (PDF)** — สำหรับลูกค้า/ผู้บริหาร (Ayodia branding, ~5-6 หน้า)
+
+---
+
+## 4b. QA Lead Utility Skills (ไม่อยู่ใน chain — ใช้คู่ขนาน)
+
+Skills เหล่านี้ไม่ผูกกับ SDP §5.3.1 process ตรงๆ แต่ใช้บ่อยใน QA Lead workflow
+
+| Skill | Input | Output | Use Case |
+|-------|-------|--------|----------|
+| **weekly-update-writer** | QA Lead Weekly Review (markdown/note) + audience + tone | Weekly Update email ภาษาธรรมชาติ (Progress, AI Savings KPI, Blockers, Next-week Plan) | ส่ง C-level / Manager / Team / Cross-functional ทุก Friday |
+| **handoff-writer** | สถานะงาน + files ที่แก้ + decisions + next steps | **HANDOFF.md** | ส่งงานข้าม AI session เมื่อใกล้ context limit / สลับ tool / cooldown |
 
 ---
 

@@ -349,17 +349,15 @@ SRS → test-case-writer (mode=sit) → test-case-reviewer → [approved]
 
 ## Test Sizing Scale
 
-> **Source of truth:** [qa-standards.md §3](../../references/qa-standards.md#3-test-sizing-scale-บังคับทุก-tc) — ห้าม override scale, override ได้แค่ midpoint ใน `project-context.md` ถ้ามี data จริง
+> **Source of truth:** [qa-standards.md §3](../../references/qa-standards.md#3-test-sizing-scale-บังคับทุก-tc) — Scale (S/M/L/XL), midpoint hours, steps range, ลักษณะ → ดูตารางเต็มที่นั่น
+>
+> ห้าม override scale ใน skill นี้ — override ได้แค่ midpoint ใน `project-context.md` ถ้ามี data จริง
 
-| Size | เวลา | Midpoint (hr) | Steps | ลักษณะ |
-|:----:|------|:-------------:|:-----:|--------|
-| S  | < 15 นาที | **0.17** | 1–3 | smoke check, field validation |
-| M  | 15–30 นาที | **0.42** | 4–8 | form + ตรวจผล |
-| L  | 30–60 นาที | **0.75** | 9–15 | multi-step flow, data fixture |
-| XL | > 1 ชั่วโมง | **1.25** | 15+ | E2E ข้าม role, external system |
+**Pipeline:** sizing per TC → **Sizing Summary Block** (auto-generated ท้ายไฟล์) → feed `test-plan-writer` Schedule (ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule))
 
-**Pipeline:** sizing totals → Sizing Summary Block → test-plan-writer Schedule (ตาม [qa-standards.md §4 Buffer Policy](../../references/qa-standards.md#4-buffer-policy-บังคับใช้ใน-test-plan-schedule))
-**Rules:** XL ควร Critical/High Priority เท่านั้น; L/XL ที่รันบ่อย = automation candidate
+**Rules:**
+- XL ควรเป็น Critical/High Priority เท่านั้น (cost สูง → ใช้กับงานสำคัญ)
+- L/XL ที่รันบ่อย = automation candidate (mark `Automation=Yes`)
 
 ---
 
