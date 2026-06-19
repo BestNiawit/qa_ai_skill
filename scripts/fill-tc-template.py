@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 """
-Fill Ayodia central Test Case Excel template from test-case-writer CSV output.
+Fill OneD central Test Case Excel template from test-case-writer CSV output.
 
 Usage:
-    python scripts/fill-tc-template.py --template <path-to-ayodia.xlsx>
+    python scripts/fill-tc-template.py --template <path-to-oned.xlsx>
     python scripts/fill-tc-template.py --template T.xlsx --source-csv my.csv --output out.xlsx
 
-The Ayodia template xlsx ("Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx")
+The OneD template xlsx ("Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx")
 is NOT shipped in this repo — ask TL / previous maintainer for the current copy.
 
 The META and EXEC_DATA blocks below are PEA-LV demo data used by docs/samples/leave-management.
@@ -46,8 +46,8 @@ META = {
     "date": "30/04/2026",
     "module_id": "M_LV",
     "module_title": "Leave Management",
-    "author": "QA Lead — Tester A",
-    "reviewer": "Tester C (Peer)",
+    "author": "QA Lead — QA A",
+    "reviewer": "QA C (Peer)",
     "change_desc": (
         "- Initial draft\n"
         "  - AI-generated 32 test cases (test-case-writer skill)\n"
@@ -63,7 +63,7 @@ EXEC_DATA = {
     "TC_PEA_LV_017": {
         "actual": "Status เปลี่ยนเป็น Approved สำเร็จ แต่ balance ของพนักงานยังไม่หักทันที (ค้างที่ 10) จนกว่าจะ refresh หรือรอ ~30 วินาที — ขัดกับ Expected ที่ระบุว่าหักภายใน 1 วินาที (sync)",
         "result": "Failed",
-        "tester": "Tester B",
+        "qa": "QA B",
         "date": "29/04/2026",
         "defect": "PEA-LV-187",
     },
@@ -71,7 +71,7 @@ EXEC_DATA = {
     "TC_PEA_LV_005": {
         "actual": "Test environment session timeout config ไม่ตรงกับที่ระบุ (set ไว้ 30 นาที) ไม่สามารถทดสอบ 15 นาที inactive ได้",
         "result": "Blocked",
-        "tester": "Tester B",
+        "qa": "QA B",
         "date": "29/04/2026",
         "defect": "",
     },
@@ -79,7 +79,7 @@ EXEC_DATA = {
     "TC_PEA_LV_009": {
         "actual": "Submit สำเร็จ + ไฟล์เก็บใน S3 + Status=Pending — แต่ preview ใบรับรองหลัง submit แสดงช้าประมาณ 2 วินาที",
         "result": "Passed with condition",
-        "tester": "Tester B",
+        "qa": "QA B",
         "date": "29/04/2026",
         "defect": "",
     },
@@ -87,7 +87,7 @@ EXEC_DATA = {
     "TC_PEA_LV_032": {
         "actual": "",
         "result": "No-run",
-        "tester": "",
+        "qa": "",
         "date": "",
         "defect": "",
     },
@@ -96,7 +96,7 @@ EXEC_DATA = {
 DEFAULT_EXEC = {
     "actual": "ผลตรงตาม Expected Result ทุกข้อ",
     "result": "Passed",
-    "tester": "Tester B",
+    "qa": "QA B",
     "date": "29/04/2026",
     "defect": "",
 }
@@ -117,13 +117,13 @@ NS_MAIN = "http://schemas.openxmlformats.org/spreadsheetml/2006/main"
 
 def parse_args():
     p = argparse.ArgumentParser(
-        description="Fill Ayodia central Test Case Excel template from test-case-writer CSV output.",
+        description="Fill OneD central Test Case Excel template from test-case-writer CSV output.",
     )
     p.add_argument(
         "--template",
         required=True,
         type=Path,
-        help="Path to Ayodia 'Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx' template (ask TL — not shipped in this repo)",
+        help="Path to OneD 'Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx' template (ask TL — not shipped in this repo)",
     )
     p.add_argument(
         "--source-csv",
@@ -240,7 +240,7 @@ def main():
                 elif csv_idx == 18:
                     val = ex["result"]   # Test Result
                 elif csv_idx == 19:
-                    val = ex["tester"]   # Tested By
+                    val = ex["qa"]   # Tested By
                 elif csv_idx == 20:
                     val = ex["date"]     # Test Date
                 elif csv_idx == 21:

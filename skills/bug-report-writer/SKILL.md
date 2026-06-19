@@ -14,7 +14,7 @@ description: สร้าง bug report ที่มีโครงสร้า�
 **Key rules:**
 - Title = `[Module] Action → Symptom เมื่อ Condition`
 - แยก Severity (impact) vs Priority (urgency) — ห้ามรวมกัน
-- ใช้ Severity/Priority ตาม [qa-standards.md §1-§2](../../references/qa-standards.md) — **Critical/Major/Minor/Trivial + Critical/High/Medium/Low** (Ayodia TEST DEFINITION template)
+- ใช้ Severity/Priority ตาม [qa-standards.md §1-§2](../../references/qa-standards.md) — **Critical/Major/Minor/Trivial + Critical/High/Medium/Low** (OneD TEST DEFINITION template)
 - **Action Label** ระบุจาก Severity × Priority Matrix ([qa-standards §2.1](../../references/qa-standards.md#21-severity-priority-matrix-action-label)) — เช่น Blocker, Urgent, Standard High
 - Steps reproduce เป็นข้อๆ มีเบอร์ + precondition ชัด
 - Expected ≠ Actual ต้องเห็นต่างชัดเจน

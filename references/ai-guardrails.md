@@ -1,6 +1,6 @@
 # AI Guardrails — ข้อควรระวังเมื่อใช้ AI ในงาน Testing
 
-> ใช้ร่วมกันทุก skill ใน repo นี้ — อ้างอิงจาก Ayodia SDP §5.3.3
+> ใช้ร่วมกันทุก skill ใน repo นี้ — อ้างอิงจาก OneD SDP §5.3.3
 > **หลักการ:** AI = Draft & Assist, QC = Review & Approve
 
 ---
@@ -76,6 +76,6 @@ AI draft → QC ตรวจ → approve → ใช้งาน
 ---
 
 ## References
-- Ayodia SDP §5.3.3 (Software-Development-Process.md)
+- OneD SDP §5.3.3 (Software-Development-Process.md)
 - OWASP LLM Top 10 — LLM06:2025 (Sensitive Information Disclosure)
 - NIST AI Risk Management Framework (AI RMF 1.0) — MEASURE section

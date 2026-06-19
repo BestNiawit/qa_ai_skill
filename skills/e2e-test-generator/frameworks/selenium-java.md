@@ -271,7 +271,7 @@ public final class UiTestData {
   public record LoginData(String username, String password) {}
 
   public static final LoginData TC_LOGIN_001 = new LoginData(
-    "superayodia",
+    "superoned",
     System.getenv().getOrDefault("TEST_PASSWORD", "[REDACTED]"));
 }
 ```

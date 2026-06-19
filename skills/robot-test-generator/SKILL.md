@@ -278,7 +278,7 @@ PMS_SAV_SC_001_TC_001 <Thai description>
 ```yaml
 # resources/testdata/ui/testdata.yaml
 TC_SAV_SC_001:
-  username: "superayodia"
+  username: "superoned"
   password: "[REDACTED_IN_REPO]"
   assessment_year_valid: "2027"
   success_popup_text: "บันทึกสำเร็จ"

@@ -1,13 +1,13 @@
 {
   "name": "qa-ai-skill",
   "version": "1.0.0",
-  "description": "Claude Code skills สำหรับทีม QA — ลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5 (15 skills: requirement-analyzer, data-type-matrix-generator, test-plan-writer, test-case-writer, test-case-reviewer, test-report-writer, perf-test-generator, perf-result-analyzer, perf-typst-report, test-matrix-generator, bug-report-writer, robot-test-generator, e2e-test-generator, weekly-update-writer, handoff-writer)",
+  "description": "Claude Code skills สำหรับทีม QA — ลด effort ทุกขั้นตอนของ Testing Phase ตาม OneD SDP §5 (15 skills: requirement-analyzer, data-type-matrix-generator, test-plan-writer, test-case-writer, test-case-reviewer, test-report-writer, perf-test-generator, perf-result-analyzer, perf-typst-report, test-matrix-generator, bug-report-writer, robot-test-generator, e2e-test-generator, weekly-update-writer, handoff-writer)",
   "author": {
     "name": "Nirawit Thepsawade",
-    "email": "testerayodia@gmail.com"
+    "email": "qaoned@gmail.com"
   },
-  "homepage": "https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill",
-  "repository": "https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git",
+  "homepage": "https://gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill",
+  "repository": "https://gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill.git",
   "license": "UNLICENSED",
   "keywords": [
     "qa",
@@ -20,6 +20,6 @@
     "automation",
     "robot-framework",
     "playwright",
-    "ayodia-sdp"
+    "oned-sdp"
   ]
 }

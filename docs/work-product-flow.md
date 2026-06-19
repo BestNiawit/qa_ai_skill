@@ -4,7 +4,7 @@
 > — ให้ QA รู้ก่อนใช้ว่า "ต้องเตรียมอะไร / AI ทำอะไร / ได้อะไรกลับมา"
 > — ช่วยประหยัด token + เวลา (ไม่เดา, ไม่ retry เปล่าๆ)
 >
-> **อ้างอิง:** Ayodia SDP §5 Testing — ตาราง "กระบวนการ / ผู้รับผิดชอบ / Work Products / AI-Assisted"
+> **อ้างอิง:** OneD SDP §5 Testing — ตาราง "กระบวนการ / ผู้รับผิดชอบ / Work Products / AI-Assisted"
 
 ---
 
@@ -109,11 +109,11 @@
 |---|-------|-------|----------------------|:------------:|:-------:|-------------------------|
 | 0 | [requirement-analyzer](../skills/requirement-analyzer/) | BRD/PRD/SRS ดิบ + module + project | **Readiness Score** + Normalized Requirement + **PM Confirmation Doc** | 8k/6k | 30 sec | Score ตรงเหตุผล, Open Question คมจริง, PM Confirmation ส่ง review ได้ทันที |
 | 0b | [data-type-matrix-generator](../skills/data-type-matrix-generator/) | Field list + base feature reference (fallback เมื่อ req ไม่ชัด) | **Data Type Matrix** + Happy Path + Integration Points + **Assumption Checklist** | 4k/8k | 30 sec | Field type ตรงระบบจริง, Assumption ครอบประเด็นที่ PM ต้อง tick |
-| 1 | [test-plan-writer](../skills/test-plan-writer/) | SRS/NFR, scope, TC file (for Schedule), testers, mode | **Test Plan** (MD) — Objective, Scope, Entry/Exit, Env, Schedule+Effort, Risk, Defect Mgmt, Traceability, Sign-off | 5k/8k | 30 sec | Scope ตรง Contract, Exit Criteria ≠ "ผ่านทั้งหมด", Schedule = สูตร qa-standards |
+| 1 | [test-plan-writer](../skills/test-plan-writer/) | SRS/NFR, scope, TC file (for Schedule), QA, mode | **Test Plan** (MD) — Objective, Scope, Entry/Exit, Env, Schedule+Effort, Risk, Defect Mgmt, Traceability, Sign-off | 5k/8k | 30 sec | Scope ตรง Contract, Exit Criteria ≠ "ผ่านทั้งหมด", Schedule = สูตร qa-standards |
 | 2 | [test-case-writer](../skills/test-case-writer/) | SRS/PRD, Module ID, mode (sit/uat), UAT format (tc/checklist), lang, format | **Test Cases** (MD/CSV) — 23 cols + Traceability Matrix + **Sizing Summary Block** / **UAT Checklist** (multi-role workflow + C1/C2 categories + 3-way status) | 10k/25k | 1-2 min | ทุก req มี TC, Expected วัดได้, ไม่มี PII, Sizing Summary ครบ / checklist: ทุก role handoff มีสถานะคำขอ |
 | 3 | [test-case-reviewer](../skills/test-case-reviewer/) | TC file, SRS, mode | **Peer Review Report** (MD) — Must Fix / Should Fix / OK + Coverage Gap | 15k/5k | 30 sec | Must Fix ถูก category, Coverage Gap ตรง SRS |
 | 4a | [test-report-writer](../skills/test-report-writer/) | TC with actual results, Test Plan, Defects, AI Usage Log, mode | **Test Report** (MD) — Summary, Exit Criteria, Defect, **Estimate vs Actual**, **AI Savings KPI**, Conclusion | 20k/8k | 1 min | ตัวเลขตรง raw, Go/No-Go ตรง criteria, variance >30% flag |
-| 4b | [perf-typst-report](../skills/perf-typst-report/) | k6 JSON summary + NFR + customer info | **Perf Report PDF** (~5-6 หน้า, Ayodia branding) — Exec Summary + NFR traffic-light + Bottleneck cards + Sign-off | 10k/4k | 1 min | Verdict ตรง raw, ภาษาผู้บริหารเข้าใจได้, ไม่มี jargon ค้าง |
+| 4b | [perf-typst-report](../skills/perf-typst-report/) | k6 JSON summary + NFR + customer info | **Perf Report PDF** (~5-6 หน้า, OneD branding) — Exec Summary + NFR traffic-light + Bottleneck cards + Sign-off | 10k/4k | 1 min | Verdict ตรง raw, ภาษาผู้บริหารเข้าใจได้, ไม่มี jargon ค้าง |
 | 5 | [test-matrix-generator](../skills/test-matrix-generator/) | Req file + scope, matrix type (Coverage/Combination/Platform) | **Test Matrix** (CSV, UTF-8 BOM) — compact, ~10-15 min to generate | 3k/3k | 15 sec | pairwise algorithm ถูก, ไม่มี platform combo เพี้ยน (Safari/Win) |
 | 6 | [bug-report-writer](../skills/bug-report-writer/) | Symptom, Steps, Env, Severity, Priority, attachments | **Bug Report** (MD) — Title+Module+Condition, Env, Steps, Expected vs Actual, Severity (Critical/Major/Minor/Trivial) + Priority (Critical/High/Medium/Low) + Action Label | 2k/2k | 15 sec | Steps reproduce ได้, ไม่มี PII, title มี module+symptom+condition |
 | 7 | [robot-test-generator](../skills/robot-test-generator/) | TC file, feature, prefix, locator ref | **Robot Files** — `*.robot`, `keywords.robot`, `locators.yml`, `translations.yml` | 10k/15k | 1 min | Locator UPPER_SNAKE_CASE, keyword ไม่มี assertion, bilingual EN/TH |
@@ -142,7 +142,7 @@
 │  • Module scope                                                         │
 │  • Mode (sit/uat/perf)          2. Extract Scope         โครง 14 §:    │
 │  • Language (TH/EN)                + map FR IDs          1. Objective  │
-│  • Number of testers                                      2. Scope     │
+│  • Number of QA                                      2. Scope     │
 │  • Test Case file               3. Infer Entry/Exit       3. Entry     │
 │    (สำหรับ Schedule)                Criteria (มีตัวเลข)   4. Exit      │
 │                                                           5. Approach  │
@@ -165,7 +165,7 @@
 │  ❗ Exit Criteria มีตัวเลข (Pass Rate %, Bug count)                     │
 │  ❗ Environment ตรง prod config (IP, DB, browser version)               │
 │  ❗ Schedule มี Effort Breakdown (ไม่ใช่ `<days>` เฉยๆ)                 │
-│  ❗ Severity/Priority ตาม qa-standards §1-§2 (Ayodia TEST DEFINITION)   │
+│  ❗ Severity/Priority ตาม qa-standards §1-§2 (OneD TEST DEFINITION)   │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -454,4 +454,4 @@ Claude cache ไฟล์ที่ upload ไป 5 นาที → ถ้าท
 - [qa-standards.md](../references/qa-standards.md) — Severity/Priority/Sizing/Buffer/KPI
 - [sdp-mapping.md](../references/sdp-mapping.md) — Skill ↔ SDP §5 process
 - [ai-guardrails.md](../references/ai-guardrails.md) — AI usage guardrails (SDP §5.3.3)
-- Ayodia SDP §5 Testing — ตาราง Work Products ต้นฉบับ
+- OneD SDP §5 Testing — ตาราง Work Products ต้นฉบับ

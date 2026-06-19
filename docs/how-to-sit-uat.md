@@ -1,6 +1,6 @@
 # How to Use — SIT → UAT Full Chain
 
-> **สำหรับ:** QC/Tester ที่ต้องรัน SIT แล้วต่อด้วย UAT — อยากรู้ว่า "พิมพ์อะไรให้ AI" ทุกขั้น
+> **สำหรับ:** QC/QA ที่ต้องรัน SIT แล้วต่อด้วย UAT — อยากรู้ว่า "พิมพ์อะไรให้ AI" ทุกขั้น
 > **ใช้เวลาอ่าน:** 5 นาที — copy-paste prompt ได้เลย
 
 ไฟล์นี้คือ **prompt cookbook** ของ SIT→UAT chain ตาม [README Workflow](../README.md#workflow-แนะนำ-end-to-end). ไม่ซ้ำกับ [qa-onboarding End-to-End Walkthrough](qa-onboarding.md#-end-to-end-walkthrough--login-module-ตัวอย่างจริง) (ที่เป็น SIT-only 7 prompts) — ไฟล์นี้ครอบคลุม **SIT + UAT** 10 steps
@@ -42,7 +42,7 @@ module: LEAVE, project: <ชื่อโปรเจกต์>, ภาษาไ�
 ```
 เขียน SIT Plan จาก docs/srs-leave.md
 scope: Leave Management (FR-LEAVE-001..015)
-ภาษาไทย, tester: 1 คน
+ภาษาไทย, qa: 1 คน
 Exit Criteria เบื้องต้น: Pass Rate ≥ 95%, Severity Critical=0, Severity Major=0
 ```
 
@@ -92,7 +92,7 @@ review test case ใน testcases_sit_LEAVE_20260422.md
 update sit_plan_leave_20260422.md
 ให้คำนวณ Schedule จาก testcases_sit_LEAVE_20260422.md
 (อ่าน Sizing Summary Block แล้วใช้ Buffer Policy ใน qa-standards.md §4)
-tester: 1 คน
+qa: 1 คน
 ```
 
 **ได้:** Plan v2 มี Effort Breakdown + Buffer 20% + Calendar Days
@@ -158,7 +158,7 @@ mode=uat
 draft UAT Plan จาก sit_plan_leave_20260422.md
 mode=uat (business view)
 Entry Criterion: SIT ผ่าน (Pass Rate ≥ 95%, Severity Critical=0)
-User Tester: <ชื่อ + role>
+User QA: <ชื่อ + role>
 TC file: testcases_uat_LEAVE_20260429.md (ใช้คำนวณ Schedule จาก Sizing)
 ```
 
@@ -188,15 +188,15 @@ User Sign-off: <ชื่อ user> (<วันที่>, Approved/Rejected)
 | Step | Skill | Input หลัก | Input เสริม |
 |------|-------|-----------|------------|
 | 0 | requirement-analyzer | SRS/BRD/PRD | module, project |
-| 1 | test-plan-writer (SIT v1) | SRS + module scope | tester count, Exit Criteria target |
+| 1 | test-plan-writer (SIT v1) | SRS + module scope | qa count, Exit Criteria target |
 | 2 | test-matrix-generator | SRS | — |
 | 3 | test-case-writer (SIT) | SRS | เทคนิค (negative/BVA/EG), prefix |
 | 4 | test-case-reviewer | TC file + SRS | — |
-| 5 | test-plan-writer (SIT v2) | Plan v1 + TC file (Sizing) | tester count |
+| 5 | test-plan-writer (SIT v2) | Plan v1 + TC file (Sizing) | qa count |
 | 6 | test-report-writer (SIT) | TC (executed) + bugs + Plan | AI time used |
 | 7 | test-case-writer (UAT) | SIT TC file **หรือ** SRS | mode=uat, format=tc/checklist, roles |
 | 8 | test-case-reviewer (UAT) | UAT TC file | mode=uat |
-| 9 | test-plan-writer (UAT) | SIT Plan + UAT TC | User Tester ชื่อ/role |
+| 9 | test-plan-writer (UAT) | SIT Plan + UAT TC | User QA ชื่อ/role |
 | 10 | test-report-writer (UAT) | UAT TC (executed) + Plan | user sign-off ชื่อ+วันที่+ผล |
 
 ---
@@ -221,7 +221,7 @@ User Sign-off: <ชื่อ user> (<วันที่>, Approved/Rejected)
 2. **Step 5 ต้องผ่าน** ก่อน Execute — Schedule ต้องคำนวณจาก Sizing + Buffer 20% (ไม่ใช่เดา)
 3. **Step 6 ผ่าน Exit Criteria** ก่อนไป UAT — ถ้า Pass Rate < 95% / Severity Critical > 0 ต้อง fix ก่อน
 4. **Step 9 Entry Criterion = SIT ผ่าน** — ห้ามเริ่ม UAT ถ้า SIT ยังไม่ sign-off
-5. **Severity / Priority** ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ทุก step (ตาม Ayodia TEST DEFINITION template)
+5. **Severity / Priority** ใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ทุก step (ตาม OneD TEST DEFINITION template)
 
 ---
 

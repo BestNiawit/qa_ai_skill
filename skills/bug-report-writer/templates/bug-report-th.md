@@ -16,7 +16,7 @@
 | **Tested Date/Time** | YYYY-MM-DD HH:mm (timezone) |
 
 ## Severity / Priority
-> ตาม qa-standards.md §1-§2 (อ้างอิง Ayodia TEST DEFINITION template)
+> ตาม qa-standards.md §1-§2 (อ้างอิง OneD TEST DEFINITION template)
 
 - **Severity:** Critical / Major / Minor / Trivial
 - **Priority:** Critical / High / Medium / Low

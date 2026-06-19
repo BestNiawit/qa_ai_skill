@@ -116,18 +116,18 @@ claude --version             # ตรวจ version หลัง update
 
 ---
 
-### 🔴 Error #6 · `git clone https://gitlab.ayodiacompany.com/...` → Authentication failed / 401
+### 🔴 Error #6 · `git clone https://gitlab.onedcompany.com/...` → Authentication failed / 401
 
 **สาเหตุ:** Windows ไม่มี Git credential setup หรือยังไม่มี GitLab access
 
 **Fix:**
 
-1. **เช็ค access ก่อน:** เปิด browser ไป https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill → login ได้มั้ย? ถ้า 404 = ยังไม่มี access → **ทักทีม Lead ขอ access ก่อน**
+1. **เช็ค access ก่อน:** เปิด browser ไป https://gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill → login ได้มั้ย? ถ้า 404 = ยังไม่มี access → **ทักทีม Lead ขอ access ก่อน**
 2. ถ้า browser เข้าได้แต่ clone fail:
    - install [Git for Windows](https://git-scm.com/download/win) (มี Credential Manager auto)
    - หรือใช้ Personal Access Token: GitLab → User Settings → Access Tokens → สร้าง token → clone ด้วย:
      ```powershell
-     git clone https://oauth2:<token>@gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
+     git clone https://oauth2:<token>@gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill.git
      ```
 
 ---
@@ -159,7 +159,7 @@ git pull
 
 แล้วใน Claude:
 ```
-> /plugin marketplace update ayodia-qa
+> /plugin marketplace update oned-qa
 > /reload-plugins
 ```
 
@@ -198,7 +198,7 @@ ls
 # 3. ใน Claude session
 claude
 > /plugins
-# tab Installed ต้องเห็น: qa-ai-skill · ayodia-qa
+# tab Installed ต้องเห็น: qa-ai-skill · oned-qa
 
 > /help
 # ต้องเห็น skill: test-case-writer, bug-report-writer, ...
@@ -208,7 +208,7 @@ claude
 
 ## 🛟 ติดอยู่ — ส่งอะไรมา?
 
-ถ้าทำตามด้านบนแล้วยังไม่ผ่าน — paste **3 อย่างนี้** ใน Slack \#qa-ai-skill หรือ DM Tester Lead:
+ถ้าทำตามด้านบนแล้วยังไม่ผ่าน — paste **3 อย่างนี้** ใน Slack \#qa-ai-skill หรือ DM QA Lead:
 
 1. **Output ของ Step 0 diagnostic** (3 commands)
 2. **Error message** ตัวเต็ม (screenshot หรือ paste text)

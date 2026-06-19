@@ -242,11 +242,11 @@ export const LABELS = LANG === 'en' ? EN_LABELS : TH_LABELS;
 // data/ui/testdata.ts
 export const UI_TEST_DATA = {
   TC_LOGIN_001: {
-    username: 'superayodia',
+    username: 'superoned',
     password: process.env.TEST_PASSWORD ?? '[REDACTED]',
   },
   TC_ANNOUNCEMENT_001: {
-    username: 'superayodia',
+    username: 'superoned',
     password: process.env.TEST_PASSWORD ?? '[REDACTED]',
     professionalExperiences: 'Experienced in cross-functional teams...',
     yearsOfExperience: '5',

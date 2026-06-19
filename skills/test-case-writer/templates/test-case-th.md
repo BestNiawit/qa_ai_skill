@@ -29,8 +29,8 @@
 | TC ID* | Test Case Description* | Role* | Pos/Neg* | Priority* | Severity | Test Sizing | Technique | Pre-Requisite | Test Step* | Test Data | Expected Result* | Ref FR ID | Automation | Labels | Environment | Sprint | Actual Result* | Test Result | Tested By | Test Date | Defect ID (Jira) | Remark |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
 | **SC_001: ผู้ใช้ login ด้วย username + password** |||||||||||||||||||||||
-| TC_PMS_LOG_001 | Login สำเร็จด้วย credentials ที่ถูกต้อง | End User | Positive | High | Major | S | Use Case | มี account พร้อมใช้งาน | 1. เปิดหน้า `/login`<br>2. กรอก username<br>3. กรอก password<br>4. กดปุ่ม "เข้าสู่ระบบ" | username=`superayodia`<br>password=`[REDACTED]` | 1. redirect ไป `/home`<br>2. แสดงข้อความ "ยินดีต้อนรับสู่ระบบจัดการข้อมูล"<br>3. token ถูกเก็บใน localStorage | FR_PMS_LOG_01 | Yes | smoke, regression | dev | 2026-S08 | | | | | | |
-| TC_PMS_LOG_002 | Login ไม่ผ่านเมื่อ password ผิด | End User | Negative | High | Major | S | Error Guessing | มี account พร้อมใช้งาน | 1. เปิดหน้า `/login`<br>2. กรอก username<br>3. กรอก password ผิด<br>4. กดปุ่ม "เข้าสู่ระบบ" | username=`superayodia`<br>password=`wrong-pw` | 1. แสดงข้อความ error "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"<br>2. ไม่ redirect ออกจากหน้า login | FR_PMS_LOG_02 | Yes | regression | dev | 2026-S08 | | | | | | |
+| TC_PMS_LOG_001 | Login สำเร็จด้วย credentials ที่ถูกต้อง | End User | Positive | High | Major | S | Use Case | มี account พร้อมใช้งาน | 1. เปิดหน้า `/login`<br>2. กรอก username<br>3. กรอก password<br>4. กดปุ่ม "เข้าสู่ระบบ" | username=`superoned`<br>password=`[REDACTED]` | 1. redirect ไป `/home`<br>2. แสดงข้อความ "ยินดีต้อนรับสู่ระบบจัดการข้อมูล"<br>3. token ถูกเก็บใน localStorage | FR_PMS_LOG_01 | Yes | smoke, regression | dev | 2026-S08 | | | | | | |
+| TC_PMS_LOG_002 | Login ไม่ผ่านเมื่อ password ผิด | End User | Negative | High | Major | S | Error Guessing | มี account พร้อมใช้งาน | 1. เปิดหน้า `/login`<br>2. กรอก username<br>3. กรอก password ผิด<br>4. กดปุ่ม "เข้าสู่ระบบ" | username=`superoned`<br>password=`wrong-pw` | 1. แสดงข้อความ error "ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง"<br>2. ไม่ redirect ออกจากหน้า login | FR_PMS_LOG_02 | Yes | regression | dev | 2026-S08 | | | | | | |
 | TC_PMS_LOG_003 | Lock account หลัง login ผิด 5 ครั้งติดกัน | End User | Negative | Critical | Critical | M | Decision Table | มี account ที่ยังไม่ถูก lock | 1. login ผิด 5 ครั้ง<br>2. พยายาม login ครั้งที่ 6 ด้วย pw ที่ถูก | username=`locked_test`<br>password=`Wrong!@#` | 1. ครั้งที่ 6 แสดงข้อความ "บัญชีถูกล็อก โปรดติดต่อ admin"<br>2. DB field `is_locked = true` | FR_PMS_LOG_03 | Candidate | regression, security | dev | 2026-S08 | | | | | | |
 | **SC_002: Validation ช่อง input** |||||||||||||||||||||||
 | TC_PMS_LOG_004 | Username ว่าง → disable ปุ่ม login | End User | Negative | Medium | Minor | S | BVA | อยู่หน้า `/login` | 1. เปิดหน้า `/login`<br>2. ปล่อย username ว่าง<br>3. กรอก password | password=`any` | ปุ่ม "เข้าสู่ระบบ" ถูก disabled | FR_PMS_LOG_04 | Yes | regression | dev | 2026-S08 | | | | | | |
@@ -55,7 +55,7 @@
 | **TC ID** | `TC_<MODULE_ID>_<NUM>` (เรียง running) เช่น `TC_PMS_LOG_001` |
 | **Role** | User role ที่ใช้ทดสอบ (End User / Admin / Super Admin / Guest) |
 | **Pos/Neg** | Positive / Negative / Boundary / Edge |
-| **Priority** | `Critical` / `High` / `Medium` / `Low` (qa-standards §1 — อ้าง Ayodia TEST DEFINITION template) |
+| **Priority** | `Critical` / `High` / `Medium` / `Low` (qa-standards §1 — อ้าง OneD TEST DEFINITION template) |
 | **Severity** | `Critical` / `Major` / `Minor` / `Trivial` (qa-standards §2) |
 | **Test Sizing** | `S` < 15 min (midpoint 0.17 hr) / `M` 15–30 min (0.42) / `L` 30–60 min (0.75) / `XL` > 1 hr (1.25) (qa-standards §3) |
 | **Technique** | `ECP` / `BVA` / `Decision Table` / `State Transition` / `Use Case` / `Error Guessing` (ดู `references/testing-techniques.md`) |

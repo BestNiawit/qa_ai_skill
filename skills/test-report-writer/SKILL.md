@@ -201,7 +201,7 @@ Derived จาก SDP §5.1.3 (SIT Report) + §5.1.6 (UAT Report) + §5.1.8 (Per
 - [ ] Test Execution Summary table ครบ (Total/Pass/Fail/Block/Skipped/Not Run)
 - [ ] Pass Rate = ตัวเลขที่คำนวณได้ (ไม่ใช่ "สูง")
 - [ ] Exit Criteria Evaluation — เทียบกับ Plan criterion ทีละข้อ
-- [ ] Defect Summary by **Critical/Major/Minor/Trivial** + Status (qa-standards §2 — อ้าง Ayodia TEST DEFINITION template)
+- [ ] Defect Summary by **Critical/Major/Minor/Trivial** + Status (qa-standards §2 — อ้าง OneD TEST DEFINITION template)
 - [ ] Critical/Major Open Bug list
 - [ ] Deferred Bugs + เหตุผล + PM approval reference
 - [ ] **Estimate vs Actual Hours** table (qa-standards §4 feedback)

@@ -16,7 +16,7 @@
 | **Tested At** | YYYY-MM-DD HH:mm (timezone) |
 
 ## Severity / Priority
-> Follow qa-standards.md §1-§2 (per Ayodia TEST DEFINITION template)
+> Follow qa-standards.md §1-§2 (per OneD TEST DEFINITION template)
 
 - **Severity:** Critical / Major / Minor / Trivial
 - **Priority:** Critical / High / Medium / Low

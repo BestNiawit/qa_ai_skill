@@ -28,7 +28,7 @@
 1. SIT ผ่านแล้ว — Pass Rate ≥ 95%, Severity Critical/Major Bug (Open) = 0
 2. UAT Environment พร้อม (URL: <https://uat.example.com>)
 3. UAT Test Case ได้รับการ confirm จาก User
-4. User Tester มีบัญชี + training แล้ว
+4. User QA มีบัญชี + training แล้ว
 5. Test Data (dummy data ใน UAT env) prepared
 
 ## 4. Exit Criteria
@@ -51,7 +51,7 @@
 | Test Accounts | <ระบุ 3-5 accounts + role> |
 | Support Contact | <QC/BA name + channel> |
 
-## 7. User Testers
+## 7. User QA
 
 | Role | User Name | Department | Scenarios |
 |------|-----------|-----------|-----------|
@@ -92,7 +92,7 @@
 
 | Risk | Likelihood | Impact | Mitigation |
 |------|-----------|--------|------------|
-| User ไม่มีเวลาทดสอบ | Medium | High | Schedule ล่วงหน้า, แจ้งหัวหน้า User, เปลี่ยน tester ได้ |
+| User ไม่มีเวลาทดสอบ | Medium | High | Schedule ล่วงหน้า, แจ้งหัวหน้า User, เปลี่ยน qa ได้ |
 | User ไม่เข้าใจระบบ | Medium | Medium | Training session ก่อน UAT, มี QC/BA support |
 | Bug ใหญ่ใน UAT | Medium | High | SIT ต้อง pass ก่อน; มี hotfix plan |
 | User requirement เปลี่ยน | Low | High | Change Request process; re-baseline |

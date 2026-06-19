@@ -11,9 +11,9 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 
 แปลง requirement → test case ที่:
 - **ครอบคลุม** — ทุก requirement, ทุก scenario (positive/negative/boundary/edge)
-- **อ่านง่าย** — tester คนไหนก็ทำตามได้, expected ไม่กำกวม
+- **อ่านง่าย** — qa คนไหนก็ทำตามได้, expected ไม่กำกวม
 - **Traceability ครบ** — ทุก TC มี `Ref FR ID` link ไป SRS
-- **พร้อม execute** — มีช่อง Actual/Result/Tested By/Date/Defect ID สำหรับ tester
+- **พร้อม execute** — มีช่อง Actual/Result/Tested By/Date/Defect ID สำหรับ qa
 - **ใช้ technique เหมาะกับปัญหา** — ไม่ใช่เขียนเดามั่ว
 
 **Effort savings:** ~50-60% (SDP §5.3.4) — จาก 3 วัน/module → 1.5 วัน
@@ -137,7 +137,7 @@ description: เขียน test case จาก requirement document (SRS/PRD/s
 | 15 | Labels | | Design | `smoke, regression, security` |
 | 16 | Environment | | Design→Exec | dev/sit/uat/staging/prod |
 | 17 | Sprint | | Design | `2026-S08` |
-| 18 | Actual Result | | Execution | tester กรอกตอนรัน |
+| 18 | Actual Result | | Execution | qa กรอกตอนรัน |
 | 19 | Test Result | | Execution | Pass/Fail/Blocked/Skipped/Not Run |
 | 20 | Tested By | | Execution | ชื่อ/initials |
 | 21 | Test Date | | Execution | YYYY-MM-DD |
@@ -267,7 +267,7 @@ Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 
 ### Must Have
 - [ ] ทุก TC มี: TC ID unique, Description, Role, Pos/Neg, **Priority (Critical/High/Medium/Low), Severity (Critical/Major/Minor/Trivial), Test Sizing (S/M/L/XL)**, Test Step, Expected Result
-- [ ] Priority/Severity/Sizing ใช้ scale เดียวตาม `references/qa-standards.md` (อ้างอิง Ayodia TEST DEFINITION template)
+- [ ] Priority/Severity/Sizing ใช้ scale เดียวตาม `references/qa-standards.md` (อ้างอิง OneD TEST DEFINITION template)
 - [ ] Expected Result **วัดได้** — ไม่มี "ทำงานถูกต้อง" / "แสดงผลปกติ"
 - [ ] ครอบคลุม Positive + Negative ครบทุก Requirement
 - [ ] มี Boundary Test สำหรับ input field
@@ -321,7 +321,7 @@ Derived จาก SDP §5.1.2 (SIT TC) + §5.1.5 (UAT TC)
 - ❌ Expected result กำกวม
 - ❌ Steps รวบ — ต้องแยกเป็นข้อๆ มีเบอร์
 - ❌ ใส่ password จริงใน Test Data
-- ❌ กรอก Actual/Result/Tested By ตั้งแต่ design phase (ปล่อยว่างให้ tester)
+- ❌ กรอก Actual/Result/Tested By ตั้งแต่ design phase (ปล่อยว่างให้ qa)
 - ❌ TC sizing = XL แต่ Priority = Low (over-invest)
 
 ---

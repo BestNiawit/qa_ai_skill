@@ -77,8 +77,8 @@
 | Test Case file | `<path>` |
 | Total TC | <n> |
 | Σ Execution Effort (sum of midpoints) | **<total_hr> hr** |
-| Testers (parallel) | <n> (default 1) |
-| Productive hr/tester/day | 6 (qa-standards §5) |
+| QA (parallel) | <n> (default 1) |
+| Productive hr/qa/day | 6 (qa-standards §5) |
 
 ### 8.2 Effort Breakdown (hrs)
 
@@ -93,7 +93,7 @@
 | **SubTotal** | | **<hr>** |
 | Buffer | SubTotal × 0.20 | <hr> |
 | **Total Planned Hours** | | **<hr>** |
-| **Calendar Days** | Total / (testers × 6) | **<days>** |
+| **Calendar Days** | Total / (QA × 6) | **<days>** |
 
 ### 8.3 Calendar Schedule (Phase-level)
 
@@ -135,7 +135,7 @@
 
 ## 10. Defect Management
 
-> ใช้ scale ตาม `references/qa-standards.md §1-§2` (อ้างอิง Ayodia TEST DEFINITION template)
+> ใช้ scale ตาม `references/qa-standards.md §1-§2` (อ้างอิง OneD TEST DEFINITION template)
 
 - **Tool:** Jira (Project: `<PROJECT_KEY>`)
 - **Severity:** Critical / Major / Minor / Trivial (qa-standards §2)

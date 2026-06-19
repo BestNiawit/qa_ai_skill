@@ -1,4 +1,4 @@
-# Tester Capture Guide — Evidence สำหรับ perf-typst-report
+# QA Capture Guide — Evidence สำหรับ perf-typst-report
 
 > Skill นี้รองรับ 2 mode: **k6-only (default — ไม่ต้องแคปรูป)** และ **Full mode (เสริมด้วย Grafana/APM/Server)** ถ้าทีมมี monitoring access
 
@@ -97,7 +97,7 @@ k6-output: "
 #stack(spacing: 10pt,
   block(stack(spacing: 4pt,
     image("../assets/grafana-snapshot-leave.png", width: 100%),
-    align(center, text(size: 8.5pt, fill: ayodia-muted, style: "italic",
+    align(center, text(size: 8.5pt, fill: oned-muted, style: "italic",
       "Grafana ระหว่าง peak load (500 VUs × 30 min) — peak CPU 78%, Memory 4.2/8 GB")),
   )),
   // ทำซ้ำกับ APM + Server

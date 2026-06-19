@@ -8,7 +8,7 @@
 
 ## 1. Executive Summary
 
-ทีม QA Ayodia ใช้ AI assist ใน **3 testing chains** ตาม SDP §5 — แต่ละ chain มี Input ชัดเจน Output ที่ map กับ deliverable ทางการ และมี Quality Gate ก่อนส่ง
+ทีม QA OneD ใช้ AI assist ใน **3 testing chains** ตาม SDP §5 — แต่ละ chain มี Input ชัดเจน Output ที่ map กับ deliverable ทางการ และมี Quality Gate ก่อนส่ง
 
 | Chain | Input หลัก | Output ขั้นสุดท้าย (ส่ง stakeholder) | Effort Savings | Cycle Time |
 |-------|-----------|--------------------------------------|:--------------:|:----------:|
@@ -18,14 +18,14 @@
 
 **หลักการสำคัญ (5 AI Guardrails จาก SDP §5.3.3):**
 
-1. **AI = Draft & Assist (70-80%) · Tester = Review & Approve (20-30%)** — AI ไม่ sign-off แทนคน
+1. **AI = Draft & Assist (70-80%) · QA = Review & Approve (20-30%)** — AI ไม่ sign-off แทนคน
 2. **Cross-check กับ source ทุกครั้ง** ผ่าน Traceability Matrix
 3. **ห้าม commit Sensitive data** (PII, password) — ใช้ `[REDACTED]`
 4. **Expected Result วัดได้** — ห้าม "ทำงานถูกต้อง"/"แสดงผลปกติ"
 5. **ห้าม make up number** — ถ้าไม่มี data ให้ระบุ "TBD"
 
 **ทุก Output บังคับใช้ qa-standards กลาง:**
-- Severity: Critical / Major / Minor / Trivial (Ayodia TEST DEFINITION)
+- Severity: Critical / Major / Minor / Trivial (OneD TEST DEFINITION)
 - Priority: Critical / High / Medium / Low
 - Schedule = Σ Sizing × Buffer 20%
 - Test Report ต้องมี **Estimate vs Actual** + **AI Effort Savings KPI** (เป้าทีม ≥ 50%)
@@ -47,7 +47,7 @@ BRD/PRD/SRS ──► [0] requirement-analyzer ──► [PM Confirm] ──► 
 |:-:|--------------|-------|----------------------|:-----:|:--------------------:|:-------:|
 | 0 | **requirement-analyzer**<br>(Pre-SIT gate) | BRD/PRD/SRS ดิบ | **Readiness Score** + Normalized Requirement + **PM Confirmation Doc** (ส่ง PM/BA review ก่อน) | QA Lead | 4h → 1.5h | ~60% |
 | 0b | **data-type-matrix-generator**<br>(Fallback ถ้า req ไม่ชัด + ไม่มีเวลา wait PM) | Field list + Base feature reference | Data Type Matrix + Happy Path + Integration Points + **Assumption Checklist** (PM tick 10 นาที) | QA | 6h → 2h | ~65% |
-| 1 | **test-plan-writer**<br>(SIT Plan) | SRS + Scope + Module + Number of testers | **SIT Test Plan** (14 sections — Objective, Scope, Entry/Exit Criteria, Schedule + Effort Breakdown, Risk, Sign-off) | QA Lead | 8h → 4h | ~50% |
+| 1 | **test-plan-writer**<br>(SIT Plan) | SRS + Scope + Module + Number of QA | **SIT Test Plan** (14 sections — Objective, Scope, Entry/Exit Criteria, Schedule + Effort Breakdown, Risk, Sign-off) | QA Lead | 8h → 4h | ~50% |
 | 2 | **test-case-writer**<br>(mode=sit) | SRS + Module ID + project-context.md | **SIT Test Cases** (23-col table) + Traceability Matrix + **Sizing Summary Block** (feed ขั้นถัดไป) | QA | 24h → 12h<br>(per module ~20 req) | ~50% |
 | 3 | **test-case-reviewer** | SIT TC + SRS | **Peer Review Report** — Must Fix / Should Fix / Coverage Gap | QA Peer | (40% saved on syntactic + traceability check) | ~40% |
 | 3b | *(optional)* **robot-test-generator**<br>หรือ **e2e-test-generator** | TC ที่มี `Automation=Yes` | Robot/Playwright/Cypress/WDIO scripts + Page Object + Locator | QA Auto | ~50% (per script) | ~50% |
@@ -104,13 +104,13 @@ NFR + API Spec ──► [1] test-plan-writer (mode=perf) ──► [2] perf-tes
 | — | **[Execute Perf]** | k6 scripts + dedicated perf env | Raw results (CSV/JSON, k6/JMeter format) | QA Perf | manual run | — |
 | 3 | **perf-result-analyzer** | Raw result + NFR | **Bottleneck Analysis** — per endpoint Avg/p95/p99/TPS/Error + NFR Pass/Fail + Tuning Recommendation (DB/cache/infra) | QA Perf | 4h → 2h | ~50% |
 | 4a | **test-report-writer**<br>(mode=perf) | Perf Plan + Analysis + raw result | **Perf Test Report** (Markdown, internal) + Capacity Recommendation | QA Perf Lead | 8h → 4h | ~50% |
-| 4b | **perf-typst-report**<br>(client-facing) | k6 JSON summary + NFR + customer info | **Perf Test Report PDF** (~5-6 หน้า, Ayodia branding, exec summary + NFR traffic-light + bottleneck cards + sign-off) — สำหรับ stakeholder non-technical | QA Perf Lead | 8h → 2.5h | ~70% |
+| 4b | **perf-typst-report**<br>(client-facing) | k6 JSON summary + NFR + customer info | **Perf Test Report PDF** (~5-6 หน้า, OneD branding, exec summary + NFR traffic-light + bottleneck cards + sign-off) — สำหรับ stakeholder non-technical | QA Perf Lead | 8h → 2.5h | ~70% |
 
 **🎯 Final Perf Deliverables:**
 - **Perf Test Plan + Workload Model** (sign-off ก่อน execute)
 - **Perf Test Scripts (k6)** (commit ลง repo, run ซ้ำได้)
 - **Perf Test Report (MD)** — สำหรับทีมภายใน (technical detail ครบ)
-- **Perf Test Report (PDF)** — สำหรับลูกค้า/ผู้บริหาร (Ayodia branding, ~5-6 หน้า)
+- **Perf Test Report (PDF)** — สำหรับลูกค้า/ผู้บริหาร (OneD branding, ~5-6 หน้า)
 
 ---
 
@@ -138,7 +138,7 @@ Skills เหล่านี้ไม่ผูกกับ SDP §5.3.1 process �
 
 ---
 
-## 6. Quality Gates (สิ่งที่ Tester ต้องตรวจก่อน sign-off ทุก Output)
+## 6. Quality Gates (สิ่งที่ QA ต้องตรวจก่อน sign-off ทุก Output)
 
 | Output | Quality Gate (Must Pass) |
 |--------|---------------------------|
@@ -162,7 +162,7 @@ Skills เหล่านี้ไม่ผูกกับ SDP §5.3.1 process �
 
 ---
 
-## 8. ความรับผิดชอบ — AI ทำอะไรไม่ได้ (Tester ยังต้องเป็นเจ้าของ)
+## 8. ความรับผิดชอบ — AI ทำอะไรไม่ได้ (QA ยังต้องเป็นเจ้าของ)
 
 | งาน | ทำไม AI แทนไม่ได้ |
 |-----|---------------------|

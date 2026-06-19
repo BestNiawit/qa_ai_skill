@@ -73,7 +73,7 @@
 
 ## 5. Defect Summary
 
-> Severity ใช้ qa-standards §2 — Critical/Major/Minor/Trivial (อ้างอิง Ayodia TEST DEFINITION template)
+> Severity ใช้ qa-standards §2 — Critical/Major/Minor/Trivial (อ้างอิง OneD TEST DEFINITION template)
 
 | Severity | Count | Status |
 |----------|------:|--------|

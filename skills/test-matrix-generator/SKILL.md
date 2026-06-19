@@ -154,7 +154,7 @@ Push notification,-,-,High,High,-
 #### Prerequisites
 - `typst` CLI ≥ 0.13 (Mac: `brew install typst`)
 - Font ไทย: **Sukhumvit Set** (ติดตั้งใน macOS อยู่แล้ว) — fallback `Sarabun`, `Helvetica`
-- Logo: `assets/ayodia-logo.png` (อยู่ใน skill folder แล้ว)
+- Logo: `assets/oned-logo.png` (อยู่ใน skill folder แล้ว)
 
 #### Template Files
 - `templates/report-style.typ` — theme/layout (อย่าแก้เว้นแต่จำเป็น)
@@ -175,7 +175,7 @@ Push notification,-,-,High,High,-
    cd skills/test-matrix-generator
    typst compile --root . <path-to-report.typ> outputs/matrix/<output>.pdf
    ```
-   `--root .` ต้องชี้ที่ skill folder (เพื่อให้อ่าน `assets/ayodia-logo.png` ได้)
+   `--root .` ต้องชี้ที่ skill folder (เพื่อให้อ่าน `assets/oned-logo.png` ได้)
 
 #### File Naming
 - `matrix_<type>_<feature>_<YYYYMMDD>.typ` (source)
@@ -183,7 +183,7 @@ Push notification,-,-,High,High,-
 - Demo file: `outputs/matrix/sample_login_matrix.pdf`
 
 #### What's in the PDF
-1. **Cover page** — logo Ayodia + project + customer + version + date
+1. **Cover page** — logo OneD + project + customer + version + date
 2. **Table of Contents** (auto-generated)
 3. **Executive Summary** — 4 KPI tiles (req, scenario, coverage %, pass/fail/pending)
 4. **Test Scope** — In Scope / Out of Scope

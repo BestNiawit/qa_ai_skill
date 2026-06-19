@@ -1,17 +1,17 @@
 {
-  "name": "ayodia-qa",
+  "name": "oned-qa",
   "owner": {
-    "name": "Ayodia Tester Teams",
-    "email": "testerayodia@gmail.com"
+    "name": "OneD QA Teams",
+    "email": "qaoned@gmail.com"
   },
   "plugins": [
     {
       "name": "qa-ai-skill",
       "source": {
         "source": "url",
-        "url": "https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git"
+        "url": "https://gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill.git"
       },
-      "description": "15 skills สำหรับทีม QA ครอบคลุม SIT/UAT/Performance ตาม Ayodia SDP §5"
+      "description": "15 skills สำหรับทีม QA ครอบคลุม SIT/UAT/Performance ตาม OneD SDP §5"
     }
   ]
 }

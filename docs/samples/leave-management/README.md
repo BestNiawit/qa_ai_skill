@@ -44,7 +44,7 @@
 
 ### 🛠 Typst Source — 6 `.typ` + `build.sh`
 
-ใน `typst/` — ใช้สร้าง PDF ใหม่จาก Typst template + Ayodia branding
+ใน `typst/` — ใช้สร้าง PDF ใหม่จาก Typst template + OneD branding
 
 ---
 
@@ -63,7 +63,7 @@ cd docs/samples/leave-management/typst
 ./build.sh
 ```
 
-จะได้ PDF 6 ไฟล์ใน `typst/` — ใช้ Sarabun font (TH) + Ayodia branding ผ่าน `references/typst-templates/lib.typ`
+จะได้ PDF 6 ไฟล์ใน `typst/` — ใช้ Sarabun font (TH) + OneD branding ผ่าน `references/typst-templates/lib.typ`
 
 ---
 
@@ -72,7 +72,7 @@ cd docs/samples/leave-management/typst
 - **Project:** PEA (การไฟฟ้าส่วนภูมิภาค)
 - **Module:** Leave Management — ยื่น/อนุมัติคำขอลา + ดู balance
 - **Sprint:** 2026-S08 (2026-04-20 ถึง 2026-05-01)
-- **Team:** QA Lead 1 + Tester 2
+- **Team:** QA Lead 1 + QA 2
 - **Stakeholder:** PM = คุณสมศรี (mock), BA = คุณวิชัย (mock)
 - **Environment:** SIT = `https://sit-pea.example.com` · UAT = `https://uat-pea.example.com`
 

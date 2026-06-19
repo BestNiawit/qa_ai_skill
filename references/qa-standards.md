@@ -2,7 +2,7 @@
 
 > **วัตถุประสงค์:** กำหนด Severity / Priority / Test Sizing / Buffer / Velocity ที่ **ทุก skill** และ **ทุกโปรเจค** ต้องใช้เหมือนกัน
 > เพื่อให้ข้อมูลไหลเชื่อมกันจาก **Test Case → Test Plan → Test Report** ได้โดยไม่ต้องแปลง scale
-> **อ้างอิง:** Ayodia **TEST DEFINITION** template (source of truth ของ Severity/Priority) + SDP §5 Testing + IEEE 829 + ISTQB Foundation
+> **อ้างอิง:** OneD **TEST DEFINITION** template (source of truth ของ Severity/Priority) + SDP §5 Testing + IEEE 829 + ISTQB Foundation
 
 ---
 
@@ -77,7 +77,7 @@
 
 **Total Planned Hours** = Prep + Execution × 1.5 + Review + Report + Buffer
 
-**Calendar Days** = Total Hours / (testers × [Team Velocity](#5-team-velocity))
+**Calendar Days** = Total Hours / (QA × [Team Velocity](#5-team-velocity))
 
 ---
 
@@ -87,10 +87,10 @@
 
 | Indicator | Default | ที่มา |
 |-----------|---------|-------|
-| Productive hours / tester / day | **6 hrs** | 8 hr − (meeting 1 hr + misc 1 hr) |
+| Productive hours / qa / day | **6 hrs** | 8 hr − (meeting 1 hr + misc 1 hr) |
 | Working days / sprint (2 weeks) | **10 days** | exclude weekend |
-| Sprint capacity / tester | **60 hrs** | 6 × 10 |
-| Parallel testers per module | default **1** | ระบุใน Plan ถ้า > 1 |
+| Sprint capacity / qa | **60 hrs** | 6 × 10 |
+| Parallel QA per module | default **1** | ระบุใน Plan ถ้า > 1 |
 
 > **Override ได้:** ถ้าโปรเจคมี data จริง ให้ update ใน `project-context.md` + reference เหตุผล
 
@@ -168,7 +168,7 @@
 
 ## References
 
-- **Ayodia TEST DEFINITION template** — source of truth สำหรับ Severity/Priority scale + action label matrix
+- **OneD TEST DEFINITION template** — source of truth สำหรับ Severity/Priority scale + action label matrix
 - [sdp-mapping.md](sdp-mapping.md) — Skill ↔ SDP process
 - [ai-guardrails.md](ai-guardrails.md) — AI usage guardrails
 - SDP §5 Testing + §5.1 Quality Gates + §5.3 AI-Assisted Testing

@@ -26,10 +26,10 @@ Exit 0 = pass · Exit 1 = พบ error · Warnings ไม่ fail build
 
 ## `fill-tc-template.py`
 
-แปลง CSV ของ `test-case-writer` output → Ayodia central Test Case Excel template (.xlsx) โดยรักษา style/font/drawing ของ template ไว้ครบ
+แปลง CSV ของ `test-case-writer` output → OneD central Test Case Excel template (.xlsx) โดยรักษา style/font/drawing ของ template ไว้ครบ
 
 **Input:**
-- Ayodia template xlsx (`Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx`) — **ไม่ shipped ใน repo นี้** ขอจาก TL / previous maintainer
+- OneD template xlsx (`Client Code-Project Code_Test Case_V.x.x.x_Description.xlsx`) — **ไม่ shipped ใน repo นี้** ขอจาก TL / previous maintainer
 - CSV จาก `test-case-writer` (default: `docs/samples/leave-management/03_sit_testcases.csv`)
 
 **Output:**
@@ -38,11 +38,11 @@ Exit 0 = pass · Exit 1 = พบ error · Warnings ไม่ fail build
 **วิธีรัน:**
 ```bash
 # ใช้ default (PEA-LV demo CSV + output ใน repo)
-python3 scripts/fill-tc-template.py --template /path/to/ayodia-template.xlsx
+python3 scripts/fill-tc-template.py --template /path/to/oned-template.xlsx
 
 # Custom CSV + output
 python3 scripts/fill-tc-template.py \
-  --template /path/to/ayodia-template.xlsx \
+  --template /path/to/oned-template.xlsx \
   --source-csv my-project/sit-tc.csv \
   --output my-project/sit-tc.xlsx
 ```
@@ -51,7 +51,7 @@ python3 scripts/fill-tc-template.py \
 
 **ข้อจำกัด:**
 - META + EXEC_DATA ใน script เป็น PEA-LV demo data — แก้ inline หรือ fork ก่อนใช้กับโปรเจคอื่น
-- รองรับ template version ปัจจุบันเท่านั้น (ถ้า Ayodia update template → script อาจต้องปรับ cell mapping)
+- รองรับ template version ปัจจุบันเท่านั้น (ถ้า OneD update template → script อาจต้องปรับ cell mapping)
 
 **Dependencies:**
 ```bash

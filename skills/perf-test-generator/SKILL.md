@@ -1,6 +1,6 @@
 ---
 name: perf-test-generator
-description: สร้าง k6 performance test (smoke / load / stress / soak / spike) + HTTP client wrapper + per-endpoint thresholds + RPS หรือ VUs load model + report (JSON/HTML) ตาม pattern ของ k6-perf-test-ayodia (config-driven, tag-based thresholds, Grafana/Prometheus-ready). Trigger เมื่อ user ขอเขียน performance test, load test, stress test, k6 script, "write k6 test", "generate load test", "เขียน k6", "สร้าง performance test", "perf test", "soak test", "spike test". Maps to SDP §5.3.1 (Process 10 — เตรียม Perf Script).
+description: สร้าง k6 performance test (smoke / load / stress / soak / spike) + HTTP client wrapper + per-endpoint thresholds + RPS หรือ VUs load model + report (JSON/HTML) ตาม pattern ของ k6-perf-test-oned (config-driven, tag-based thresholds, Grafana/Prometheus-ready). Trigger เมื่อ user ขอเขียน performance test, load test, stress test, k6 script, "write k6 test", "generate load test", "เขียน k6", "สร้าง performance test", "perf test", "soak test", "spike test". Maps to SDP §5.3.1 (Process 10 — เตรียม Perf Script).
 ---
 
 # Performance Test Generator (k6)
@@ -9,7 +9,7 @@ description: สร้าง k6 performance test (smoke / load / stress / soak /
 
 ## 1. Purpose — เป้าหมาย
 
-สร้าง k6 performance test ตาม pattern **k6-perf-test-ayodia** — config-driven + tag-based thresholds + load-model-agnostic
+สร้าง k6 performance test ตาม pattern **k6-perf-test-oned** — config-driven + tag-based thresholds + load-model-agnostic
 
 **Framework:** k6 ≥ 0.45 + Node.js (สำหรับ npm scripts) + Prometheus/Grafana (optional) + k6 Cloud (optional)
 
@@ -44,7 +44,7 @@ description: สร้าง k6 performance test (smoke / load / stress / soak /
 | Test data | ⚠️ | users, products, IDs (fixture) |
 | `project-context.md` | ⚠️ | NFR, SLO, Workload Model |
 
-**Canonical Reference Repo:** `k6-perf-test-ayodia` — ดู `project-context.md` key `reference_repo` หรือถาม TL สำหรับ URL/path
+**Canonical Reference Repo:** `k6-perf-test-oned` — ดู `project-context.md` key `reference_repo` หรือถาม TL สำหรับ URL/path
 
 ---
 

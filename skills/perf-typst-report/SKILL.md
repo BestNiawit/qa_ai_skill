@@ -1,6 +1,6 @@
 ---
 name: perf-typst-report
-description: สร้าง Performance Test Report แบบ PDF ที่สวยงาม-เป็นทางการ-สั้น (~5-6 หน้า) สำหรับส่งลูกค้าที่ไม่ใช่ technical — รับ k6 JSON summary + NFR + customer info → typst template ที่ใช้ Ayodia branding (cover, verdict banner, KPI tiles, traffic-light NFR table, bottleneck cards ภาษาคนปกติ, sign-off) → typst compile → PDF. แบ่ง section ชัดเจน Exec Summary / NFR / Findings / Conclusion. Trigger เมื่อ user ขอ perf report PDF, typst perf report, "สร้าง perf report สวยๆ", "ส่งลูกค้า perf report", "k6 to PDF", "client-ready perf report", "perf report ทางการ", "render perf report typst". Maps to SDP §5.3.1 P12 — Perf Report (client-facing variant; complement to test-report-writer mode=perf which is markdown internal).
+description: สร้าง Performance Test Report แบบ PDF ที่สวยงาม-เป็นทางการ-สั้น (~5-6 หน้า) สำหรับส่งลูกค้าที่ไม่ใช่ technical — รับ k6 JSON summary + NFR + customer info → typst template ที่ใช้ OneD branding (cover, verdict banner, KPI tiles, traffic-light NFR table, bottleneck cards ภาษาคนปกติ, sign-off) → typst compile → PDF. แบ่ง section ชัดเจน Exec Summary / NFR / Findings / Conclusion. Trigger เมื่อ user ขอ perf report PDF, typst perf report, "สร้าง perf report สวยๆ", "ส่งลูกค้า perf report", "k6 to PDF", "client-ready perf report", "perf report ทางการ", "render perf report typst". Maps to SDP §5.3.1 P12 — Perf Report (client-facing variant; complement to test-report-writer mode=perf which is markdown internal).
 ---
 
 # Performance Typst Report Generator
@@ -14,7 +14,7 @@ description: สร้าง Performance Test Report แบบ PDF ที่ส�
 **Effort savings:** ~70% (เทียบ manual draft + format Word/PowerPoint) — จาก ~6 ชม. → ~1.5 ชม.
 
 **2 mode (เลือก template):**
-- **`mode=client` (default)** — `templates/perf-report.typ` — Ayodia branded 8-page compact (verdict banner / KPI tiles / traffic-light NFR / bottleneck cards) สำหรับลูกค้าเอกชน CTO/PO
+- **`mode=client` (default)** — `templates/perf-report.typ` — OneD branded 8-page compact (verdict banner / KPI tiles / traffic-light NFR / bottleneck cards) สำหรับลูกค้าเอกชน CTO/PO
 - **`mode=kmutnb`** — `templates/perf-report-kmutnb.typ` — Government-style 14+ pages เลียน format KMUTNB JMeter report สำหรับหน่วยงานราชการ/มหาวิทยาลัย ที่บังคับ layout เฉพาะ (Tools / API List / Server Resource graphs / Glossary / สรุปผลแบบ narrative) ดูคู่มือเตรียม graphs ที่ [`references/perf-report-kmutnb-template.md`](../../references/perf-report-kmutnb-template.md)
 
 **Key rules:**
@@ -22,7 +22,7 @@ description: สร้าง Performance Test Report แบบ PDF ที่ส�
 - **Verdict banner** สีชัด (Pass=เขียว / Conditional=ส้ม / Fail=แดง) อยู่บนสุดของ Exec Summary
 - **NFR table** ใช้ traffic-light — fail row highlight สีแดง อ่าน 5 วิรู้ผลทันที
 - บีบให้ **5-6 หน้ารวม cover** — ลูกค้าไม่อ่านยาว
-- ใช้ shared `lib.typ` (Ayodia branding) — ไม่ duplicate style code
+- ใช้ shared `lib.typ` (OneD branding) — ไม่ duplicate style code
 - **ห้าม** ใส่ raw stack trace / IP / customer PII ใน body (ถ้าจำเป็นย้าย Appendix/แนบไฟล์)
 
 **Output structure (~8 หน้า):**
@@ -103,7 +103,7 @@ Page 8: Conclusion + Next Steps + Sign-off
 | Specific tuning ideas | ⚠️ | SQL/config/code snippet พร้อม expected impact (Dev จะเอาไปใช้ตรงๆ) |
 | Bottleneck analysis | ⚠️ | ถ้าไม่มี → AI generate จาก raw แต่จะ flag เป็น "hypothesis" |
 | Verdict | ⚠️ | pass / conditional / fail — ถ้าไม่ระบุ AI infer จาก NFR pass rate |
-| Logo path (custom) | ⚠️ | default = Ayodia logo จาก `references/typst-templates/assets/` |
+| Logo path (custom) | ⚠️ | default = OneD logo จาก `references/typst-templates/assets/` |
 | `project-context.md` | ⚠️ | NFR override / customer naming convention |
 
 **KMUTNB mode เพิ่มเติม (mode=kmutnb):**
@@ -155,7 +155,7 @@ Page 8: Conclusion + Next Steps + Sign-off
 | APM Trace screenshot | ทีมมี Datadog/NewRelic/Jaeger | เหมือนกัน — ใส่หลัง HTTP Status Breakdown |
 | Server Resource graph | ทีมมี CloudWatch/Cloud Monitoring access | optional |
 
-ดู [`references/tester-capture-guide.md`](references/tester-capture-guide.md) — มีทั้ง k6-only mode (default) + full mode (with monitoring screenshots)
+ดู [`references/qa-capture-guide.md`](references/qa-capture-guide.md) — มีทั้ง k6-only mode (default) + full mode (with monitoring screenshots)
 
 **k6 input format:**
 ```bash
@@ -176,7 +176,7 @@ k6 run --summary-export=results-load.json script.js
 **Format:** Typst source (`.typ`) → compile เป็น PDF
 
 **Templates (เลือกตาม mode):**
-- `mode=client` (default) → [`templates/perf-report.typ`](templates/perf-report.typ) — 8 pages Ayodia branded
+- `mode=client` (default) → [`templates/perf-report.typ`](templates/perf-report.typ) — 8 pages OneD branded
 - `mode=kmutnb` → [`templates/perf-report-kmutnb.typ`](templates/perf-report-kmutnb.typ) — 14+ pages government format
 
 **File naming:**
@@ -326,7 +326,7 @@ typst compile --root <repo-root> <file>.typ <out>.pdf
 - ❌ ใส่ raw stack trace / SQL query / IP ใน body — ไป Appendix
 - ❌ Copy ตัวเลขจาก raw โดยไม่แปลง unit ให้สม่ำเสมอ (ทุก response time = ms)
 - ❌ เขียน recommendation generic ("optimize DB") — ต้อง specific (`CREATE INDEX idx_xxx ON tbl_yyy(col_zzz)`)
-- ❌ เปลี่ยน Ayodia branding (color/logo) โดยไม่ผ่าน user — ใช้ `lib.typ` defaults
+- ❌ เปลี่ยน OneD branding (color/logo) โดยไม่ผ่าน user — ใช้ `lib.typ` defaults
 - ❌ Skip cover/TOC — formal report ต้องมี
 
 ---
@@ -399,8 +399,8 @@ nfr-rows: (
 ## References
 - [`references/ai-guardrails.md`](../../references/ai-guardrails.md)
 - [`references/sdp-mapping.md`](../../references/sdp-mapping.md)
-- [`references/typst-templates/lib.typ`](../../references/typst-templates/lib.typ) — shared Ayodia branding (cover, qa-table, badges, sign-off)
-- [`references/tester-capture-guide.md`](references/tester-capture-guide.md) — guide สำหรับ tester: k6-only mode (default — ไม่ต้องแคปอะไร, paste k6 output พอ) + optional full mode (Grafana/APM/Server)
+- [`references/typst-templates/lib.typ`](../../references/typst-templates/lib.typ) — shared OneD branding (cover, qa-table, badges, sign-off)
+- [`references/qa-capture-guide.md`](references/qa-capture-guide.md) — guide สำหรับ qa: k6-only mode (default — ไม่ต้องแคปอะไร, paste k6 output พอ) + optional full mode (Grafana/APM/Server)
 - `templates/perf-report.typ` — main template (มี chart helpers + image-placeholder ฝังในตัว)
 - `examples/` — sample k6 → typst conversion
 - External: [Typst documentation](https://typst.app/docs/), k6 metrics reference, Brendan Gregg's USE Method

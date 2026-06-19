@@ -46,7 +46,7 @@
 
 ## Recommended Next Step
 
-- [ ] {{เลือก 1}} — **Ready** → เริ่ม `test-plan-writer` + `test-case-writer` ได้เลย (แนบ Assumption list ให้ tester รับรู้)
+- [ ] {{เลือก 1}} — **Ready** → เริ่ม `test-plan-writer` + `test-case-writer` ได้เลย (แนบ Assumption list ให้ qa รับรู้)
 - [ ] {{เลือก 1}} — **Needs-clarification** → ส่ง [`pm_confirmation_{{module_id}}_{{date}}.md`](pm_confirmation_{{module_id}}_{{date}}.md) ให้ PM/BA confirm ภายใน {{deadline}}
 - [ ] {{เลือก 1}} — **Not-ready** → ประชุม requirement clarification กับ PM/BA ก่อน rewrite BRD section: {{ระบุ section}}
 

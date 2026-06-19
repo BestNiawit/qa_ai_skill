@@ -80,7 +80,7 @@
 
 ## 6. Error Guessing
 
-**หลักการ:** ใช้ประสบการณ์ของ tester คาดเดา edge case ที่ developer มักลืม
+**หลักการ:** ใช้ประสบการณ์ของ qa คาดเดา edge case ที่ developer มักลืม
 
 **Edge case ยอดฮิต:**
 - Empty / null / undefined

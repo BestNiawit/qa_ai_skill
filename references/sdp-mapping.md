@@ -1,6 +1,6 @@
 # SDP Mapping — Skill ↔ Software Development Process
 
-> Map ระหว่าง skills ใน repo นี้ กับ Ayodia Software Development Process (SDP) §5 Testing
+> Map ระหว่าง skills ใน repo นี้ กับ OneD Software Development Process (SDP) §5 Testing
 > ช่วยทีม QA เห็นภาพว่าแต่ละ skill ช่วยในขั้นตอนไหนของ process, effort ที่ลดได้
 > **See also:** [`qa-standards.md`](qa-standards.md) — Severity/Priority/Sizing/Buffer/KPI standards (บังคับใช้ทุก skill)
 
@@ -151,6 +151,6 @@ Priority (Critical/High/                                    →    Action Label 
 ## References
 - [`qa-standards.md`](qa-standards.md) — มาตรฐานกลาง (Severity/Priority/Sizing/Buffer/KPI)
 - [`ai-guardrails.md`](ai-guardrails.md) — AI usage guardrails
-- Ayodia SDP §5 Testing (`ayodia-organizational-process-assets.wiki/Guidelines/Process-Architecture/Software-Development-Process.md`)
+- OneD SDP §5 Testing (`oned-organizational-process-assets.wiki/Guidelines/Process-Architecture/Software-Development-Process.md`)
 - IEEE 829 — Test Documentation Standard
 - ISTQB Foundation Level Syllabus

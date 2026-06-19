@@ -1,6 +1,6 @@
 # QA Onboarding — เริ่มใช้ qa_ai_skill ยังไง
 
-> **สำหรับ:** QA / Tester ที่เข้าทีมใหม่ หรือคนที่ยังไม่เคยใช้ Claude Code skills ชุดนี้
+> **สำหรับ:** QA / QA ที่เข้าทีมใหม่ หรือคนที่ยังไม่เคยใช้ Claude Code skills ชุดนี้
 > **ใช้เวลาอ่าน:** 10 นาที + 30 นาที ทดลอง
 
 ---
@@ -15,7 +15,7 @@
 
 - [ ] **3. [references/qa-standards.md](../references/qa-standards.md)** — 5 นาที
   มาตรฐานทีม: Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Sizing S/M/L/XL + Buffer 20% + AI KPI 50%
-  **อ้างอิง Ayodia TEST DEFINITION template เป็น source of truth**
+  **อ้างอิง OneD TEST DEFINITION template เป็น source of truth**
 
 - [ ] **4. [docs/work-product-flow.md](work-product-flow.md)** — 10 นาที (skim)
   IPO ของทุก skill: Input แบบไหน → AI ทำอะไร → ได้ work product อะไร + Token economy
@@ -58,11 +58,11 @@ done
 - "AT" = Assessment Tax (ใช้ย่อใน SRS)
 
 ## Team velocity (ถ้าต่างจาก default)
-- 5 hr/tester/day (มี meeting เยอะ)
+- 5 hr/qa/day (มี meeting เยอะ)
 ```
 
 ### Step 3 — อ่าน [qa-standards.md](../references/qa-standards.md) 3 นาที
-ทั้งทีมใช้ scale เดียวกัน: **Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Sizing S/M/L/XL** (Ayodia TEST DEFINITION template)
+ทั้งทีมใช้ scale เดียวกัน: **Severity Critical/Major/Minor/Trivial + Priority Critical/High/Medium/Low + Sizing S/M/L/XL** (OneD TEST DEFINITION template)
 
 ### Step 4 — เริ่มลุย!
 ดู [Decision Tree ด้านล่าง](#-decision-tree-ฉันอยู่ตรงนี้--ทำอะไรต่อ) — หาว่า "ฉันอยู่ตรงนี้" ใช้ skill ไหน
@@ -225,7 +225,7 @@ feature: login, prefix: AUTH
 - Monthly: รวบ AI Effort Savings KPI ต่อโปรเจค report ให้ management
 - When AI session ใกล้ context limit / สลับ tool: [handoff-writer](../skills/handoff-writer/) → HANDOFF.md
 
-### ถ้าคุณเป็น **Tester (Mid-level)**
+### ถ้าคุณเป็น **QA (Mid-level)**
 - Main: [test-case-writer](../skills/test-case-writer/) → execute → [bug-report-writer](../skills/bug-report-writer/)
 - Occasional: [test-matrix-generator](../skills/test-matrix-generator/) (เมื่อรีบ) / [robot-test-generator](../skills/robot-test-generator/) / [e2e-test-generator](../skills/e2e-test-generator/) (ถ้าโปรเจคมี automation)
 
@@ -233,9 +233,9 @@ feature: login, prefix: AUTH
 - [test-case-writer](../skills/test-case-writer/) `mode=uat` — แปลง SIT TC → business language
 - [test-report-writer](../skills/test-report-writer/) `mode=uat` — เก็บ User Sign-off
 
-### ถ้าคุณเป็น **Perf Tester / TL**
+### ถ้าคุณเป็น **Perf QA / TL**
 - [test-plan-writer](../skills/test-plan-writer/) `mode=perf` → [perf-test-generator](../skills/perf-test-generator/) → k6 run → [perf-result-analyzer](../skills/perf-result-analyzer/) → [test-report-writer](../skills/test-report-writer/) `mode=perf` (MD, internal)
-- ส่งลูกค้า / ผู้บริหาร: [perf-typst-report](../skills/perf-typst-report/) → PDF ~5-6 หน้า (Ayodia branding)
+- ส่งลูกค้า / ผู้บริหาร: [perf-typst-report](../skills/perf-typst-report/) → PDF ~5-6 หน้า (OneD branding)
 
 ---
 
@@ -256,7 +256,7 @@ feature: login, prefix: AUTH
        ใช้เมื่อเป็น approval flow ข้าม role (เบิกสวัสดิการ, ลางาน, ขออนุมัติ)
 2. test-case-reviewer mode=uat (check ว่าไม่ได้ copy SIT มาตรงๆ)
 3. test-plan-writer mode=uat (feed SIT Plan + UAT TC/Checklist) → UAT Plan
-4. [Confirm User Tester + Sign-off UAT TC]
+4. [Confirm User QA + Sign-off UAT TC]
 5. [User execute] → test-report-writer mode=uat
 ```
 
@@ -305,7 +305,7 @@ feature: login, prefix: AUTH
 
 ## 🚨 อย่าทำ!
 
-- ❌ ใช้ legacy scale (S1-S4, P0-P3, Cosmetic) — **ต้องใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม Ayodia TEST DEFINITION template**
+- ❌ ใช้ legacy scale (S1-S4, P0-P3, Cosmetic) — **ต้องใช้ Critical/Major/Minor/Trivial + Critical/High/Medium/Low ตาม OneD TEST DEFINITION template**
 - ❌ เขียน Test Plan Schedule เป็น `<days>` โดยไม่มี Effort Breakdown
 - ❌ สรุป Test Report โดยไม่มี "Estimate vs Actual" + "AI Effort Savings" sections
 - ❌ Copy SIT TC เป็น UAT โดยไม่ปรับเป็น business language
@@ -370,7 +370,7 @@ feature: login, prefix: AUTH
 ### Role
 | ย่อ | คำเต็ม (EN) | บทบาท |
 |-----|------------|-------|
-| **QC** | Quality Control | Tester / คนรัน SIT |
+| **QC** | Quality Control | QA / คนรัน SIT |
 | **QA** | Quality Assurance | ทีม/กระบวนการประกันคุณภาพ (ครอบคลุมกว่า QC) |
 | **BA** | Business Analyst | คน analyze business requirement + ช่วย UAT |
 | **TL** | Team Leader / Tech Lead | หัวหน้าทีม — review + unblock |
@@ -379,8 +379,8 @@ feature: login, prefix: AUTH
 ### Metric / Scale (ดู qa-standards.md ครบ)
 | ย่อ | คำเต็ม (EN) | ความหมาย |
 |-----|------------|---------|
-| **Severity** | ความรุนแรงของปัญหา | Critical / Major / Minor / Trivial (Ayodia TEST DEFINITION template) |
-| **Priority** | ความเร่งด่วนของการทดสอบ | Critical / High / Medium / Low (Ayodia TEST DEFINITION template) |
+| **Severity** | ความรุนแรงของปัญหา | Critical / Major / Minor / Trivial (OneD TEST DEFINITION template) |
+| **Priority** | ความเร่งด่วนของการทดสอบ | Critical / High / Medium / Low (OneD TEST DEFINITION template) |
 | **Action Label** | ผลลัพธ์ Severity × Priority Matrix | Blocker / Urgent / Standard High / Manageable / ... (qa-standards §2.1) |
 | **S / M / L / XL** | Sizing — Small/Medium/Large/Extra-Large | TC execution time (<15min / 15-30min / 30-60min / >60min) |
 | **KPI** | Key Performance Indicator | ตัววัดผล (เช่น AI Savings ≥ 50%) |

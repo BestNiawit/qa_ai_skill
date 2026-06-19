@@ -135,10 +135,10 @@ xpath=//label[normalize-space()='${form.email_label}']/..//input
 
 ### 5.2 Table row โดย key column
 ```html
-<tr><td>superayodia</td><td><button>Edit</button></tr>
+<tr><td>superoned</td><td><button>Edit</button></tr>
 ```
 ```robot
-# Edit button ของ row ที่ username = superayodia
+# Edit button ของ row ที่ username = superoned
 xpath=//tr[td[normalize-space()='${TC_SAV_SC_001['username']}']]//button[normalize-space()='${table.edit_label}']
 ```
 

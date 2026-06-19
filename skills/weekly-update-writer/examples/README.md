@@ -19,7 +19,7 @@
   - QA AI Skill: 14 skill สำหรับเริ่มงาน
   - Automation starter kit (Robot, Playwright, K6)
   - คุยกับ PM ของ 3 โปรเจค
-- Blocker: Timeline ขยับโดยไม่แจ้ง tester ล่วงหน้า
+- Blocker: Timeline ขยับโดยไม่แจ้ง qa ล่วงหน้า
 - สัปดาห์หน้า: Athm มจพ
 
 ## 2. Initiative Progress

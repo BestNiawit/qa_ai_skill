@@ -50,7 +50,7 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 | Module(s) in scope | ✅ | ระบุ module หรือ "ทั้งระบบ" |
 | ภาษา output: TH / EN | ✅ | default ตาม SRS |
 | **Test Case file (สำหรับ Schedule)** | ✅\* | path ไฟล์ TC ที่มี **Sizing Summary Block** — ใช้คำนวณ Schedule ด้วยสูตรแทนการเดา |
-| **Number of testers** | ✅\* | default = 1 (override ถ้าหลายคนขนาน) |
+| **Number of QA** | ✅\* | default = 1 (override ถ้าหลายคนขนาน) |
 | Contract / NFR (สำหรับ Perf mode) | ⚠️ | response time, throughput, error rate |
 | Existing SIT Plan (สำหรับ UAT mode) | ⚠️ | ใช้ปรับเป็น business view |
 | `project-context.md` | ⚠️ | env, team velocity override, NFR |
@@ -117,7 +117,7 @@ Draft Test Plan จาก SRS/PRD + NFR ให้ QC review — ลด effort �
 - Module scope ชัดเจน?
 - Entry/Exit Criteria มีตัวเลขเป้าหมายมั้ย? (เช่น Pass Rate ≥ 95%)
 - Perf mode: NFR เป็นอะไร? (p95 response time, throughput, error rate)
-- **Number of testers** (default 1)
+- **Number of QA** (default 1)
 - **มี TC file แล้วหรือยัง?** ถ้ายัง → Schedule จะ placeholder
 - Schedule: สัปดาห์ที่เริ่ม/จบ?
 
@@ -138,10 +138,10 @@ SubTotal            = sum above
 Buffer              = SubTotal × 0.20
 Total Planned Hours = SubTotal + Buffer
 
-Calendar Days       = Total Planned Hours / (testers × 6 hr/day)
+Calendar Days       = Total Planned Hours / (QA × 6 hr/day)
 ```
 
-ตัวอย่าง: TC 25 ตัว (Σ sizing = 11.31 hr), tester = 1
+ตัวอย่าง: TC 25 ตัว (Σ sizing = 11.31 hr), qa = 1
 - Prep: 2.5 hr, Review: 1.25 hr, Exec1: 11.31, Fix: 3.39, Exec2: 2.26, Report: 4 → SubTotal 24.71 hr
 - Buffer 20%: 4.94 hr → **Total: 29.65 hr ≈ 5 วัน**
 
@@ -162,7 +162,7 @@ Calendar Days       = Total Planned Hours / (testers × 6 hr/day)
 - ทุก Scope item → มี FR ID
 - Entry/Exit criteria → มีตัวเลข
 - Env → ตรงกับ prod config
-- **Severity = Critical/Major/Minor/Trivial + Priority = Critical/High/Medium/Low** (ตาม Ayodia TEST DEFINITION template)
+- **Severity = Critical/Major/Minor/Trivial + Priority = Critical/High/Medium/Low** (ตาม OneD TEST DEFINITION template)
 - **Schedule มี Effort Breakdown + Buffer** (ห้ามเดาเป็น `<days>` เฉยๆ)
 
 ### Step 5: Save + Summary
@@ -197,7 +197,7 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - [ ] Suspension & Resumption Criteria
 
 ### UAT-specific
-- [ ] User Tester ระบุชื่อ/role
+- [ ] User QA ระบุชื่อ/role
 - [ ] ต้อง "SIT ผ่าน" เป็น Entry Criterion
 - [ ] ภาษา Business (ไม่มี API/SQL term)
 
@@ -213,7 +213,7 @@ Derived จาก SDP §5.1.1 (SIT Plan) + §5.1.4 (UAT Plan) + §5.1.7 (Perf Te
 - ❌ **Schedule มีแค่ `<days>` ไม่แสดง Effort Breakdown / Buffer**
 - ❌ **ใช้ severity/priority scale นอก qa-standards** (เช่น Blocker, S1/P0, Cosmetic — legacy names)
 - ❌ Copy จากโปรเจกต์เก่าโดยไม่ปรับ
-- ❌ UAT: ไม่มี User Tester
+- ❌ UAT: ไม่มี User QA
 - ❌ Perf: ไม่มี NFR ตัวเลข
 
 ---

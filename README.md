@@ -1,6 +1,6 @@
 # QA AI Skills
 
-รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม Ayodia SDP §5
+รวม Claude Code skills สำหรับทีม QA — ใช้ AI ช่วยลด effort ทุกขั้นตอนของ Testing Phase ตาม OneD SDP §5
 
 **15 skills ครอบคลุม 12 AI-Assisted processes ของ SDP §5.3.1** (Plan / Test Case / Review / Report / Perf) + Pre-process gate (**Requirement Analyzer**, Data Type Matrix) + Supporting (Bug Report, Test Matrix, E2E/Robot Automation) + QA Lead workflow (**Weekly Update**, Handoff)
 
@@ -34,7 +34,7 @@ npm install -g @anthropic-ai/claude-code
 
 ```bash
 cd ~/Documents/GitHub    # หรือที่ไหนก็ได้ที่สะดวก
-git clone https://gitlab.ayodiacompany.com/ayodia-tester-teams/qa_ai_skill.git
+git clone https://gitlab.onedcompany.com/oned-qa-teams/qa_ai_skill.git
 ```
 
 ### Step 2. เปิด Claude Code แล้ว add marketplace
@@ -51,19 +51,19 @@ claude
 
 (ใส่ absolute path ของ repo ที่เพิ่ง clone — ชี้ที่ root ไม่ใช่ `.claude-plugin/`)
 
-ถ้าสำเร็จจะเห็น: `Successfully added marketplace: ayodia-qa`
+ถ้าสำเร็จจะเห็น: `Successfully added marketplace: oned-qa`
 
 ### Step 3. Install plugin
 
 ```
-/plugin install qa-ai-skill@ayodia-qa
+/plugin install qa-ai-skill@oned-qa
 ```
 
 หลังติดตั้ง Claude Code จะ auto-discover ทั้ง 15 skills ใต้ `skills/` — เรียกใช้ผ่าน `/<skill-name>` หรือพิมพ์ trigger phrase (เช่น "เขียน test case จาก SRS นี้") ได้ทันที
 
 ### เช็คว่าติดตั้งสำเร็จ
 
-- `/plugins` → tab **Installed** ต้องเห็น `qa-ai-skill · ayodia-qa`
+- `/plugins` → tab **Installed** ต้องเห็น `qa-ai-skill · oned-qa`
 - `/help` → section Skills มี `test-case-writer`, `bug-report-writer`, ฯลฯ
 - ลองเรียก skill เช่น `/test-case-writer` หรือ `/bug-report-writer`
 - ถ้า plugin ไม่โหลด → `/plugins` → tab **Errors** ดู log
@@ -72,10 +72,10 @@ claude
 
 | ทำอะไร | คำสั่ง |
 |---|---|
-| อัปเดต skills หลัง pull repo ใหม่ | `cd qa_ai_skill && git pull` แล้วใน Claude: `/plugin marketplace update ayodia-qa` |
+| อัปเดต skills หลัง pull repo ใหม่ | `cd qa_ai_skill && git pull` แล้วใน Claude: `/plugin marketplace update oned-qa` |
 | โหลด skill ใหม่หลังแก้ไฟล์ใน repo | `/reload-plugins` |
-| ถอน plugin | `/plugin uninstall qa-ai-skill@ayodia-qa` |
-| ลบ marketplace | `/plugin marketplace remove ayodia-qa` |
+| ถอน plugin | `/plugin uninstall qa-ai-skill@oned-qa` |
+| ลบ marketplace | `/plugin marketplace remove oned-qa` |
 
 ### Troubleshooting
 
@@ -224,8 +224,8 @@ TC (Priority C/H/M/L,→    Σ Sizing × Buffer Policy →  Estimate vs Actual
 ```
 
 **บังคับ:**
-- Severity 4 ระดับ (Critical/Major/Minor/Trivial) ตาม Ayodia TEST DEFINITION template
-- Priority 4 ระดับ (Critical/High/Medium/Low) ตาม Ayodia TEST DEFINITION template
+- Severity 4 ระดับ (Critical/Major/Minor/Trivial) ตาม OneD TEST DEFINITION template
+- Priority 4 ระดับ (Critical/High/Medium/Low) ตาม OneD TEST DEFINITION template
 - **Severity × Priority matrix** → Action Label (Blocker/Urgent/Standard High/...) ใน Bug Report
 - Schedule Formula ใน Test Plan = Σ Sizing + Buffer 20%
 - Test Report ต้องมี Estimate vs Actual + AI Savings section
@@ -402,7 +402,7 @@ qa_ai_skill/
 ├── scripts/                           ← Utility scripts (validate, template-fill) — ดู scripts/README.md
 │   ├── README.md
 │   ├── validate_skills.py              ← structure + consistency validator (รันก่อน commit / CI)
-│   └── fill-tc-template.py             ← TC CSV → Ayodia central xlsx template
+│   └── fill-tc-template.py             ← TC CSV → OneD central xlsx template
 ├── slides/                            ← Sharing/onboarding decks (typst → PDF)
 │   ├── pre-install.{typ,pdf}           ← install guide for non-tech team
 │   ├── qa-skills-overview{,-en}.{typ,pdf}
@@ -417,7 +417,7 @@ qa_ai_skill/
     ├── test-report-writer/             ← SIT/UAT/Perf Report (Markdown)
     ├── perf-test-generator/            ← k6
     ├── perf-result-analyzer/           ← Bottleneck Analysis
-    ├── perf-typst-report/              ← Perf Report PDF (client-facing, Ayodia branding)
+    ├── perf-typst-report/              ← Perf Report PDF (client-facing, OneD branding)
     ├── test-matrix-generator/          ← Coverage/Pairwise/Platform
     ├── bug-report-writer/              ← Jira/Linear/GitHub
     ├── robot-test-generator/           ← Robot Framework
@@ -453,7 +453,7 @@ qa_ai_skill/
 
 ## References
 
-- [Ayodia Software Development Process (SDP)](https://github.com/ayodia-organizational-process-assets.wiki/Guidelines/Process-Architecture/Software-Development-Process.md) — ต้นฉบับ process
+- [OneD Software Development Process (SDP)](https://github.com/oned-organizational-process-assets.wiki/Guidelines/Process-Architecture/Software-Development-Process.md) — ต้นฉบับ process
 - [IEEE 829](https://standards.ieee.org/ieee/829/3787/) — Test Documentation Standard
 - [ISTQB Foundation Level Syllabus](https://www.istqb.org/) — Testing principles
 - [OWASP LLM Top 10](https://owasp.org/www-project-top-10-for-large-language-model-applications/) — AI security
